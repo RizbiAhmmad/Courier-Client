@@ -1,8 +1,10 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import logo from "../../assets/R-logo.jpg";
-import { MdAddCall } from "react-icons/md";
+import { AuthContext } from "@/provider/AuthProvider";
+import { FaUser } from "react-icons/fa";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -10,70 +12,95 @@ const Navbar = () => {
   const [scrolled, setScrolled] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
+  const axiosPublic = useAxiosPublic();
+  const { user, logOut } = useContext(AuthContext);
 
-  const links = [
+  const [role, setRole] = useState(null);
+  useEffect(() => {
+    if (user?.email) {
+      axiosPublic
+        .get("/users")
+        .then((res) => {
+          const currentUser = res.data.find((u) => u.email === user.email);
+          setRole(currentUser?.role || "user");
+        })
+        .catch(() => setRole("user"));
+    }
+  }, [user]);
+
+  // Login / Logout
+  const handleLogin = () => {
+    navigate("/login");
+    setIsOpen(false);
+  };
+  const handleLogOut = () => {
+    logOut().catch((error) => console.log(error));
+  };
+
+  const baseLinks = [
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
     { href: "/contact", label: "Contact" },
   ];
-useEffect(() => {
-  const handleScroll = () => {
-    setScrolled(window.scrollY > 50);
 
-    if (location.pathname !== "/") return;
+  const links = user
+    ? [...baseLinks, { href: "/dashboard", label: "Dashboard" }]
+    : baseLinks;
 
-    const scrollPosition = window.scrollY;
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
 
-    links.forEach((link) => {
-      if (!link.href.startsWith("#")) return;
+      if (location.pathname !== "/") return;
 
-      const section = document.querySelector(link.href);
-      if (section) {
-        const sectionTop = section.offsetTop;
-        const sectionHeight = section.offsetHeight;
+      const scrollPosition = window.scrollY;
 
-        if (
-          scrollPosition >= sectionTop - 100 &&
-          scrollPosition < sectionTop + sectionHeight - 100
-        ) {
-          setActiveLink(link.href);
+      links.forEach((link) => {
+        if (!link.href.startsWith("#")) return;
+
+        const section = document.querySelector(link.href);
+        if (section) {
+          const sectionTop = section.offsetTop;
+          const sectionHeight = section.offsetHeight;
+
+          if (
+            scrollPosition >= sectionTop - 100 &&
+            scrollPosition < sectionTop + sectionHeight - 100
+          ) {
+            setActiveLink(link.href);
+          }
         }
-      }
-    });
-  };
+      });
+    };
 
-  window.addEventListener("scroll", handleScroll);
-  return () => window.removeEventListener("scroll", handleScroll);
-}, [location.pathname]);
-
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, [location.pathname]);
 
   const handleLinkClick = (href, e) => {
-  e.preventDefault();
-  setActiveLink(href);
-  setIsOpen(false);
+    e.preventDefault();
+    setActiveLink(href);
+    setIsOpen(false);
 
-  // Page route navigation
-  if (href.startsWith("/")) {
-    navigate(href);
-    window.scrollTo({ top: 0, behavior: "smooth" });
-    return;
-  }
+    // Page route navigation
+    if (href.startsWith("/")) {
+      navigate(href);
+      window.scrollTo({ top: 0, behavior: "smooth" });
+      return;
+    }
 
-  // Section scroll navigation (like #services)
-  const section = document.querySelector(href);
-  if (section) {
-    section.scrollIntoView({ behavior: "smooth" });
-  }
-};
-
+    // Section scroll navigation (like #services)
+    const section = document.querySelector(href);
+    if (section) {
+      section.scrollIntoView({ behavior: "smooth" });
+    }
+  };
 
   return (
     <nav
       className={`fixed top-0 w-full z-50 transition-all duration-500 ${
-        scrolled
-          ? "bg-white backdrop-blur-md shadow-lg"
-          : "bg-transparent"
+        scrolled ? "bg-white backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
       <div className="mx-auto max-w-7xl px-4 sm:px-8">
@@ -104,8 +131,8 @@ useEffect(() => {
                   activeLink === link.href
                     ? "text-orange-400"
                     : scrolled
-                    ? "text-gray-900 hover:text-orange-400"
-                    : "text-gray-900 hover:text-orange-500"
+                      ? "text-gray-900 hover:text-orange-400"
+                      : "text-gray-900 hover:text-orange-500"
                 }`}
               >
                 {link.label}
@@ -117,14 +144,31 @@ useEffect(() => {
           </div>
 
           {/*  Call Button (Desktop Only) */}
-          <div className="hidden md:flex items-center">
+          {/* <div className="hidden md:flex items-center">
             <button
               
               className="flex items-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-400 rounded-xl shadow-md hover:opacity-90 transition-all"
             >
               Login
             </button>
-          </div>
+          </div> */}
+
+          {/* Auth buttons (Desktop only) */}
+          {user ? (
+            <button
+              onClick={handleLogOut}
+              className="hidden md:flex items-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-linear-to-r from-red-500 to-red-600 rounded-xl shadow-md hover:opacity-90 transition-all"
+            >
+              Logout
+            </button>
+          ) : (
+            <button
+              onClick={handleLogin}
+              className="hidden md:flex items-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-400 rounded-xl shadow-md hover:opacity-90 transition-all"
+            >
+              <FaUser className="mr-1" /> Login
+            </button>
+          )}
 
           {/*  Mobile Hamburger */}
           <div className="md:hidden z-50">
@@ -174,12 +218,32 @@ useEffect(() => {
                 {link.label}
               </a>
             ))}
-            <button
+            {/* <button
               
               className="flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-500 rounded-xl shadow-md hover:opacity-90 transition-all"
             >
               Login
-            </button>
+            </button> */}
+
+            {/* Auth Buttons */}
+            {user ? (
+              <button
+                onClick={() => {
+                  handleLogOut();
+                  setIsOpen(false);
+                }}
+                className="w-full bg-red-500 hover:bg-red-600 text-white py-2 rounded-md mt-3"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={handleLogin}
+                className="w-full bg-cyan-500 hover:bg-cyan-600 text-white py-2 rounded-md flex items-center justify-center mt-3"
+              >
+                <FaUser className="mr-2" /> Login
+              </button>
+            )}
           </div>
         </div>
       </div>
