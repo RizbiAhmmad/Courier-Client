@@ -112,14 +112,7 @@ const Dashboard = () => {
                 <li className=" pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
                   PRODUCT & STOCK
                 </li>
-                <li>
-                  <NavLink
-                    to="/dashboard/allProducts"
-                    className="px-2 flex items-center py-2 space-x-3"
-                  >
-                    <MdInventory /> <span>Products</span>
-                  </NavLink>
-                </li>
+               
                 <li>
                   <NavLink
                     to="/dashboard/allCategories"
