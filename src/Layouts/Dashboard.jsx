@@ -129,6 +129,14 @@ const Dashboard = () => {
                     <FaThList /> <span>Courier Type</span>
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allCountries"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <FaThList /> <span>Countries</span>
+                  </NavLink>
+                </li>
 
                 {/* Profile */}
                 <li className="pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
