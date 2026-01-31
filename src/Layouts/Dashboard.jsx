@@ -108,9 +108,9 @@ const Dashboard = () => {
                   </NavLink>
                 </li>
 
-                {/* Product & Stock */}
+                {/* Courier*/}
                 <li className=" pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
-                  PRODUCT & STOCK
+                  Courier Management
                 </li>
                
                 <li>
@@ -123,10 +123,10 @@ const Dashboard = () => {
                 </li>
                 <li>
                   <NavLink
-                    to="/dashboard/allSubCategories"
+                    to="/dashboard/allCourierTypes"
                     className="flex px-2 items-center py-2 space-x-3"
                   >
-                    <FaThList /> <span>SubCategories</span>
+                    <FaThList /> <span>Courier Type</span>
                   </NavLink>
                 </li>
 

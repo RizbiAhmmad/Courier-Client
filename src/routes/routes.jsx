@@ -3,7 +3,9 @@ import SignUp from "@/Authentication/SignUp";
 import Dashboard from "@/Layouts/Dashboard";
 import MainLayout from "@/Layouts/Mainlayout";
 import AddCategory from "@/Pages/Dashboard/Admin/AddCategory";
+import AddCourierType from "@/Pages/Dashboard/Admin/AddCourierType";
 import AllCategories from "@/Pages/Dashboard/Admin/AllCategories";
+import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
 import Home from "@/Pages/Home/Home";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -43,6 +45,14 @@ export const router = createBrowserRouter([
       {
         path: "allCategories",
         element: <AllCategories></AllCategories>,
+      },
+     {
+        path: "addCourierType",
+        element: <AddCourierType></AddCourierType>,
+      },
+      {
+        path: "allCourierTypes",
+        element: <AllCourierTypes></AllCourierTypes>,
       },
     ],
   },
