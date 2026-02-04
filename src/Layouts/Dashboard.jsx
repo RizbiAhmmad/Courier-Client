@@ -137,6 +137,14 @@ const Dashboard = () => {
                     <FaThList /> <span>Countries</span>
                   </NavLink>
                 </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/addCourierRate"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <FaThList /> <span>Add Courier Rate</span>
+                  </NavLink>
+                </li>
 
                 {/* Profile */}
                 <li className="pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">

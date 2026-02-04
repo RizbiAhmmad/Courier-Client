@@ -93,7 +93,7 @@ const AddCategory = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600"
+          className="w-full px-4 py-2 text-white bg-yellow-400 rounded hover:bg-yellow-500"
         >
           {loading ? "Submitting..." : "Add Category"}
         </button>
