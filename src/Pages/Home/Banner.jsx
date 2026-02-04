@@ -1,3 +1,4 @@
+import { GradientText } from "@/components/ui/GradientText";
 import { FaCheckCircle, FaBox, FaPaperPlane } from "react-icons/fa";
 import { FiTruck, FiShoppingCart, FiTarget } from "react-icons/fi";
 
@@ -6,15 +7,18 @@ const Banner = () => {
     <section className="relative min-h-screen overflow-hidden bg-linear-to-br from-yellow-50 via-white to-purple-50">
       <div className="container mx-auto px-4 sm:px-8 py-20 max-w-7xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          
           {/* LEFT CONTENT */}
           <div>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
               <span className="text-indigo-900">Shop Globally</span>
               <br />
-              <span className="bg-linear-to-r from-yellow-400 via-orange-400 to-blue-500 bg-clip-text text-transparent">
+              <GradientText
+                className="block"
+                colors={["#ec4899", "#8b5cf6", "#22d3ee"]}
+                animationSpeed={5}
+              >
                 Ship Seamlessly
-              </span>
+              </GradientText>
             </h1>
 
             <p className="mt-6 text-gray-600 max-w-lg">
@@ -39,7 +43,6 @@ const Banner = () => {
           {/* RIGHT CARD */}
           <div className="relative">
             <div className="bg-white rounded-2xl shadow-xl mt-10 p-6 md:p-12">
-              
               {/* TABS */}
               <div className="flex justify-between border-b mb-6">
                 {[
@@ -63,8 +66,14 @@ const Banner = () => {
 
               {/* FORM */}
               <div className="space-y-4">
-                <Input label="Sender / From" placeholder="Search by address or zip code" />
-                <Input label="Receiver / To" placeholder="Search by address or zip code" />
+                <Input
+                  label="Sender / From"
+                  placeholder="Search by address or zip code"
+                />
+                <Input
+                  label="Receiver / To"
+                  placeholder="Search by address or zip code"
+                />
 
                 <div>
                   <label className="text-sm font-medium text-gray-600">
@@ -87,7 +96,6 @@ const Banner = () => {
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </section>

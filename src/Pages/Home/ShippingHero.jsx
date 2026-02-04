@@ -1,5 +1,6 @@
 import { CheckCircle, ArrowUpRight } from "lucide-react";
-import shippingcard from "../../assets/credit_card.png"
+import shippingcard from "../../assets/credit_card.png";
+import { GradientText } from "@/components/ui/GradientText";
 
 export default function ShippingHero() {
   return (
@@ -8,8 +9,11 @@ export default function ShippingHero() {
         {/* Left Content */}
         <div>
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-[#1B1F5C]">
-            XCARGO <span className="text-yellow-400">helps</span>{" "}
-            <span className="text-orange-400">you</span> like there are no borders!
+            XCARGO <GradientText>helps</GradientText>{" "}
+            <GradientText colors={["#7c3aed", "#22d3ee", "#7c3aed"]}>
+              you
+            </GradientText>{" "}
+            like there are no borders!
           </h1>
 
           <p className="mt-6 text-gray-700 max-w-xl">
@@ -22,14 +26,17 @@ export default function ShippingHero() {
           </p>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-            {["Free fast processing", "Package insurance", "Package consolidation", "Address correction"].map(
-              (item) => (
-                <div key={item} className="flex items-center gap-3">
-                  <CheckCircle className="text-orange-400" />
-                  <span className="text-gray-800">{item}</span>
-                </div>
-              )
-            )}
+            {[
+              "Free fast processing",
+              "Package insurance",
+              "Package consolidation",
+              "Address correction",
+            ].map((item) => (
+              <div key={item} className="flex items-center gap-3">
+                <CheckCircle className="text-orange-400" />
+                <span className="text-gray-800">{item}</span>
+              </div>
+            ))}
           </div>
 
           <button className="mt-8 inline-flex items-center gap-2 text-blue-600 font-semibold hover:underline">
