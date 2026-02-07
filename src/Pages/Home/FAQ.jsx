@@ -15,7 +15,7 @@ export default function FAQAccordion() {
   }];
   return <div className="w-full max-w-2xl mx-auto py-10">
       <h1 className="text-4xl font-bold text-gray-900 dark:text-white text-center mb-10">
-        FAQ
+        Frequently Asked Questions
       </h1>
       <div className="space-y-4">
         {faqData.map((item, index) => <AccordionItem key={index} question={item.question} answer={item.answer} />)}

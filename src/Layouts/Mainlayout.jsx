@@ -1,4 +1,4 @@
-// import Footer from "@/Shared/Footer";
+import Footer from "@/Pages/Shared/Footer";
 import Navbar from "@/Pages/Shared/Navbar";
 import ScrollToTop from "@/Pages/Shared/ScrollToTop";
 import { Outlet, useLocation } from "react-router-dom";
@@ -12,7 +12,7 @@ const location = useLocation();
           <ScrollToTop />
             {!noHeaderFooter && <Navbar />}
       <Outlet />
-      {/* {!noHeaderFooter && <Footer />} */}
+      {!noHeaderFooter && <Footer />}
         </div>
     );
 };
