@@ -75,23 +75,10 @@ const Banner = () => {
                   placeholder="Search by address or zip code"
                 />
 
-                <div>
-                  <label className="text-sm font-medium text-gray-600">
-                    Product Type <span className="text-red-500">*</span>
-                  </label>
-                  <div className="mt-2 flex items-center gap-3 bg-gray-50 rounded-xl px-4 py-3">
-                    <FaBox className="text-gray-400" />
-                    <select className="bg-transparent w-full outline-none text-gray-600">
-                      <option>Select product type</option>
-                      <option>Document</option>
-                      <option>Electronics</option>
-                      <option>Clothing</option>
-                    </select>
-                  </div>
-                </div>
+               
 
                 <button className="w-full mt-4 flex items-center justify-center gap-2 bg-yellow-400 hover:bg-yellow-500 text-gray-900 font-semibold py-3 rounded-xl transition">
-                  Get Rate <FaPaperPlane />
+                  Next <FaPaperPlane />
                 </button>
               </div>
             </div>

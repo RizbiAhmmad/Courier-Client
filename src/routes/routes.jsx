@@ -8,6 +8,7 @@ import AddCourierRate from "@/Pages/Dashboard/Admin/AddCourierRate";
 import AddCourierType from "@/Pages/Dashboard/Admin/AddCourierType";
 import AllCategories from "@/Pages/Dashboard/Admin/AllCategories";
 import AllCountries from "@/Pages/Dashboard/Admin/AllCountries";
+import AllCourierRates from "@/Pages/Dashboard/Admin/AllCourierRates";
 import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
 import Home from "@/Pages/Home/Home";
 import { createBrowserRouter } from "react-router-dom";
@@ -29,19 +30,17 @@ export const router = createBrowserRouter([
         path: "/signup",
         element: <SignUp></SignUp>,
       },
-     
     ],
   },
   {
     path: "dashboard",
     element: <Dashboard></Dashboard>,
     children: [
-
       // {
       //   path: "users",
       //   element: <AllUsers></AllUsers>,
       // },
-     {
+      {
         path: "addCategory",
         element: <AddCategory></AddCategory>,
       },
@@ -49,7 +48,7 @@ export const router = createBrowserRouter([
         path: "allCategories",
         element: <AllCategories></AllCategories>,
       },
-     {
+      {
         path: "addCourierType",
         element: <AddCourierType></AddCourierType>,
       },
@@ -57,7 +56,7 @@ export const router = createBrowserRouter([
         path: "allCourierTypes",
         element: <AllCourierTypes></AllCourierTypes>,
       },
-     {
+      {
         path: "addCountry",
         element: <AddCountry></AddCountry>,
       },
@@ -68,6 +67,10 @@ export const router = createBrowserRouter([
       {
         path: "addCourierRate",
         element: <AddCourierRate></AddCourierRate>,
+      },
+      {
+        path: "allCourierRates",
+        element: <AllCourierRates></AllCourierRates>,
       },
     ],
   },

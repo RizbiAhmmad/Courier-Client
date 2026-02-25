@@ -71,7 +71,7 @@ const AddCourierType = () => {
         <button
           type="submit"
           disabled={loading}
-          className="w-full px-4 py-2 text-white bg-cyan-500 rounded hover:bg-cyan-600"
+          className="w-full px-4 py-2 text-white bg-linear-to-r from-yellow-400 to-orange-500 rounded-xl hover:from-yellow-500 hover:to-orange-600"
         >
           {loading ? "Submitting..." : "Add Courier Type"}
         </button>

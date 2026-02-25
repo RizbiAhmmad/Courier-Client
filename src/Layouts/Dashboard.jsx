@@ -7,11 +7,13 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { MdInventory, MdOutlineDashboardCustomize } from "react-icons/md";
+import { MdInventory, MdOutlineDashboardCustomize, MdOutlinePriceChange } from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { NavLink, Outlet } from "react-router-dom";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import useAuth from "@/Hooks/useAuth";
+import { BiWorld } from "react-icons/bi";
+import { GiCargoCrate } from "react-icons/gi";
 
 <style>
   {`
@@ -126,7 +128,7 @@ const Dashboard = () => {
                     to="/dashboard/allCourierTypes"
                     className="flex px-2 items-center py-2 space-x-3"
                   >
-                    <FaThList /> <span>Courier Type</span>
+                    <GiCargoCrate /> <span>Courier Type</span>
                   </NavLink>
                 </li>
                 <li>
@@ -134,15 +136,15 @@ const Dashboard = () => {
                     to="/dashboard/allCountries"
                     className="flex px-2 items-center py-2 space-x-3"
                   >
-                    <FaThList /> <span>Countries</span>
+                    <BiWorld /> <span>Countries</span>
                   </NavLink>
                 </li>
                 <li>
                   <NavLink
-                    to="/dashboard/addCourierRate"
+                    to="/dashboard/allCourierRates"
                     className="flex px-2 items-center py-2 space-x-3"
                   >
-                    <FaThList /> <span>Add Courier Rate</span>
+                    <MdOutlinePriceChange /> <span>Courier Rates</span>
                   </NavLink>
                 </li>
 
