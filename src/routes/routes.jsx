@@ -10,6 +10,8 @@ import AllCategories from "@/Pages/Dashboard/Admin/AllCategories";
 import AllCountries from "@/Pages/Dashboard/Admin/AllCountries";
 import AllCourierRates from "@/Pages/Dashboard/Admin/AllCourierRates";
 import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
+import CalculateRate from "@/Pages/Dashboard/Courier/CalculateRate";
+import ShippingWizard from "@/Pages/Dashboard/Shipping/ShippingWizard";
 import Home from "@/Pages/Home/Home";
 import { createBrowserRouter } from "react-router-dom";
 
@@ -30,6 +32,14 @@ export const router = createBrowserRouter([
         path: "/signup",
         element: <SignUp></SignUp>,
       },
+      // {
+      //   path:"/calculate-rate",
+      //   element:<CalculateRate></CalculateRate>
+      // }
+      {
+        path:"/ShippingWizard",
+        element:<ShippingWizard></ShippingWizard>
+      }
     ],
   },
   {
