@@ -1,14 +1,22 @@
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
-import { FiMapPin, FiPackage, FiUser, FiMail, FiPhone, FiHome } from "react-icons/fi";
+import {
+  FiMapPin,
+  FiPackage,
+  FiUser,
+  FiMail,
+  FiPhone,
+  FiHome,
+} from "react-icons/fi";
 
-const StepWhere = ({ formData, setFormData }) => {
+const StepWhere = ({ formData, setFormData, errors }) => {
   const axiosPublic = useAxiosPublic();
 
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
     queryFn: async () =>
-      (await axiosPublic.get("/categories", { params: { status: "active" } })).data,
+      (await axiosPublic.get("/categories", { params: { status: "active" } }))
+        .data,
   });
 
   const { data: courierRates = [] } = useQuery({
@@ -30,21 +38,19 @@ const StepWhere = ({ formData, setFormData }) => {
       courierRates.map((rate) => [
         rate.countryId,
         { _id: rate.countryId, name: rate.variations?.[0]?.countryName },
-      ])
+      ]),
     ).values(),
   ];
 
   return (
     <div className="max-w-2xl mx-auto">
       <div className="bg-white/70 backdrop-blur-xl shadow-2xl rounded-3xl p-10 border border-gray-100">
-
-        <h2 className="text-3xl font-extrabold mb-8 bg-gradient-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
-         Where does your shipment come from?
+        <h2 className="text-3xl font-extrabold mb-8 bg-linear-to-r from-yellow-500 to-orange-500 bg-clip-text text-transparent">
+          Where does your shipment come from?
         </h2>
 
         {/* Personal Info Section */}
         <div className="grid md:grid-cols-2 gap-6 mb-8">
-
           {/* Name */}
           <div>
             <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2">
@@ -56,9 +62,15 @@ const StepWhere = ({ formData, setFormData }) => {
               onChange={(e) =>
                 setFormData({ ...formData, name: e.target.value })
               }
-              placeholder="Enter your name"
-              className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-yellow-400 outline-none transition"
+              placeholder="Enter your full name"
+              className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border 
+    ${errors.name ? "border-red-500" : "border-gray-200"}
+    focus:ring-2 focus:ring-yellow-400 outline-none transition`}
             />
+
+            {errors.name && (
+              <p className="text-red-500 text-sm mt-1">{errors.name}</p>
+            )}
           </div>
 
           {/* Email */}
@@ -73,8 +85,14 @@ const StepWhere = ({ formData, setFormData }) => {
                 setFormData({ ...formData, email: e.target.value })
               }
               placeholder="Enter your email"
-              className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-yellow-400 outline-none transition"
+              className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border 
+    ${errors.email ? "border-red-500" : "border-gray-200"}
+    focus:ring-2 focus:ring-yellow-400 outline-none transition`}
             />
+
+            {errors.email && (
+              <p className="text-red-500 text-sm mt-1">{errors.email}</p>
+            )}
           </div>
 
           {/* Phone */}
@@ -89,8 +107,14 @@ const StepWhere = ({ formData, setFormData }) => {
                 setFormData({ ...formData, phone: e.target.value })
               }
               placeholder="Enter phone number"
-              className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-yellow-400 outline-none transition"
+              className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border 
+    ${errors.phone ? "border-red-500" : "border-gray-200"}
+    focus:ring-2 focus:ring-yellow-400 outline-none transition`}
             />
+
+            {errors.phone && (
+              <p className="text-red-500 text-sm mt-1">{errors.phone}</p>
+            )}
           </div>
 
           {/* Company */}
@@ -108,7 +132,6 @@ const StepWhere = ({ formData, setFormData }) => {
               className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-yellow-400 outline-none transition"
             />
           </div>
-
         </div>
 
         {/* Full Address */}
@@ -123,8 +146,14 @@ const StepWhere = ({ formData, setFormData }) => {
             }
             placeholder="Enter full address"
             rows={3}
-            className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-yellow-400 outline-none transition"
+            className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border 
+    ${errors.address ? "border-red-500" : "border-gray-200"}
+    focus:ring-2 focus:ring-yellow-400 outline-none transition`}
           />
+
+          {errors.address && (
+            <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+          )}
         </div>
 
         {/* Category */}
@@ -168,7 +197,6 @@ const StepWhere = ({ formData, setFormData }) => {
             ))}
           </select>
         </div>
-
       </div>
     </div>
   );

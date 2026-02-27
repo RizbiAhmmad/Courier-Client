@@ -3,10 +3,8 @@ import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import { FiTruck } from "react-icons/fi";
 import { FaTrash } from "react-icons/fa";
 
-const StepHow = ({ formData, setFormData }) => {
+const StepHow = ({ formData, setFormData, errors }) => {
   const axiosPublic = useAxiosPublic();
-
-  /* ---------------- FETCH RATE DATA ---------------- */
 
   const { data: rateData } = useQuery({
     queryKey: ["singleRate", formData.categoryId, formData.countryId],
@@ -23,17 +21,13 @@ const StepHow = ({ formData, setFormData }) => {
       ).data[0],
   });
 
-  /* ---------------- SAFE PACKAGES INIT ---------------- */
-
   const packages = formData.packages || [];
-
-  /* ---------------- RATE CALCULATION ---------------- */
 
   const getBoxRate = (weight) => {
     if (!formData.courierTypeId || !rateData) return null;
 
     const selectedVariation = rateData.variations?.find(
-      (v) => v.courierTypeId === formData.courierTypeId
+      (v) => v.courierTypeId === formData.courierTypeId,
     );
 
     if (!selectedVariation) return null;
@@ -41,7 +35,7 @@ const StepHow = ({ formData, setFormData }) => {
     const matchedRange = selectedVariation.ranges?.find(
       (r) =>
         Number(weight) >= Number(r.minWeight) &&
-        Number(weight) <= Number(r.maxWeight)
+        Number(weight) <= Number(r.maxWeight),
     );
 
     return matchedRange ? Number(matchedRange.rate) : null;
@@ -51,8 +45,6 @@ const StepHow = ({ formData, setFormData }) => {
     const rate = getBoxRate(box.weight);
     return total + (rate ? rate : 0);
   }, 0);
-
-  /* ---------------- ADD FUNCTIONS ---------------- */
 
   const addBox = () => {
     setFormData({
@@ -76,8 +68,6 @@ const StepHow = ({ formData, setFormData }) => {
     setFormData({ ...formData, packages: updated });
   };
 
-  /* ---------------- DELETE FUNCTIONS ---------------- */
-
   const deleteBox = (boxIndex) => {
     if (packages.length === 1) return;
 
@@ -90,13 +80,11 @@ const StepHow = ({ formData, setFormData }) => {
     if (updated[boxIndex].items.length === 1) return;
 
     updated[boxIndex].items = updated[boxIndex].items.filter(
-      (_, index) => index !== itemIndex
+      (_, index) => index !== itemIndex,
     );
 
     setFormData({ ...formData, packages: updated });
   };
-
-  /* ---------------- UPDATE FUNCTIONS ---------------- */
 
   const updateBoxField = (boxIndex, field, value) => {
     const updated = [...packages];
@@ -110,39 +98,41 @@ const StepHow = ({ formData, setFormData }) => {
     setFormData({ ...formData, packages: updated });
   };
 
-  /* ---------------- UI ---------------- */
-
   return (
     <div className="max-w-4xl mx-auto">
       <div className="bg-white shadow-xl rounded-3xl p-8">
-
         <h2 className="text-3xl font-bold mb-6 flex items-center gap-2">
           <FiTruck /> Package Information
         </h2>
 
-        {/* ---------------- COURIER SELECT ---------------- */}
         <div className="mb-8">
-          <label className="block text-sm font-semibold mb-2">
+          <label className="block text-md font-semibold mb-2">
             Courier Service
           </label>
 
           <select
-            value={formData.courierTypeId}
-            onChange={(e) =>
-              setFormData({ ...formData, courierTypeId: e.target.value })
-            }
-            className="w-full px-4 py-3 border rounded-xl"
-          >
-            <option value="">Select Courier Type</option>
-            {rateData?.variations?.map((v) => (
-              <option key={v.courierTypeId} value={v.courierTypeId}>
-                {v.courierTypeName}
-              </option>
-            ))}
-          </select>
-        </div>
+  value={formData.courierTypeId}
+  onChange={(e) =>
+    setFormData({ ...formData, courierTypeId: e.target.value })
+  }
+  className={`w-full px-4 py-3 rounded-xl border
+    ${errors.courierTypeId ? "border-red-500" : "border-gray-300"}
+    focus:ring-2 focus:ring-yellow-400 outline-none`}
+>
+  <option value="">Select Courier Type</option>
+  {rateData?.variations?.map((v) => (
+    <option key={v.courierTypeId} value={v.courierTypeId}>
+      {v.courierTypeName}
+    </option>
+  ))}
+</select>
 
-        {/* ---------------- BOXES ---------------- */}
+{errors.courierTypeId && (
+  <p className="text-red-500 text-sm mt-1">
+    {errors.courierTypeId}
+  </p>
+)}
+        </div>
 
         {packages.map((box, boxIndex) => {
           const boxRate = getBoxRate(box.weight);
@@ -162,13 +152,11 @@ const StepHow = ({ formData, setFormData }) => {
                 </button>
               )}
 
-              <h3 className="font-semibold mb-4">
-                Box {boxIndex + 1}
-              </h3>
+              <h3 className="font-semibold mb-4">Box {boxIndex + 1}</h3>
 
               {/* Dimensions */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
-                {[ "length", "width", "height","weight"].map((field) => (
+                {["length", "width", "height", "weight"].map((field) => (
                   <input
                     key={field}
                     type="number"
@@ -204,7 +192,7 @@ const StepHow = ({ formData, setFormData }) => {
                         boxIndex,
                         itemIndex,
                         "itemName",
-                        e.target.value
+                        e.target.value,
                       )
                     }
                     className="p-3 border rounded-xl col-span-2"
@@ -219,7 +207,7 @@ const StepHow = ({ formData, setFormData }) => {
                         boxIndex,
                         itemIndex,
                         "quantity",
-                        e.target.value
+                        e.target.value,
                       )
                     }
                     className="p-3 border rounded-xl"
@@ -247,16 +235,13 @@ const StepHow = ({ formData, setFormData }) => {
         })}
 
         {/* Add Box */}
-        <button
-          onClick={addBox}
-          className="px-4 py-2 bg-gray-200 rounded-lg"
-        >
+        <button onClick={addBox} className="px-4 py-2 bg-gray-200 rounded-lg">
           + Add Box
         </button>
 
         {/* Total Shipping */}
         {totalShipping > 0 && (
-          <div className="mt-8 text-center bg-gradient-to-r from-purple-500 to-pink-500 text-white p-4 rounded-2xl font-bold text-lg">
+          <div className="mt-8 text-center bg-linear-to-r from-purple-500 to-pink-500 text-white p-4 rounded-2xl font-bold text-lg">
             Total Shipping Cost: ৳ {totalShipping}
           </div>
         )}

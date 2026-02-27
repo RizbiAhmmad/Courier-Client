@@ -2,15 +2,17 @@ import { useRef, useState } from "react";
 import { useLocation } from "react-router-dom";
 import StepWhere from "./StepWhere";
 import StepHow from "./StepHow";
+import StepOverview from "./StepOverView";
 
 const steps = ["Address", "Package", "Overview", "Confirm"];
 
 const ShippingWizard = () => {
   const location = useLocation();
   const bannerData = location.state;
+  const [errors, setErrors] = useState({});
 
   const [currentStep, setCurrentStep] = useState(
-    bannerData?.categoryId && bannerData?.countryId ? 1 : 1
+    bannerData?.categoryId && bannerData?.countryId ? 1 : 1,
   );
 
   const initialData = useRef({
@@ -35,11 +37,78 @@ const ShippingWizard = () => {
 
   const [formData, setFormData] = useState(initialData.current);
 
-  const nextStep = () => {
-    if (currentStep < steps.length) {
-      setCurrentStep((prev) => prev + 1);
+  const validateStep = () => {
+  let newErrors = {};
+
+  if (currentStep === 1) {
+    if (!formData.name.trim()) {
+      newErrors.name = "Full name is required";
     }
-  };
+
+    if (!formData.email.trim()) {
+      newErrors.email = "Email is required";
+    } else if (
+      !/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(formData.email)
+    ) {
+      newErrors.email = "Invalid email format";
+    }
+
+    if (!formData.phone.trim()) {
+      newErrors.phone = "Phone number is required";
+    } else if (!/^(\+8801|01)[3-9]\d{8}$/.test(formData.phone)) {
+      newErrors.phone = "Invalid BD phone number";
+    }
+
+    if (!formData.address.trim()) {
+      newErrors.address = "Address is required";
+    }
+
+    if (!formData.categoryId) {
+      newErrors.categoryId = "Please select shipment type";
+    }
+
+    if (!formData.countryId) {
+      newErrors.countryId = "Please select destination country";
+    }
+  }
+
+  if (currentStep === 2) {
+    if (!formData.courierTypeId) {
+      newErrors.courierTypeId = "Select courier service";
+    }
+
+    formData.packages.forEach((box, boxIndex) => {
+      if (!box.weight)
+        newErrors[`weight-${boxIndex}`] = "Weight required";
+      if (!box.length)
+        newErrors[`length-${boxIndex}`] = "Length required";
+      if (!box.width)
+        newErrors[`width-${boxIndex}`] = "Width required";
+      if (!box.height)
+        newErrors[`height-${boxIndex}`] = "Height required";
+
+      box.items.forEach((item, itemIndex) => {
+        if (!item.itemName.trim())
+          newErrors[`itemName-${boxIndex}-${itemIndex}`] =
+            "Item name required";
+        if (!item.quantity)
+          newErrors[`quantity-${boxIndex}-${itemIndex}`] =
+            "Quantity required";
+      });
+    });
+  }
+
+  setErrors(newErrors);
+
+  return Object.keys(newErrors).length === 0;
+};
+const nextStep = () => {
+  if (!validateStep()) return;
+
+  if (currentStep < steps.length) {
+    setCurrentStep((prev) => prev + 1);
+  }
+};
 
   const prevStep = () => {
     if (currentStep > 1) {
@@ -48,63 +117,60 @@ const ShippingWizard = () => {
   };
 
   return (
-    <div className="min-h-screen max-w-7xl mx-auto bg-gradient-to-br from-yellow-50 via-white to-purple-50 pt-20">
-      
-     {/* TOP STEPPER */}
-{/* TOP STEPPER */}
-<div className="w-full max-w-5xl mx-auto px-4 pt-6 pb-10">
-  <div className="overflow-x-auto">
-    <div className="flex items-center justify-center min-w-max mx-auto">
-      {steps.map((step, index) => {
-        const stepNumber = index + 1;
-        const isActive = currentStep === stepNumber;
-        const isCompleted = currentStep > stepNumber;
+    <div className="min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 pt-20">
+      {/* TOP STEPPER */}
+      <div className="w-full max-w-5xl mx-auto px-4 pt-6 pb-10">
+        <div className="overflow-x-auto">
+          <div className="flex items-center justify-center min-w-max mx-auto">
+            {steps.map((step, index) => {
+              const stepNumber = index + 1;
+              const isActive = currentStep === stepNumber;
+              const isCompleted = currentStep > stepNumber;
 
-        return (
-          <div key={step} className="flex items-center">
-            
-            {/* Step */}
-            <div className="flex flex-col items-center px-3">
-              <div
-                className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300
+              return (
+                <div key={step} className="flex items-center">
+                  {/* Step */}
+                  <div className="flex flex-col items-center px-3">
+                    <div
+                      className={`w-9 h-9 sm:w-10 sm:h-10 flex items-center justify-center rounded-full border-2 transition-all duration-300
                 ${
                   isCompleted
                     ? "bg-green-500 border-green-500 text-white"
                     : isActive
-                    ? "bg-blue-500 border-blue-500 text-white"
-                    : "bg-white border-gray-300 text-gray-400"
+                      ? "bg-blue-500 border-blue-500 text-white"
+                      : "bg-white border-gray-300 text-gray-400"
                 }`}
-              >
-                {stepNumber}
-              </div>
+                    >
+                      {stepNumber}
+                    </div>
 
-              <span
-                className={`mt-2 text-xs sm:text-sm font-medium whitespace-nowrap
+                    <span
+                      className={`mt-2 text-xs sm:text-sm font-medium whitespace-nowrap
                 ${
                   isActive
                     ? "text-blue-600"
                     : isCompleted
-                    ? "text-green-600"
-                    : "text-gray-400"
+                      ? "text-green-600"
+                      : "text-gray-400"
                 }`}
-              >
-                {step}
-              </span>
-            </div>
+                    >
+                      {step}
+                    </span>
+                  </div>
 
-            {/* Line */}
-            {index !== steps.length - 1 && (
-              <div
-                className={`w-2 sm:w-16 h-[2px]
+                  {/* Line */}
+                  {index !== steps.length - 1 && (
+                    <div
+                      className={`w-2 sm:w-16 h-0.5
                 ${isCompleted ? "bg-green-500" : "bg-gray-300"}`}
-              />
-            )}
+                    />
+                  )}
+                </div>
+              );
+            })}
           </div>
-        );
-      })}
-    </div>
-  </div>
-</div>
+        </div>
+      </div>
 
       {/* CONTENT */}
       <div className="p-6 md:p-12">
@@ -114,13 +180,21 @@ const ShippingWizard = () => {
               formData={formData}
               setFormData={setFormData}
               nextStep={nextStep}
+               errors={errors}
             />
           )}
 
           {currentStep === 2 && (
-            <StepHow
+            <StepHow formData={formData} setFormData={setFormData}  errors={errors} />
+          )}
+
+          {currentStep === 3 && (
+            <StepOverview
               formData={formData}
-              setFormData={setFormData}
+              onSuccess={() => {
+                alert("Shipment Created Successfully!");
+                setCurrentStep(4);
+              }}
             />
           )}
 
@@ -129,7 +203,7 @@ const ShippingWizard = () => {
             {currentStep > 1 && (
               <button
                 onClick={prevStep}
-                className="px-6 py-2 bg-gray-300 rounded-lg"
+                className="px-6 py-2 bg-green-500 rounded-lg"
               >
                 Back
               </button>
