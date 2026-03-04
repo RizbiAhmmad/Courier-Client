@@ -42,8 +42,7 @@ const StepHow = ({ formData, setFormData, errors }) => {
   };
 
   const totalShipping = packages.reduce((total, box) => {
-    const rate = getBoxRate(box.weight);
-    return total + (rate ? rate : 0);
+    return total + (box.shippingCost ? box.shippingCost : 0);
   }, 0);
 
   const addBox = () => {
@@ -56,6 +55,7 @@ const StepHow = ({ formData, setFormData, errors }) => {
           length: "",
           width: "",
           height: "",
+          shippingCost: 0,
           items: [{ itemName: "", quantity: 1 }],
         },
       ],
@@ -89,6 +89,12 @@ const StepHow = ({ formData, setFormData, errors }) => {
   const updateBoxField = (boxIndex, field, value) => {
     const updated = [...packages];
     updated[boxIndex][field] = value;
+
+    if (field === "weight") {
+      const rate = getBoxRate(value);
+      updated[boxIndex].shippingCost = rate ? rate : 0;
+    }
+
     setFormData({ ...formData, packages: updated });
   };
 
@@ -106,32 +112,30 @@ const StepHow = ({ formData, setFormData, errors }) => {
         </h2>
 
         <div className="mb-8">
-          <label className="block text-md font-semibold mb-2">
+          <label className="block text-xl font-bold mb-2">
             Courier Service
           </label>
 
           <select
-  value={formData.courierTypeId}
-  onChange={(e) =>
-    setFormData({ ...formData, courierTypeId: e.target.value })
-  }
-  className={`w-full px-4 py-3 rounded-xl border
+            value={formData.courierTypeId}
+            onChange={(e) =>
+              setFormData({ ...formData, courierTypeId: e.target.value })
+            }
+            className={`w-full px-4 py-3 rounded-xl border
     ${errors.courierTypeId ? "border-red-500" : "border-gray-300"}
     focus:ring-2 focus:ring-yellow-400 outline-none`}
->
-  <option value="">Select Courier Type</option>
-  {rateData?.variations?.map((v) => (
-    <option key={v.courierTypeId} value={v.courierTypeId}>
-      {v.courierTypeName}
-    </option>
-  ))}
-</select>
+          >
+            <option value="">Select Courier Type</option>
+            {rateData?.variations?.map((v) => (
+              <option key={v.courierTypeId} value={v.courierTypeId}>
+                {v.courierTypeName}
+              </option>
+            ))}
+          </select>
 
-{errors.courierTypeId && (
-  <p className="text-red-500 text-sm mt-1">
-    {errors.courierTypeId}
-  </p>
-)}
+          {errors.courierTypeId && (
+            <p className="text-red-500 text-sm mt-1">{errors.courierTypeId}</p>
+          )}
         </div>
 
         {packages.map((box, boxIndex) => {

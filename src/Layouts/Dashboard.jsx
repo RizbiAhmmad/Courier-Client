@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {
   FaHome,
+  FaJediOrder,
   FaListAlt,
   FaReceipt,
   FaThList,
@@ -14,6 +15,7 @@ import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import useAuth from "@/Hooks/useAuth";
 import { BiWorld } from "react-icons/bi";
 import { GiCargoCrate } from "react-icons/gi";
+import Loading from "@/Pages/Shared/Loading";
 
 <style>
   {`
@@ -52,7 +54,7 @@ const Dashboard = () => {
   };
 
   if (!userRole) {
-    return <div>Loading...</div>;
+    return <Loading></Loading>
   }
 
   return (
@@ -145,6 +147,14 @@ const Dashboard = () => {
                     className="flex px-2 items-center py-2 space-x-3"
                   >
                     <MdOutlinePriceChange /> <span>Courier Rates</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allShipments"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <FaJediOrder /> <span>Shipments</span>
                   </NavLink>
                 </li>
 

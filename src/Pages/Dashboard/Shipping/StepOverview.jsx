@@ -8,6 +8,7 @@ import {
   FiPackage,
   FiTruck,
 } from "react-icons/fi";
+import Swal from "sweetalert2";
 
 const StepOverview = ({ formData, onSuccess }) => {
   const axiosPublic = useAxiosPublic();
@@ -59,7 +60,17 @@ const StepOverview = ({ formData, onSuccess }) => {
     return total + getBoxRate(box.weight);
   }, 0);
 
-  const handleConfirm = async () => {
+ const handleConfirm = async () => {
+  const confirm = await Swal.fire({
+    title: "Confirm Shipment?",
+    text: "Are you sure you want to create this shipment?",
+    icon: "question",
+    showCancelButton: true,
+    confirmButtonText: "Yes, Confirm",
+  });
+
+  if (!confirm.isConfirmed) return;
+
   try {
     const payload = {
       ...formData,
@@ -71,10 +82,23 @@ const StepOverview = ({ formData, onSuccess }) => {
 
     const res = await axiosPublic.post("/shipments", payload);
 
+    await Swal.fire({
+      title: "Shipment Created!",
+      text: `Tracking ID: ${res.data.trackingId}`,
+      icon: "success",
+      confirmButtonText: "OK",
+    });
+
     onSuccess(res.data);
+
   } catch (error) {
     console.error(error);
-    alert("Something went wrong!");
+
+    Swal.fire({
+      title: "Error!",
+      text: "Something went wrong while creating shipment.",
+      icon: "error",
+    });
   }
 };
 
