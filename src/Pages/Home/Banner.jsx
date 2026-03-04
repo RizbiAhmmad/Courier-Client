@@ -5,7 +5,6 @@ import { GradientText } from "@/components/ui/GradientText";
 import { FaPaperPlane } from "react-icons/fa";
 import { FiTruck, FiShoppingCart, FiTarget } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
-import GlowCard from "@/components/ui/spotlight-card";
 
 const Banner = () => {
   const axiosPublic = useAxiosPublic();

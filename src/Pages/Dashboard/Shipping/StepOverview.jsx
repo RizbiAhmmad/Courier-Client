@@ -60,21 +60,23 @@ const StepOverview = ({ formData, onSuccess }) => {
   }, 0);
 
   const handleConfirm = async () => {
-    try {
-      const payload = {
-        ...formData,
-        totalShipping,
-        status: "pending",
-      };
+  try {
+    const payload = {
+      ...formData,
+      totalShipping,
+      status: "pending",
+      countryName: rateData?.variations?.[0]?.countryName || "",
+      courierTypeName: getSelectedVariation()?.courierTypeName || "",
+    };
 
-      await axiosPublic.post("/shipments", payload);
+    const res = await axiosPublic.post("/shipments", payload);
 
-      onSuccess();
-    } catch (error) {
-      console.error(error);
-      alert("Something went wrong!");
-    }
-  };
+    onSuccess(res.data);
+  } catch (error) {
+    console.error(error);
+    alert("Something went wrong!");
+  }
+};
 
   return (
     <div className="max-w-5xl mx-auto">
