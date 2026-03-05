@@ -9,6 +9,10 @@ const AllShipments = () => {
   const axiosPublic = useAxiosPublic();
   const [openId, setOpenId] = useState(null);
 
+  // ✅ new states
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] = useState("all");
+
   const {
     data: shipments = [],
     refetch,
@@ -19,6 +23,19 @@ const AllShipments = () => {
       const res = await axiosPublic.get("/shipments");
       return res.data;
     },
+  });
+
+  // ✅ filter logic
+  const filteredShipments = shipments.filter((shipment) => {
+    const searchMatch =
+      shipment.trackingId?.toLowerCase().includes(search.toLowerCase()) ||
+      shipment.name?.toLowerCase().includes(search.toLowerCase()) ||
+      shipment.phone?.includes(search);
+
+    const statusMatch =
+      statusFilter === "all" || shipment.status === statusFilter;
+
+    return searchMatch && statusMatch;
   });
 
   const handleStatusChange = async (id, newStatus) => {
@@ -66,6 +83,32 @@ const AllShipments = () => {
         All Shipment Orders
       </h2>
 
+      {/* ✅ Search + Filter */}
+      <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
+        {/* Search */}
+        <input
+          type="text"
+          placeholder="Search by tracking id, name, phone..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+          className="border px-4 py-2 rounded-lg w-full md:w-80 outline-none focus:ring-2 focus:ring-blue-400"
+        />
+
+        {/* Status Filter */}
+        <select
+          value={statusFilter}
+          onChange={(e) => setStatusFilter(e.target.value)}
+          className="border px-4 py-2 rounded-lg w-full md:w-48 outline-none focus:ring-2 focus:ring-blue-400"
+        >
+          <option value="all">All Status</option>
+          <option value="pending">Pending</option>
+          <option value="processing">Processing</option>
+          <option value="shipped">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+
       <div className="overflow-x-auto bg-white rounded-xl shadow-lg">
         <table className="w-full text-sm text-left">
           <thead className="bg-gray-100 uppercase text-gray-700">
@@ -83,9 +126,8 @@ const AllShipments = () => {
           </thead>
 
           <tbody className="divide-y divide-gray-200">
-            {shipments.map((shipment, index) => (
+            {filteredShipments.map((shipment, index) => (
               <>
-                {/* Main Row */}
                 <tr key={shipment._id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">{index + 1}</td>
                   <td className="px-6 py-4 font-semibold text-blue-600">
@@ -98,6 +140,7 @@ const AllShipments = () => {
                   <td className="px-6 py-4 font-semibold text-purple-600">
                     ৳ {shipment.totalShipping}
                   </td>
+
                   <td className="px-6 py-4">
                     <select
                       value={shipment.status}
@@ -108,8 +151,8 @@ const AllShipments = () => {
                         shipment.status === "pending"
                           ? "bg-yellow-100 text-yellow-700"
                           : shipment.status === "shipped"
-                            ? "bg-blue-100 text-blue-700"
-                            : "bg-green-100 text-green-700"
+                          ? "bg-blue-100 text-blue-700"
+                          : "bg-green-100 text-green-700"
                       }`}
                     >
                       <option value="pending">pending</option>
@@ -139,30 +182,19 @@ const AllShipments = () => {
                   </td>
                 </tr>
 
-                {/* Dropdown Details Row */}
                 {openId === shipment._id && (
                   <tr className="bg-gray-50">
                     <td colSpan="9" className="px-8 py-6">
                       <div className="grid md:grid-cols-2 gap-6 text-sm">
-                        {/* Sender Info */}
                         <div>
                           <h4 className="font-semibold mb-2">Sender Details</h4>
-                          <p>
-                            <strong>Email:</strong> {shipment.email}
-                          </p>
-                          <p>
-                            <strong>Address:</strong> {shipment.address}
-                          </p>
-                          <p>
-                            <strong>Company:</strong> {shipment.company}
-                          </p>
+                          <p><strong>Email:</strong> {shipment.email}</p>
+                          <p><strong>Address:</strong> {shipment.address}</p>
+                          <p><strong>Company:</strong> {shipment.company}</p>
                         </div>
 
-                        {/* Package Info */}
                         <div>
-                          <h4 className="font-semibold mb-2">
-                            Package Details
-                          </h4>
+                          <h4 className="font-semibold mb-2">Package Details</h4>
 
                           {shipment.packages?.map((box, i) => (
                             <div
@@ -204,7 +236,7 @@ const AllShipments = () => {
               </>
             ))}
 
-            {shipments.length === 0 && (
+            {filteredShipments.length === 0 && (
               <tr>
                 <td colSpan="9" className="text-center py-6 text-gray-500">
                   No shipment orders found.
