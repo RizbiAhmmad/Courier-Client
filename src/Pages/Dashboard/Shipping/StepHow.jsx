@@ -6,19 +6,26 @@ import { FaTrash } from "react-icons/fa";
 const StepHow = ({ formData, setFormData, errors }) => {
   const axiosPublic = useAxiosPublic();
 
+  // ✅ Fetch all rates for the category + country combination
   const { data: rateData } = useQuery({
-    queryKey: ["singleRate", formData.categoryId, formData.countryId],
+    queryKey: ["ratesForCategoryCountry", formData.categoryId, formData.countryId],
     enabled: !!formData.categoryId && !!formData.countryId,
-    queryFn: async () =>
-      (
-        await axiosPublic.get("/courierRates", {
-          params: {
-            categoryId: formData.categoryId,
-            countryId: formData.countryId,
-            status: "active",
-          },
-        })
-      ).data[0],
+    queryFn: async () => {
+      const allRates = await axiosPublic.get("/courierRates", {
+        params: {
+          categoryId: formData.categoryId,
+          countryId: formData.countryId,
+          status: "active",
+        },
+      });
+
+      // Find the exact matching rate for category + country
+      return allRates.data.find(
+        (rate) =>
+          String(rate.categoryId) === String(formData.categoryId) &&
+          String(rate.countryId) === String(formData.countryId)
+      );
+    },
   });
 
   const packages = formData.packages || [];
@@ -27,23 +34,19 @@ const StepHow = ({ formData, setFormData, errors }) => {
     if (!formData.courierTypeId || !rateData) return null;
 
     const selectedVariation = rateData.variations?.find(
-      (v) => v.courierTypeId === formData.courierTypeId,
+      (v) => String(v.courierTypeId) === String(formData.courierTypeId)
     );
 
     if (!selectedVariation) return null;
 
     const matchedRange = selectedVariation.ranges?.find(
-      (r) =>
-        Number(weight) >= Number(r.minWeight) &&
-        Number(weight) <= Number(r.maxWeight),
+      (r) => Number(weight) >= Number(r.minWeight) && Number(weight) <= Number(r.maxWeight)
     );
 
     return matchedRange ? Number(matchedRange.rate) : null;
   };
 
-  const totalShipping = packages.reduce((total, box) => {
-    return total + (box.shippingCost ? box.shippingCost : 0);
-  }, 0);
+  const totalShipping = packages.reduce((total, box) => total + (box.shippingCost || 0), 0);
 
   const addBox = () => {
     setFormData({
@@ -70,19 +73,13 @@ const StepHow = ({ formData, setFormData, errors }) => {
 
   const deleteBox = (boxIndex) => {
     if (packages.length === 1) return;
-
-    const updated = packages.filter((_, index) => index !== boxIndex);
-    setFormData({ ...formData, packages: updated });
+    setFormData({ ...formData, packages: packages.filter((_, i) => i !== boxIndex) });
   };
 
   const deleteItem = (boxIndex, itemIndex) => {
     const updated = [...packages];
     if (updated[boxIndex].items.length === 1) return;
-
-    updated[boxIndex].items = updated[boxIndex].items.filter(
-      (_, index) => index !== itemIndex,
-    );
-
+    updated[boxIndex].items = updated[boxIndex].items.filter((_, i) => i !== itemIndex);
     setFormData({ ...formData, packages: updated });
   };
 
@@ -92,7 +89,7 @@ const StepHow = ({ formData, setFormData, errors }) => {
 
     if (field === "weight") {
       const rate = getBoxRate(value);
-      updated[boxIndex].shippingCost = rate ? rate : 0;
+      updated[boxIndex].shippingCost = rate || 0;
     }
 
     setFormData({ ...formData, packages: updated });
@@ -112,22 +109,18 @@ const StepHow = ({ formData, setFormData, errors }) => {
         </h2>
 
         <div className="mb-8">
-          <label className="block text-xl font-bold mb-2">
-            Courier Service
-          </label>
+          <label className="block text-xl font-bold mb-2">Courier Service</label>
 
           <select
             value={formData.courierTypeId}
-            onChange={(e) =>
-              setFormData({ ...formData, courierTypeId: e.target.value })
-            }
-            className={`w-full px-4 py-3 rounded-xl border
-    ${errors.courierTypeId ? "border-red-500" : "border-gray-300"}
-    focus:ring-2 focus:ring-yellow-400 outline-none`}
+            onChange={(e) => setFormData({ ...formData, courierTypeId: e.target.value })}
+            className={`w-full px-4 py-3 rounded-xl border ${
+              errors.courierTypeId ? "border-red-500" : "border-gray-300"
+            } focus:ring-2 focus:ring-yellow-400 outline-none`}
           >
             <option value="">Select Courier Type</option>
             {rateData?.variations?.map((v) => (
-              <option key={v.courierTypeId} value={v.courierTypeId}>
+              <option key={String(v.courierTypeId)} value={String(v.courierTypeId)}>
                 {v.courierTypeName}
               </option>
             ))}
@@ -142,11 +135,7 @@ const StepHow = ({ formData, setFormData, errors }) => {
           const boxRate = getBoxRate(box.weight);
 
           return (
-            <div
-              key={boxIndex}
-              className="border rounded-2xl p-6 mb-6 bg-gray-50 relative"
-            >
-              {/* Delete Box */}
+            <div key={boxIndex} className="border rounded-2xl p-6 mb-6 bg-gray-50 relative">
               {packages.length > 1 && (
                 <button
                   onClick={() => deleteBox(boxIndex)}
@@ -158,7 +147,6 @@ const StepHow = ({ formData, setFormData, errors }) => {
 
               <h3 className="font-semibold mb-4">Box {boxIndex + 1}</h3>
 
-              {/* Dimensions */}
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
                 {["length", "width", "height", "weight"].map((field) => (
                   <input
@@ -166,57 +154,38 @@ const StepHow = ({ formData, setFormData, errors }) => {
                     type="number"
                     placeholder={field}
                     value={box[field]}
-                    onChange={(e) =>
-                      updateBoxField(boxIndex, field, e.target.value)
-                    }
+                    onChange={(e) => updateBoxField(boxIndex, field, e.target.value)}
                     className="p-3 border rounded-xl"
                   />
                 ))}
               </div>
 
-              {/* Show Box Rate */}
               {box.weight && boxRate && (
                 <div className="mb-4 bg-green-100 text-green-700 px-4 py-2 rounded-xl font-semibold">
                   Shipping Cost: ৳ {boxRate}
                 </div>
               )}
 
-              {/* Items */}
               {box.items.map((item, itemIndex) => (
-                <div
-                  key={itemIndex}
-                  className="grid grid-cols-4 gap-4 mb-4 items-center"
-                >
+                <div key={itemIndex} className="grid grid-cols-4 gap-4 mb-4 items-center">
                   <input
                     type="text"
                     placeholder="Item Name"
                     value={item.itemName}
                     onChange={(e) =>
-                      updateItemField(
-                        boxIndex,
-                        itemIndex,
-                        "itemName",
-                        e.target.value,
-                      )
+                      updateItemField(boxIndex, itemIndex, "itemName", e.target.value)
                     }
                     className="p-3 border rounded-xl col-span-2"
                   />
-
                   <input
                     type="number"
                     placeholder="Qty"
                     value={item.quantity}
                     onChange={(e) =>
-                      updateItemField(
-                        boxIndex,
-                        itemIndex,
-                        "quantity",
-                        e.target.value,
-                      )
+                      updateItemField(boxIndex, itemIndex, "quantity", e.target.value)
                     }
                     className="p-3 border rounded-xl"
                   />
-
                   {box.items.length > 1 && (
                     <button
                       onClick={() => deleteItem(boxIndex, itemIndex)}
@@ -228,22 +197,17 @@ const StepHow = ({ formData, setFormData, errors }) => {
                 </div>
               ))}
 
-              <button
-                onClick={() => addItem(boxIndex)}
-                className="text-sm text-blue-600 mt-2"
-              >
+              <button onClick={() => addItem(boxIndex)} className="text-sm text-blue-600 mt-2">
                 + Add more Item
               </button>
             </div>
           );
         })}
 
-        {/* Add Box */}
         <button onClick={addBox} className="px-4 py-2 bg-gray-200 rounded-lg">
           + Add Box
         </button>
 
-        {/* Total Shipping */}
         {totalShipping > 0 && (
           <div className="mt-8 text-center bg-linear-to-r from-purple-500 to-pink-500 text-white p-4 rounded-2xl font-bold text-lg">
             Total Shipping Cost: ৳ {totalShipping}

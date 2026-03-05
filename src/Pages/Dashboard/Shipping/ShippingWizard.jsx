@@ -285,12 +285,12 @@ const ShippingWizard = () => {
                   Print Invoice
                 </button>
 
-                <button
+                {/* <button
                   onClick={downloadPDF}
                   className="px-6 py-2 bg-green-600 text-white rounded-xl"
                 >
                   Download PDF
-                </button>
+                </button> */}
               </div>
             </div>
           )}

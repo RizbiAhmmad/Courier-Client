@@ -13,6 +13,7 @@ import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
 import AllShipments from "@/Pages/Dashboard/Admin/AllShipments";
 import ShippingWizard from "@/Pages/Dashboard/Shipping/ShippingWizard";
 import Home from "@/Pages/Home/Home";
+import TrackResult from "@/Pages/Home/TrackResult";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -32,14 +33,14 @@ export const router = createBrowserRouter([
         path: "/signup",
         element: <SignUp></SignUp>,
       },
-      // {
-      //   path:"/calculate-rate",
-      //   element:<CalculateRate></CalculateRate>
-      // }
       {
-        path:"/ShippingWizard",
-        element:<ShippingWizard></ShippingWizard>
-      }
+        path: "/ShippingWizard",
+        element: <ShippingWizard></ShippingWizard>,
+      },
+      {
+        path: "/track-result",
+        element: <TrackResult />,
+      },
     ],
   },
   {
