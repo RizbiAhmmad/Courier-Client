@@ -13,6 +13,7 @@ import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
 import AllShipments from "@/Pages/Dashboard/Admin/AllShipments";
 import ShippingWizard from "@/Pages/Dashboard/Shipping/ShippingWizard";
 import AboutPage from "@/Pages/Home/AboutPage";
+import ContactPage from "@/Pages/Home/ContactPage";
 import Home from "@/Pages/Home/Home";
 import TrackResult from "@/Pages/Home/TrackResult";
 import { createBrowserRouter } from "react-router-dom";
@@ -45,6 +46,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <AboutPage />,
+      },
+      {
+        path: "/contact",
+        element: <ContactPage />,
       },
     ],
   },
