@@ -1,5 +1,5 @@
 import { CheckCircle, ArrowUpRight } from "lucide-react";
-import shippingcard from "../../assets/credit_card.png";
+// import shippingcard from "../../assets/credit_card.png";
 import { GradientText } from "@/components/ui/GradientText";
 
 export default function ShippingHero() {
@@ -47,7 +47,7 @@ export default function ShippingHero() {
         {/* Right Image */}
         <div className="flex justify-center md:justify-end">
           <img
-            src={shippingcard}
+            src="https://img.freepik.com/free-photo/global-logistics-transportation-network_23-2151989598.jpg?semt=ais_user_personalization&w=740&q=80"
             alt="Shipping illustration"
             className="max-w-full w-105 md:w-130 drop-shadow-xl"
           />

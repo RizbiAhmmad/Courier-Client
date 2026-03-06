@@ -146,7 +146,7 @@ const Dashboard = () => {
                     to="/dashboard/allCourierRates"
                     className="flex px-2 items-center py-2 space-x-3"
                   >
-                    <MdOutlinePriceChange /> <span>Courier Rates</span>
+                    <MdOutlinePriceChange /> <span>Rates</span>
                   </NavLink>
                 </li>
                 <li>
@@ -155,6 +155,14 @@ const Dashboard = () => {
                     className="flex px-2 items-center py-2 space-x-3"
                   >
                     <FaJediOrder /> <span>Shipments</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allBlogs"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <FaJediOrder /> <span>Blogs</span>
                   </NavLink>
                 </li>
 
