@@ -12,6 +12,7 @@ import AllCourierRates from "@/Pages/Dashboard/Admin/AllCourierRates";
 import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
 import AllShipments from "@/Pages/Dashboard/Admin/AllShipments";
 import ShippingWizard from "@/Pages/Dashboard/Shipping/ShippingWizard";
+import AboutPage from "@/Pages/Home/AboutPage";
 import Home from "@/Pages/Home/Home";
 import TrackResult from "@/Pages/Home/TrackResult";
 import { createBrowserRouter } from "react-router-dom";
@@ -40,6 +41,10 @@ export const router = createBrowserRouter([
       {
         path: "/track-result",
         element: <TrackResult />,
+      },
+      {
+        path: "/about",
+        element: <AboutPage />,
       },
     ],
   },
