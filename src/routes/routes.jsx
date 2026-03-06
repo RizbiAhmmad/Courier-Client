@@ -2,6 +2,7 @@ import Login from "@/Authentication/Login";
 import SignUp from "@/Authentication/SignUp";
 import Dashboard from "@/Layouts/Dashboard";
 import MainLayout from "@/Layouts/Mainlayout";
+import AddBlog from "@/Pages/Dashboard/Admin/Addblog";
 import AddCategory from "@/Pages/Dashboard/Admin/AddCategory";
 import AddCountry from "@/Pages/Dashboard/Admin/AddCountry";
 import AddCourierRate from "@/Pages/Dashboard/Admin/AddCourierRate";
@@ -96,6 +97,10 @@ export const router = createBrowserRouter([
       {
         path: "allShipments",
         element: <AllShipments></AllShipments>,
+      },
+      {
+        path: "addblog",
+        element: <AddBlog></AddBlog>,
       },
     ],
   },

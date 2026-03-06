@@ -1,6 +1,7 @@
 import React from "react";
 import { motion } from "framer-motion";
 import { FiTarget, FiEye, FiUsers, FiAward } from "react-icons/fi";
+import bgimg from "../../assets/BG-Image.jpg"
 
 const AboutPage = () => {
   return (
@@ -10,7 +11,7 @@ const AboutPage = () => {
         className="relative flex items-center justify-center min-h-150 py-28 text-white text-center bg-cover bg-center"
         style={{
           backgroundImage:
-            "url('https://as1.ftcdn.net/jpg/05/79/30/50/1000_F_579305039_Un4Qd5louk34wUFA9YGRD7xJQTee1T9M.jpg')",
+            `url(${bgimg})`,
         }}
       >
         {/* overlay */}
