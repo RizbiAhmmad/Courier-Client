@@ -7,6 +7,11 @@ import { FiTruck, FiShoppingCart, FiTarget } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
 import Swal from "sweetalert2";
 
+const pushGTM = (data) => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(data);
+};
+
 const Banner = () => {
   const axiosPublic = useAxiosPublic();
   const navigate = useNavigate();
@@ -64,12 +69,12 @@ const Banner = () => {
     }
   }, [categories, activeTab]);
 
+  const categoryName = categories.find((c) => c._id === activeTab)?.name || "";
 
   return (
     <section className="relative min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 flex items-center">
       <div className="container mx-auto px-6 py-20 max-w-7xl">
         <div className="grid lg:grid-cols-2 gap-12 items-center min-h-150">
-
           {/* LEFT CONTENT */}
           <div>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
@@ -91,7 +96,6 @@ const Banner = () => {
 
           {/* RIGHT CARD */}
           <div className="bg-white rounded-3xl shadow-2xl p-8 h-100 flex flex-col justify-center">
-
             {/* Tabs */}
             <div className="flex justify-between border-b mb-6">
               {categories.map((cat) => (
@@ -129,7 +133,6 @@ const Banner = () => {
             {/* Import / Export Section */}
             {activeTab && activeTab !== "Track" && (
               <div className="space-y-5">
-
                 <SelectBox
                   label="Select Country"
                   value={fromCountry}
@@ -150,9 +153,18 @@ const Banner = () => {
                       return Swal.fire(
                         "Error",
                         "Please select category & country",
-                        "error"
+                        "error",
                       );
                     }
+
+                    pushGTM({
+                      event: "start_shipping",
+                      shipping: {
+                        categoryId: activeTab,
+                        categoryName,
+                        countryId: fromCountry,
+                      },
+                    });
 
                     navigate("/ShippingWizard", {
                       state: {
@@ -188,21 +200,21 @@ const Banner = () => {
                       return Swal.fire(
                         "Error",
                         "Enter tracking number",
-                        "error"
+                        "error",
                       );
                     }
+                    pushGTM({
+                      event: "track_order",
+                      tracking_number: trackingNumber,
+                    });
 
                     try {
                       const res = await axiosPublic.get(
-                        `/track/${trackingNumber}`
+                        `/track/${trackingNumber}`,
                       );
                       navigate("/track-result", { state: res.data });
                     } catch (error) {
-                      Swal.fire(
-                        "Not Found",
-                        "Tracking ID not found",
-                        "error"
-                      );
+                      Swal.fire("Not Found", "Tracking ID not found", "error");
                     }
                   }}
                   className="w-full bg-linear-to-r from-yellow-400 to-orange-500 

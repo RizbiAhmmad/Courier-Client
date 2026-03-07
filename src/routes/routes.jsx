@@ -15,6 +15,7 @@ import AllCountries from "@/Pages/Dashboard/Admin/AllCountries";
 import AllCourierRates from "@/Pages/Dashboard/Admin/AllCourierRates";
 import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
 import AllShipments from "@/Pages/Dashboard/Admin/AllShipments";
+import GTMSettings from "@/Pages/Dashboard/Admin/GTMSettings";
 import ShippingWizard from "@/Pages/Dashboard/Shipping/ShippingWizard";
 import AboutPage from "@/Pages/Home/AboutPage";
 import ContactPage from "@/Pages/Home/ContactPage";
@@ -55,13 +56,13 @@ export const router = createBrowserRouter([
         path: "/contact",
         element: <ContactPage />,
       },
-       {
+      {
         path: "/blogs",
         element: <Blogs></Blogs>,
       },
       {
         path: "/blogDetails/:id",
-        element: <BlogDetails></BlogDetails>
+        element: <BlogDetails></BlogDetails>,
       },
     ],
   },
@@ -116,6 +117,10 @@ export const router = createBrowserRouter([
       {
         path: "allBlogs",
         element: <AllBlogs></AllBlogs>,
+      },
+      {
+        path: "gtmSettings",
+        element: <GTMSettings />,
       },
     ],
   },

@@ -94,7 +94,7 @@ const AllCourierRates = () => {
 
   return (
     <div className="max-w-6xl mx-auto p-6">
-      <h2 className="text-3xl font-bold text-center mb-6">All Courier Rates</h2>
+      <h2 className="text-3xl font-bold text-center mb-6">All Rates</h2>
 
       {isDemo && (
         <p className="mb-4 text-sm text-orange-500 font-semibold text-center">
@@ -107,7 +107,7 @@ const AllCourierRates = () => {
           onClick={() => navigate("/dashboard/addCourierRate")}
           className="flex items-center gap-2 px-4 py-2 text-white bg-linear-to-r from-yellow-400 to-orange-500 rounded-xl hover:from-yellow-500 hover:to-orange-600"
         >
-          <FaPlus /> Add Courier Rate
+          <FaPlus /> Add Rate
         </button>
       </div>
 

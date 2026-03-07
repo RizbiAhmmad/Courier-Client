@@ -9,7 +9,7 @@ const AllShipments = () => {
   const axiosPublic = useAxiosPublic();
   const [openId, setOpenId] = useState(null);
 
-  // ✅ new states
+  //  new states
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
 
@@ -25,7 +25,7 @@ const AllShipments = () => {
     },
   });
 
-  // ✅ filter logic
+  //  filter logic
   const filteredShipments = shipments.filter((shipment) => {
     const searchMatch =
       shipment.trackingId?.toLowerCase().includes(search.toLowerCase()) ||
@@ -83,7 +83,7 @@ const AllShipments = () => {
         All Shipment Orders
       </h2>
 
-      {/* ✅ Search + Filter */}
+      {/* Search + Filter */}
       <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
         {/* Search */}
         <input
@@ -117,6 +117,7 @@ const AllShipments = () => {
               <th className="px-6 py-3">Tracking ID</th>
               <th className="px-6 py-3">Sender</th>
               <th className="px-6 py-3">Phone</th>
+              <th className="px-6 py-3">Category</th>
               <th className="px-6 py-3">Country</th>
               <th className="px-6 py-3">Courier</th>
               <th className="px-6 py-3">Total</th>
@@ -135,6 +136,7 @@ const AllShipments = () => {
                   </td>
                   <td className="px-6 py-4">{shipment.name}</td>
                   <td className="px-6 py-4">{shipment.phone}</td>
+                  <td className="px-6 py-4">{shipment.categoryName}</td>
                   <td className="px-6 py-4">{shipment.countryName}</td>
                   <td className="px-6 py-4">{shipment.courierTypeName}</td>
                   <td className="px-6 py-4 font-semibold text-purple-600">

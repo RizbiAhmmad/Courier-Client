@@ -23,84 +23,92 @@ const StepOverview = ({ formData, onSuccess }) => {
   const { data: rateData } = useQuery({
     queryKey: ["singleRateOverview", formData.categoryId, formData.countryId],
     enabled: !!formData.categoryId && !!formData.countryId,
-    queryFn: async () =>
-      (
-        await axiosPublic.get("/courierRates", {
-          params: {
-            categoryId: formData.categoryId,
-            countryId: formData.countryId,
-            status: "active",
-          },
-        })
-      ).data[0],
+    queryFn: async () => {
+      const res = await axiosPublic.get("/courierRates", {
+        params: {
+          categoryId: formData.categoryId,
+          countryId: formData.countryId,
+          status: "active",
+        },
+      });
+
+      return (
+        res.data.find(
+          (rate) =>
+            String(rate.categoryId) === String(formData.categoryId) &&
+            String(rate.countryId) === String(formData.countryId),
+        ) || res.data[0]
+      );
+    },
   });
 
-  const getSelectedVariation = () => {
-    return rateData?.variations?.find(
-      (v) => v.courierTypeId === formData.courierTypeId,
-    );
-  };
+  const selectedVariation = rateData?.variations?.find(
+    (v) => String(v.courierTypeId) === String(formData.courierTypeId),
+  );
+
+  const countryName = selectedVariation?.countryName || "—";
+  const courierTypeName = selectedVariation?.courierTypeName || "—";
 
   const getBoxRate = (weight) => {
-    const variation = getSelectedVariation();
-    if (!variation) return 0;
-
-    const range = variation.ranges?.find(
+    if (!selectedVariation) return 0;
+    const range = selectedVariation.ranges?.find(
       (r) =>
         Number(weight) >= Number(r.minWeight) &&
         Number(weight) <= Number(r.maxWeight),
     );
-
     return range ? Number(range.rate) : 0;
   };
 
   const packages = formData.packages || [];
 
   const totalShipping = packages.reduce((total, box) => {
-    return total + getBoxRate(box.weight);
+    return total + (box.shippingCost || getBoxRate(box.weight));
   }, 0);
 
- const handleConfirm = async () => {
-  const confirm = await Swal.fire({
-    title: "Confirm Shipment?",
-    text: "Are you sure you want to create this shipment?",
-    icon: "question",
-    showCancelButton: true,
-    confirmButtonText: "Yes, Confirm",
-  });
-
-  if (!confirm.isConfirmed) return;
-
-  try {
-    const payload = {
-      ...formData,
-      totalShipping,
-      status: "pending",
-      countryName: rateData?.variations?.[0]?.countryName || "",
-      courierTypeName: getSelectedVariation()?.courierTypeName || "",
-    };
-
-    const res = await axiosPublic.post("/shipments", payload);
-
-    await Swal.fire({
-      title: "Shipment Created!",
-      text: `Tracking ID: ${res.data.trackingId}`,
-      icon: "success",
-      confirmButtonText: "OK",
+  const handleConfirm = async () => {
+    const confirm = await Swal.fire({
+      title: "Confirm Shipment?",
+      text: "Are you sure you want to create this shipment?",
+      icon: "question",
+      showCancelButton: true,
+      confirmButtonText: "Yes, Confirm",
     });
 
-    onSuccess(res.data);
+    if (!confirm.isConfirmed) return;
 
-  } catch (error) {
-    console.error(error);
+    try {
+      const payload = {
+        ...formData,
+        totalShipping,
+        status: "pending",
+        categoryName: category?.name,
+        countryName,
+        courierTypeName,
+        packages: packages.map((box) => ({
+          ...box,
+          shippingCost: box.shippingCost || getBoxRate(box.weight),
+        })),
+      };
 
-    Swal.fire({
-      title: "Error!",
-      text: "Something went wrong while creating shipment.",
-      icon: "error",
-    });
-  }
-};
+      const res = await axiosPublic.post("/shipments", payload);
+
+      await Swal.fire({
+        title: "Shipment Created!",
+        text: `Tracking ID: ${res.data.trackingId}`,
+        icon: "success",
+        confirmButtonText: "OK",
+      });
+
+      onSuccess(res.data);
+    } catch (error) {
+      console.error(error);
+      Swal.fire({
+        title: "Error!",
+        text: "Something went wrong while creating shipment.",
+        icon: "error",
+      });
+    }
+  };
 
   return (
     <div className="max-w-5xl mx-auto">
@@ -110,66 +118,66 @@ const StepOverview = ({ formData, onSuccess }) => {
         </h2>
 
         <div className="grid md:grid-cols-2 gap-8">
+          {/* Sender Info */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-3">
             <h3 className="font-semibold text-lg flex items-center gap-2">
               <FiUser /> Sender Information
             </h3>
-
             <p>
-              <FiUser className="inline mr-2" /> {formData.name}
+              <FiUser className="inline mr-2" />
+              {formData.name}
             </p>
             <p>
-              <FiMail className="inline mr-2" /> {formData.email}
+              <FiMail className="inline mr-2" />
+              {formData.email}
             </p>
             <p>
-              <FiPhone className="inline mr-2" /> {formData.phone}
+              <FiPhone className="inline mr-2" />
+              {formData.phone}
             </p>
             {formData.company && (
               <p>
-                <FiPackage className="inline mr-2" /> {formData.company}
+                <FiPackage className="inline mr-2" />
+                {formData.company}
               </p>
             )}
             <p>
-              <FiHome className="inline mr-2" /> {formData.address}
+              <FiHome className="inline mr-2" />
+              {formData.address}
             </p>
           </div>
 
+          {/* Shipment Details */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-3">
             <h3 className="font-semibold text-lg flex items-center gap-2">
               <FiPackage /> Shipment Details
             </h3>
-
             <p>
               <strong>Category:</strong> {category?.name || "—"}
             </p>
-
             <p>
-              <strong>Destination:</strong>{" "}
-              {rateData?.variations?.[0]?.countryName || "—"}
+              <strong>Destination:</strong> {countryName}
             </p>
-
             <p>
-              <strong>Courier Service:</strong>{" "}
-              {getSelectedVariation()?.courierTypeName || "—"}
+              <strong>Courier Service:</strong> {courierTypeName}
             </p>
           </div>
         </div>
 
+        {/* Package Details */}
         <div className="space-y-6">
           <h3 className="text-xl font-semibold flex items-center gap-2">
             <FiTruck /> Package Details
           </h3>
 
           {packages.map((box, boxIndex) => {
-            const boxRate = getBoxRate(box.weight);
-
+            const boxRate = box.shippingCost || getBoxRate(box.weight);
             return (
               <div
                 key={boxIndex}
                 className="bg-white rounded-2xl p-6 border shadow-sm space-y-4"
               >
                 <h4 className="font-semibold">Box {boxIndex + 1}</h4>
-
                 <div className="grid md:grid-cols-4 gap-4">
                   <p>
                     <strong>Length:</strong> {box.length}
@@ -184,7 +192,6 @@ const StepOverview = ({ formData, onSuccess }) => {
                     <strong>Weight:</strong> {box.weight}
                   </p>
                 </div>
-
                 <div className="space-y-2">
                   <h5 className="font-medium">Items:</h5>
                   {box.items.map((item, i) => (
@@ -197,7 +204,6 @@ const StepOverview = ({ formData, onSuccess }) => {
                     </div>
                   ))}
                 </div>
-
                 {boxRate > 0 && (
                   <div className="text-right font-semibold text-green-600">
                     Shipping Cost: ৳ {boxRate}

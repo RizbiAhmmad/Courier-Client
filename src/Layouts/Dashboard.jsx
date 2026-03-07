@@ -8,7 +8,11 @@ import {
   FaUsers,
 } from "react-icons/fa";
 import { LuLayoutDashboard } from "react-icons/lu";
-import { MdInventory, MdOutlineDashboardCustomize, MdOutlinePriceChange } from "react-icons/md";
+import {
+  MdInventory,
+  MdOutlineDashboardCustomize,
+  MdOutlinePriceChange,
+} from "react-icons/md";
 import { CgProfile } from "react-icons/cg";
 import { NavLink, Outlet } from "react-router-dom";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
@@ -16,6 +20,8 @@ import useAuth from "@/Hooks/useAuth";
 import { BiWorld } from "react-icons/bi";
 import { GiCargoCrate } from "react-icons/gi";
 import Loading from "@/Pages/Shared/Loading";
+import { ImBlogger } from "react-icons/im";
+import { SiGoogleanalytics } from "react-icons/si";
 
 <style>
   {`
@@ -54,7 +60,7 @@ const Dashboard = () => {
   };
 
   if (!userRole) {
-    return <Loading></Loading>
+    return <Loading></Loading>;
   }
 
   return (
@@ -116,7 +122,7 @@ const Dashboard = () => {
                 <li className=" pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
                   Courier Management
                 </li>
-               
+
                 <li>
                   <NavLink
                     to="/dashboard/allCategories"
@@ -157,12 +163,26 @@ const Dashboard = () => {
                     <FaJediOrder /> <span>Shipments</span>
                   </NavLink>
                 </li>
+
+                <li className=" pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
+                  Others
+                </li>
+
                 <li>
                   <NavLink
                     to="/dashboard/allBlogs"
                     className="flex px-2 items-center py-2 space-x-3"
                   >
-                    <FaJediOrder /> <span>Blogs</span>
+                    <ImBlogger /> <span>Blogs</span>
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/dashboard/gtmSettings"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <SiGoogleanalytics /> <span>GTM Settings</span>
                   </NavLink>
                 </li>
 

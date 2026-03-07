@@ -8,6 +8,11 @@ import StepWhere from "./StepWhere";
 import StepHow from "./StepHow";
 import StepOverview from "./StepOverview";
 
+const pushGTM = (data) => {
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push(data);
+};
+
 const steps = ["Address", "Package", "Overview", "Success"];
 
 const ShippingWizard = () => {
@@ -87,6 +92,24 @@ const ShippingWizard = () => {
 
   const nextStep = () => {
     if (!validateStep()) return;
+
+    if (currentStep === 2) {
+      pushGTM({
+        event: "add_shipping_info",
+        ecommerce: {
+          currency: "BDT",
+          value: totalShipping,
+          items: formData.packages.map((box, i) => ({
+            item_id: `box_${i + 1}`,
+            item_name: "Shipment Box",
+            weight: box.weight,
+            price: box.shippingCost,
+            quantity: 1,
+          })),
+        },
+      });
+    }
+
     if (currentStep < steps.length) setCurrentStep((prev) => prev + 1);
   };
 
@@ -120,33 +143,33 @@ const ShippingWizard = () => {
   };
 
   const downloadPDF = async () => {
-  if (!invoiceRef.current) return;
+    if (!invoiceRef.current) return;
 
-  try {
-    // Temporarily override unsupported background
-    const originalBg = invoiceRef.current.style.background;
-    invoiceRef.current.style.background = "#ffffff";
+    try {
+      // Temporarily override unsupported background
+      const originalBg = invoiceRef.current.style.background;
+      invoiceRef.current.style.background = "#ffffff";
 
-    const canvas = await html2canvas(invoiceRef.current, {
-      scale: 2,
-      backgroundColor: "#fff",
-      useCORS: true,
-    });
+      const canvas = await html2canvas(invoiceRef.current, {
+        scale: 2,
+        backgroundColor: "#fff",
+        useCORS: true,
+      });
 
-    // Restore original background
-    invoiceRef.current.style.background = originalBg;
+      // Restore original background
+      invoiceRef.current.style.background = originalBg;
 
-    const imgData = canvas.toDataURL("image/png");
-    const pdf = new jsPDF("p", "mm", "a4");
-    const pdfWidth = 190;
-    const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
-    pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight);
-    pdf.save(`shipment-invoice-${trackingId}.pdf`);
-  } catch (error) {
-    console.error("PDF download failed:", error);
-    alert("Failed to generate PDF. Please try printing instead.");
-  }
-};
+      const imgData = canvas.toDataURL("image/png");
+      const pdf = new jsPDF("p", "mm", "a4");
+      const pdfWidth = 190;
+      const pdfHeight = (canvas.height * pdfWidth) / canvas.width;
+      pdf.addImage(imgData, "PNG", 10, 10, pdfWidth, pdfHeight);
+      pdf.save(`shipment-invoice-${trackingId}.pdf`);
+    } catch (error) {
+      console.error("PDF download failed:", error);
+      alert("Failed to generate PDF. Please try printing instead.");
+    }
+  };
   return (
     <div className="min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 pt-20">
       {/* STEPPER */}
@@ -207,7 +230,24 @@ const ShippingWizard = () => {
           {currentStep === 3 && (
             <StepOverview
               formData={formData}
+              setFormData={setFormData}
               onSuccess={(data) => {
+                pushGTM({
+                  event: "purchase",
+                  ecommerce: {
+                    transaction_id: data.trackingId,
+                    currency: "BDT",
+                    value: data.totalShipping,
+                    items: formData.packages.map((box, i) => ({
+                      item_id: `box_${i + 1}`,
+                      item_name: "Shipment Box",
+                      weight: box.weight,
+                      price: box.shippingCost,
+                      quantity: 1,
+                    })),
+                  },
+                });
+
                 setTrackingId(data.trackingId);
                 setShipmentData(data);
                 setCurrentStep(4);

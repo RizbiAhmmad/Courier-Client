@@ -96,7 +96,7 @@ const AddCourierRate = () => {
   return (
     <div className="max-w-6xl mx-auto p-6">
       <h2 className="mb-8 text-3xl font-extrabold text-center text-black">
-        Add Courier Rates
+        Add Rates
       </h2>
 
       <form onSubmit={handleSubmit} className="space-y-10">
