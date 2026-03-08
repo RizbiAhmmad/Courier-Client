@@ -1,15 +1,13 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   FaHome,
   FaJediOrder,
   FaListAlt,
   FaReceipt,
-  FaThList,
   FaUsers,
 } from "react-icons/fa";
 import { LuLayoutDashboard } from "react-icons/lu";
 import {
-  MdInventory,
   MdOutlineDashboardCustomize,
   MdOutlinePriceChange,
 } from "react-icons/md";
@@ -22,6 +20,7 @@ import { GiCargoCrate } from "react-icons/gi";
 import Loading from "@/Pages/Shared/Loading";
 import { ImBlogger } from "react-icons/im";
 import { SiGoogleanalytics } from "react-icons/si";
+import { PiLetterCircleP } from "react-icons/pi";
 
 <style>
   {`
@@ -183,6 +182,14 @@ const Dashboard = () => {
                     className="flex items-center px-2 py-2 space-x-3"
                   >
                     <SiGoogleanalytics /> <span>GTM Settings</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/popupSettings"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <PiLetterCircleP /> <span>PopUp Settings</span>
                   </NavLink>
                 </li>
 

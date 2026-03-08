@@ -16,6 +16,7 @@ import AllCourierRates from "@/Pages/Dashboard/Admin/AllCourierRates";
 import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
 import AllShipments from "@/Pages/Dashboard/Admin/AllShipments";
 import GTMSettings from "@/Pages/Dashboard/Admin/GTMSettings";
+import NoticeSettings from "@/Pages/Dashboard/Admin/NoticeSettings";
 import ShippingWizard from "@/Pages/Dashboard/Shipping/ShippingWizard";
 import AboutPage from "@/Pages/Home/AboutPage";
 import ContactPage from "@/Pages/Home/ContactPage";
@@ -121,6 +122,10 @@ export const router = createBrowserRouter([
       {
         path: "gtmSettings",
         element: <GTMSettings />,
+      },
+       {
+        path: "popupSettings",
+        element: <NoticeSettings />,
       },
     ],
   },
