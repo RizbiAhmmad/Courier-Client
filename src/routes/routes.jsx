@@ -19,6 +19,7 @@ import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
 import AllExpense from "@/Pages/Dashboard/Admin/AllExpense";
 import AllExpenseCategory from "@/Pages/Dashboard/Admin/AllExpenseCategory";
 import AllShipments from "@/Pages/Dashboard/Admin/AllShipments";
+import AllUsers from "@/Pages/Dashboard/Admin/AllUsers";
 import ExpenseReport from "@/Pages/Dashboard/Admin/ExpenseReport";
 import GTMSettings from "@/Pages/Dashboard/Admin/GTMSettings";
 import NoticeSettings from "@/Pages/Dashboard/Admin/NoticeSettings";
@@ -77,10 +78,10 @@ export const router = createBrowserRouter([
     path: "dashboard",
     element: <Dashboard></Dashboard>,
     children: [
-      // {
-      //   path: "users",
-      //   element: <AllUsers></AllUsers>,
-      // },
+      {
+        path: "users",
+        element: <AllUsers></AllUsers>,
+      },
       {
         path: "addCategory",
         element: <AddCategory></AddCategory>,
