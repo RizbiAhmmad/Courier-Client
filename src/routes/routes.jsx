@@ -9,12 +9,17 @@ import AddCategory from "@/Pages/Dashboard/Admin/AddCategory";
 import AddCountry from "@/Pages/Dashboard/Admin/AddCountry";
 import AddCourierRate from "@/Pages/Dashboard/Admin/AddCourierRate";
 import AddCourierType from "@/Pages/Dashboard/Admin/AddCourierType";
+import AddExpense from "@/Pages/Dashboard/Admin/AddExpense";
+import AddExpenseCategory from "@/Pages/Dashboard/Admin/AddExpenseCategory";
 import AllBlogs from "@/Pages/Dashboard/Admin/AllBlogs";
 import AllCategories from "@/Pages/Dashboard/Admin/AllCategories";
 import AllCountries from "@/Pages/Dashboard/Admin/AllCountries";
 import AllCourierRates from "@/Pages/Dashboard/Admin/AllCourierRates";
 import AllCourierTypes from "@/Pages/Dashboard/Admin/AllCourierTypes";
+import AllExpense from "@/Pages/Dashboard/Admin/AllExpense";
+import AllExpenseCategory from "@/Pages/Dashboard/Admin/AllExpenseCategory";
 import AllShipments from "@/Pages/Dashboard/Admin/AllShipments";
+import ExpenseReport from "@/Pages/Dashboard/Admin/ExpenseReport";
 import GTMSettings from "@/Pages/Dashboard/Admin/GTMSettings";
 import NoticeSettings from "@/Pages/Dashboard/Admin/NoticeSettings";
 import SalesReport from "@/Pages/Dashboard/Admin/SalesReport";
@@ -131,6 +136,26 @@ export const router = createBrowserRouter([
        {
         path: "popupSettings",
         element: <NoticeSettings />,
+      },
+       {
+        path: "addExpenseCategory",
+        element: <AddExpenseCategory />,
+      },
+      {
+        path: "allExpenseCategories",
+        element: <AllExpenseCategory />,
+      },
+      {
+        path: "addExpense",
+        element: <AddExpense />,
+      },
+      {
+        path: "allExpense",
+        element: <AllExpense />,
+      },
+      {
+        path: "ExpenseReport",
+        element: <ExpenseReport />,
       },
     ],
   },

@@ -4,6 +4,7 @@ import {
   FaHome,
   FaJediOrder,
   FaListAlt,
+  FaMoneyBillWave,
   FaReceipt,
   FaUsers,
 } from "react-icons/fa";
@@ -17,11 +18,12 @@ import { NavLink, Outlet } from "react-router-dom";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import useAuth from "@/Hooks/useAuth";
 import { BiWorld } from "react-icons/bi";
-import { GiCargoCrate } from "react-icons/gi";
+import { GiCargoCrate, GiCash } from "react-icons/gi";
 import Loading from "@/Pages/Shared/Loading";
 import { ImBlogger } from "react-icons/im";
 import { SiGoogleanalytics } from "react-icons/si";
 import { PiLetterCircleP } from "react-icons/pi";
+import { TbCashRegister } from "react-icons/tb";
 
 <style>
   {`
@@ -163,12 +165,44 @@ const Dashboard = () => {
                     <FaJediOrder /> <span>Shipments</span>
                   </NavLink>
                 </li>
+                <li className="pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
+                  REPORT
+                </li>
                 <li>
                   <NavLink
                     to="/dashboard/salesReport"
                     className="flex px-2 items-center py-2 space-x-3"
                   >
                     <FaChartBar /> <span>Sales Report</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/ExpenseReport"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <TbCashRegister /> <span>Expense Report</span>
+                  </NavLink>
+                </li>
+
+                {/* Expense */}
+                <li className="pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
+                  EXPENSE
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allExpense"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <FaMoneyBillWave /> <span>Expense</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allExpenseCategories"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <GiCash /> <span>Expense Categories</span>
                   </NavLink>
                 </li>
 

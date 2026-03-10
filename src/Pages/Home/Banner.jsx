@@ -73,8 +73,8 @@ const Banner = () => {
 
   return (
     <section className="relative min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 flex items-center">
-      <div className="container mx-auto px-6 py-20 max-w-7xl">
-        <div className="grid lg:grid-cols-2 gap-12 items-center min-h-150">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-20 max-w-7xl">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* LEFT CONTENT */}
           <div>
             <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
@@ -95,7 +95,7 @@ const Banner = () => {
           </div>
 
           {/* RIGHT CARD */}
-          <div className="bg-white rounded-3xl shadow-2xl p-8 h-100 flex flex-col justify-center">
+         <div className="bg-white rounded-3xl shadow-2xl p-6 flex flex-col justify-center w-full">
             {/* Tabs */}
             <div className="flex justify-between border-b mb-6">
               {categories.map((cat) => (
