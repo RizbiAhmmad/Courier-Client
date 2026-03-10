@@ -174,7 +174,7 @@ const Banner = () => {
                     });
                   }}
                   className="w-full mt-4 flex items-center justify-center gap-2 
-                  bg-linear-to-r from-yellow-400 to-orange-500 
+                  bg-linear-to-b from-yellow-400 to-orange-500 
                   hover:scale-105 hover:shadow-lg 
                   text-white font-semibold py-3 rounded-xl 
                   transition-all duration-300"

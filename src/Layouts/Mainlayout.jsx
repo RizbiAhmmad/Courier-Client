@@ -1,4 +1,5 @@
 import GTMPageView from "@/Pages/Dashboard/Admin/GTMPageView";
+import FloatingChatMenu from "@/Pages/Shared/FloatingChatMenu";
 import Footer from "@/Pages/Shared/Footer";
 import Navbar from "@/Pages/Shared/Navbar";
 import NoticePopup from "@/Pages/Shared/NoticePopup";
@@ -17,6 +18,7 @@ const MainLayout = () => {
       <GTMPageView></GTMPageView>
       <Outlet />
       {!noHeaderFooter && <Footer />}
+      <FloatingChatMenu />
     </div>
   );
 };
