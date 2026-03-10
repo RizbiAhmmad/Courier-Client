@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  FaChartBar,
   FaHome,
   FaJediOrder,
   FaListAlt,
@@ -160,6 +161,14 @@ const Dashboard = () => {
                     className="flex px-2 items-center py-2 space-x-3"
                   >
                     <FaJediOrder /> <span>Shipments</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/salesReport"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <FaChartBar /> <span>Sales Report</span>
                   </NavLink>
                 </li>
 

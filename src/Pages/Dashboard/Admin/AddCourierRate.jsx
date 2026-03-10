@@ -189,7 +189,7 @@ const AddCourierRate = () => {
               <div className="grid grid-cols-4 gap-4 text-sm font-semibold text-gray-500 mb-2">
                 <div>Min (kg)</div>
                 <div>Max (kg)</div>
-                <div>Rate ($)</div>
+                <div>Rate (৳)</div>
                 <div></div>
               </div>
 

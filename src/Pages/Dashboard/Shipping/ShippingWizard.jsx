@@ -93,6 +93,12 @@ const ShippingWizard = () => {
   const nextStep = () => {
     if (!validateStep()) return;
 
+  const totalShipping =
+    formData.packages?.reduce(
+      (total, box) => total + (Number(box.shippingCost) || 0),
+      0
+    ) || 0;
+
     if (currentStep === 2) {
       pushGTM({
         event: "add_shipping_info",

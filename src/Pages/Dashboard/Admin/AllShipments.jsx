@@ -1,13 +1,17 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
-import { FaTrash, FaEye } from "react-icons/fa";
+import { FaTrash, FaEye, FaEdit } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Loading from "@/Pages/Shared/Loading";
 
 const AllShipments = () => {
   const axiosPublic = useAxiosPublic();
   const [openId, setOpenId] = useState(null);
+
+  // edit states
+  const [editShipment, setEditShipment] = useState(null);
+  const [formData, setFormData] = useState({});
 
   //  new states
   const [search, setSearch] = useState("");
@@ -25,7 +29,7 @@ const AllShipments = () => {
     },
   });
 
-  //  filter logic
+  // filter logic
   const filteredShipments = shipments.filter((shipment) => {
     const searchMatch =
       shipment.trackingId?.toLowerCase().includes(search.toLowerCase()) ||
@@ -75,6 +79,62 @@ const AllShipments = () => {
     });
   };
 
+  const handleEdit = (shipment) => {
+    setEditShipment(shipment);
+
+    setFormData({
+      name: shipment.name,
+      phone: shipment.phone,
+      email: shipment.email,
+      address: shipment.address,
+      company: shipment.company,
+      status: shipment.status,
+      packages: shipment.packages || [],
+    });
+  };
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData({
+      ...formData,
+      [name]: value,
+    });
+  };
+
+  const handlePackageChange = (e, boxIndex, field) => {
+    const updated = [...formData.packages];
+    updated[boxIndex][field] = e.target.value;
+
+    setFormData({
+      ...formData,
+      packages: updated,
+    });
+  };
+
+  const handleItemChange = (e, boxIndex, itemIndex, field) => {
+    const updated = [...formData.packages];
+    updated[boxIndex].items[itemIndex][field] = e.target.value;
+
+    setFormData({
+      ...formData,
+      packages: updated,
+    });
+  };
+
+  const handleUpdate = async () => {
+    try {
+      await axiosPublic.put(`/shipments/${editShipment._id}`, formData);
+
+      Swal.fire("Updated!", "Shipment updated successfully.", "success");
+
+      setEditShipment(null);
+      refetch();
+    } catch (error) {
+      Swal.fire("Error!", "Failed to update shipment.", "error");
+    }
+  };
+
   if (isLoading) return <Loading />;
 
   return (
@@ -85,7 +145,6 @@ const AllShipments = () => {
 
       {/* Search + Filter */}
       <div className="flex flex-col md:flex-row justify-between gap-4 mb-6">
-        {/* Search */}
         <input
           type="text"
           placeholder="Search by tracking id, name, phone..."
@@ -94,7 +153,6 @@ const AllShipments = () => {
           className="border px-4 py-2 rounded-lg w-full md:w-80 outline-none focus:ring-2 focus:ring-blue-400"
         />
 
-        {/* Status Filter */}
         <select
           value={statusFilter}
           onChange={(e) => setStatusFilter(e.target.value)}
@@ -113,16 +171,17 @@ const AllShipments = () => {
         <table className="w-full text-sm text-left">
           <thead className="bg-gray-100 uppercase text-gray-700">
             <tr>
-              <th className="px-6 py-3">#</th>
-              <th className="px-6 py-3">Tracking ID</th>
-              <th className="px-6 py-3">Sender</th>
-              <th className="px-6 py-3">Phone</th>
-              <th className="px-6 py-3">Category</th>
-              <th className="px-6 py-3">Country</th>
-              <th className="px-6 py-3">Courier</th>
-              <th className="px-6 py-3">Total</th>
-              <th className="px-6 py-3">Status</th>
-              <th className="px-6 py-3">Actions</th>
+              <th className="px-4 py-3">#</th>
+              <th className="px-4 py-3">Tracking ID</th>
+              <th className="px-4 py-3">Sender</th>
+              <th className="px-4 py-3">Phone</th>
+              <th className="px-4 py-3">Category</th>
+              <th className="px-4 py-3">Country</th>
+              <th className="px-4 py-3">Courier</th>
+              <th className="px-4 py-3">Total</th>
+              <th className="px-4 py-3">Date</th>
+              <th className="px-4 py-3">Status</th>
+              <th className="px-4 py-3">Actions</th>
             </tr>
           </thead>
 
@@ -130,32 +189,29 @@ const AllShipments = () => {
             {filteredShipments.map((shipment, index) => (
               <>
                 <tr key={shipment._id} className="hover:bg-gray-50">
-                  <td className="px-6 py-4">{index + 1}</td>
-                  <td className="px-6 py-4 font-semibold text-blue-600">
+                  <td className="px-4 py-4">{index + 1}</td>
+                  <td className="px-4 py-4 font-semibold text-blue-600">
                     {shipment.trackingId}
                   </td>
-                  <td className="px-6 py-4">{shipment.name}</td>
-                  <td className="px-6 py-4">{shipment.phone}</td>
-                  <td className="px-6 py-4">{shipment.categoryName}</td>
-                  <td className="px-6 py-4">{shipment.countryName}</td>
-                  <td className="px-6 py-4">{shipment.courierTypeName}</td>
-                  <td className="px-6 py-4 font-semibold text-purple-600">
+                  <td className="px-4 py-4">{shipment.name}</td>
+                  <td className="px-4 py-4">{shipment.phone}</td>
+                  <td className="px-4 py-4">{shipment.categoryName}</td>
+                  <td className="px-4 py-4">{shipment.countryName}</td>
+                  <td className="px-4 py-4">{shipment.courierTypeName}</td>
+                  <td className="px-4 py-4 font-semibold text-purple-600">
                     ৳ {shipment.totalShipping}
                   </td>
+                  <td className="px-4 py-4">
+                    {new Date(shipment.createdAt).toLocaleDateString()}
+                  </td>
 
-                  <td className="px-6 py-4">
+                  <td className="px-4 py-4">
                     <select
                       value={shipment.status}
                       onChange={(e) =>
                         handleStatusChange(shipment._id, e.target.value)
                       }
-                      className={`px-2 py-1 rounded text-xs font-semibold border outline-none ${
-                        shipment.status === "pending"
-                          ? "bg-yellow-100 text-yellow-700"
-                          : shipment.status === "shipped"
-                          ? "bg-blue-100 text-blue-700"
-                          : "bg-green-100 text-green-700"
-                      }`}
+                      className="px-2 py-1 rounded text-xs font-semibold border outline-none"
                     >
                       <option value="pending">pending</option>
                       <option value="processing">processing</option>
@@ -173,6 +229,13 @@ const AllShipments = () => {
                       className="text-cyan-500"
                     >
                       <FaEye />
+                    </button>
+
+                    <button
+                      onClick={() => handleEdit(shipment)}
+                      className="text-green-600"
+                    >
+                      <FaEdit />
                     </button>
 
                     <button
@@ -237,17 +300,90 @@ const AllShipments = () => {
                 )}
               </>
             ))}
-
-            {filteredShipments.length === 0 && (
-              <tr>
-                <td colSpan="9" className="text-center py-6 text-gray-500">
-                  No shipment orders found.
-                </td>
-              </tr>
-            )}
           </tbody>
         </table>
       </div>
+
+      {editShipment && (
+        <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
+          <div className="bg-white w-225 max-h-[90vh] overflow-y-auto rounded-xl p-6 shadow-xl">
+
+            <h2 className="text-2xl font-bold mb-6">Edit Shipment</h2>
+
+            <div className="grid grid-cols-2 gap-4 mb-6">
+
+              <input name="name" value={formData.name} onChange={handleChange} className="border p-2 rounded" />
+              <input name="phone" value={formData.phone} onChange={handleChange} className="border p-2 rounded" />
+              <input name="email" value={formData.email} onChange={handleChange} className="border p-2 rounded" />
+              <input name="company" value={formData.company} onChange={handleChange} className="border p-2 rounded" />
+
+              <input name="address" value={formData.address} onChange={handleChange} className="border p-2 rounded col-span-2" />
+
+            </div>
+
+            <h3 className="font-semibold mb-3">Packages</h3>
+
+            {formData.packages?.map((box, boxIndex) => (
+
+              <div key={boxIndex} className="border rounded-lg p-4 mb-4">
+
+                <div className="grid grid-cols-4 gap-3 mb-3">
+
+                  <input value={box.weight} onChange={(e)=>handlePackageChange(e,boxIndex,"weight")} className="border p-2 rounded" />
+                  <input value={box.length} onChange={(e)=>handlePackageChange(e,boxIndex,"length")} className="border p-2 rounded" />
+                  <input value={box.width} onChange={(e)=>handlePackageChange(e,boxIndex,"width")} className="border p-2 rounded" />
+                  <input value={box.height} onChange={(e)=>handlePackageChange(e,boxIndex,"height")} className="border p-2 rounded" />
+
+                </div>
+
+                <input value={box.shippingCost} onChange={(e)=>handlePackageChange(e,boxIndex,"shippingCost")} className="border p-2 rounded mb-3" />
+
+                {box.items?.map((item,itemIndex)=>(
+
+                  <div key={itemIndex} className="flex gap-2 mb-2">
+
+                    <input
+                      value={item.itemName}
+                      onChange={(e)=>handleItemChange(e,boxIndex,itemIndex,"itemName")}
+                      className="border p-2 rounded w-full"
+                    />
+
+                    <input
+                      value={item.quantity}
+                      onChange={(e)=>handleItemChange(e,boxIndex,itemIndex,"quantity")}
+                      className="border p-2 rounded w-24"
+                    />
+
+                  </div>
+
+                ))}
+
+              </div>
+
+            ))}
+
+            <div className="flex justify-end gap-3 mt-8">
+
+              <button
+                onClick={()=>setEditShipment(null)}
+                className="px-4 py-2 border rounded"
+              >
+                Cancel
+              </button>
+
+              <button
+                onClick={handleUpdate}
+                className="px-4 py-2 bg-blue-600 text-white rounded"
+              >
+                Update Shipment
+              </button>
+
+            </div>
+
+          </div>
+        </div>
+      )}
+
     </div>
   );
 };
