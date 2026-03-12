@@ -28,7 +28,7 @@ const BlogDetails = () => {
 
   return (
     <div className="max-w-5xl px-4 py-16 mx-auto mt-4 md:px-8">
-      <div className="overflow-hidden transition bg-white border border-[#eb2127] shadow-2xl dark:bg-black dark:text-white rounded-2xl hover:shadow-red-200">
+      <div className="overflow-hidden transition bg-white border border-orange-400 shadow-2xl dark:bg-black dark:text-white rounded-2xl hover:shadow-red-200">
         <img
           src={blog.image}
           alt={blog.title}
@@ -38,7 +38,7 @@ const BlogDetails = () => {
           <h1 className="mb-3 text-4xl font-bold text-gray-800 dark:text-white">
             {blog.title}
           </h1>
-          <p className="mb-4 text-sm font-medium tracking-wider text-[#eb2127] uppercase">
+          <p className="mb-4 text-sm font-medium tracking-wider text-orange-400 uppercase">
             {blog.tag}
           </p>
           <hr className="mb-6 border-gray-300 dark:border-gray-600" />

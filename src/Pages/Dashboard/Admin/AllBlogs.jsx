@@ -26,6 +26,7 @@ const AllBlogs = () => {
 
   const [formData, setFormData] = useState({
     title: "",
+    description: "",
     tag: "",
     status: "active",
   });
@@ -45,6 +46,7 @@ const AllBlogs = () => {
 
     setFormData({
       title: blog.title,
+      description: blog.description,
       tag: blog.tag,
       status: blog.status,
     });
@@ -230,6 +232,7 @@ const AllBlogs = () => {
 
                   const updatedData = {
                     title: formData.title,
+                    description: formData.description,
                     tag: formData.tag,
                     status: formData.status,
                     image: imageUrl,
@@ -268,7 +271,15 @@ const AllBlogs = () => {
                 placeholder="Blog Title"
                 required
               />
-
+              <textarea
+              rows="2"
+                name="description"
+                value={formData.description}
+                onChange={handleModalChange}
+                className="w-full p-2 border rounded"
+                placeholder="Blog Description"
+                required
+              />
               {/* Tag */}
               <input
                 name="tag"

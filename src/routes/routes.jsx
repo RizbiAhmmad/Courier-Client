@@ -23,6 +23,7 @@ import AllUsers from "@/Pages/Dashboard/Admin/AllUsers";
 import ExpenseReport from "@/Pages/Dashboard/Admin/ExpenseReport";
 import GTMSettings from "@/Pages/Dashboard/Admin/GTMSettings";
 import NoticeSettings from "@/Pages/Dashboard/Admin/NoticeSettings";
+import Profile from "@/Pages/Dashboard/Admin/Profile";
 import SalesReport from "@/Pages/Dashboard/Admin/SalesReport";
 import ShippingWizard from "@/Pages/Dashboard/Shipping/ShippingWizard";
 import AboutPage from "@/Pages/Home/AboutPage";
@@ -81,6 +82,10 @@ export const router = createBrowserRouter([
       {
         path: "users",
         element: <AllUsers></AllUsers>,
+      },
+       {
+        path: "profile",
+        element: <Profile></Profile>,
       },
       {
         path: "addCategory",
