@@ -1,16 +1,21 @@
-import { useLocation } from "react-router-dom";
-import {
-  FiPackage,
-  FiTruck,
-  FiMapPin,
-  FiUser,
-  FiPhone,
-  FiHash,
-} from "react-icons/fi";
+import { useParams } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import { FiHash, FiMapPin, FiPackage, FiPhone, FiTruck, FiUser } from "react-icons/fi";
 
 const TrackResult = () => {
-  const location = useLocation();
-  const data = location.state;
+  const { trackingId } = useParams();
+  const axiosPublic = useAxiosPublic();
+
+  const { data, isLoading } = useQuery({
+    queryKey: ["tracking", trackingId],
+    queryFn: async () => {
+      const res = await axiosPublic.get(`/track/${trackingId}`);
+      return res.data;
+    },
+  });
+
+  if (isLoading) return <div>Loading...</div>;
 
   if (!data)
     return (

@@ -54,7 +54,7 @@ export const router = createBrowserRouter([
         element: <ShippingWizard></ShippingWizard>,
       },
       {
-        path: "/track-result",
+        path: "/track/:trackingId",
         element: <TrackResult />,
       },
       {

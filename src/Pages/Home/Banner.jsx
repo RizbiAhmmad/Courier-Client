@@ -212,7 +212,7 @@ const Banner = () => {
                       const res = await axiosPublic.get(
                         `/track/${trackingNumber}`,
                       );
-                      navigate("/track-result", { state: res.data });
+                     navigate(`/track/${trackingNumber}`);
                     } catch (error) {
                       Swal.fire("Not Found", "Tracking ID not found", "error");
                     }

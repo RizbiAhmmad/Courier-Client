@@ -51,7 +51,7 @@ const AllShipments = () => {
     });
 
     if (confirm.isConfirmed) {
-      await axiosPublic.patch(`/shipments/${id}`, {
+      await axiosPublic.patch(`/shipments/${id}/status`, {
         status: newStatus,
       });
 

@@ -6,6 +6,7 @@ import SocialLogin from "./SocialLogin";
 import { FaArrowLeft, FaEye, FaEyeSlash } from "react-icons/fa";
 import { AuthContext } from "@/provider/AuthProvider";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import bglogo from "../../src/assets/Login-BG.png";
 
 const SignUp = () => {
   const {
@@ -62,20 +63,20 @@ const SignUp = () => {
     <div
       className="flex items-center justify-center min-h-screen px-4 bg-center bg-cover"
       style={{
-        backgroundImage:
-          "url('https://gimgs2.nohat.cc/thumb/f/640/worldwide-connection-blue-background-illustration-vector--5387531193417728.jpg')",
-      }}
+              backgroundImage:
+                `url(${bglogo})`,
+            }}
     >
-      <div className="w-full max-w-md p-6 shadow-xl bg-white/20 backdrop-blur-lg rounded-xl sm:p-8">
+      <div className="w-full mt-16 max-w-md p-6 shadow-xl bg-white/20 backdrop-blur-lg rounded-xl sm:p-8">
         {/*  Back Button */}
-        <div className="mb-4">
+        {/* <div className="mb-4">
           <Link
             to="/"
             className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white transition duration-300 border rounded-lg border-white/30 hover:bg-white hover:text-black"
           >
             <FaArrowLeft /> Back to Home
           </Link>
-        </div>
+        </div> */}
 
         <h2 className="mb-6 text-3xl font-bold text-center text-white">
           Create an Account
@@ -97,7 +98,7 @@ const SignUp = () => {
           </div>
 
           {/* Photo URL */}
-          <div>
+          {/* <div>
             <label className="block font-medium text-white">Photo URL</label>
             <input
               type="text"
@@ -105,7 +106,7 @@ const SignUp = () => {
               placeholder="Profile image URL"
               className="w-full px-4 py-2 mt-1 text-white border rounded-lg bg-white/20 backdrop-blur-md border-white/30 focus:outline-none focus:ring-2 focus:ring-blue-300"
             />
-          </div>
+          </div> */}
 
           {/* Email */}
           <div>
