@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
-import { FaTrash, FaEye, FaEdit } from "react-icons/fa";
+import { FaTrash, FaEye, FaEdit, FaPrint } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Loading from "@/Pages/Shared/Loading";
 
@@ -59,6 +59,179 @@ const AllShipments = () => {
 
       Swal.fire("Updated!", "Shipment status updated.", "success");
     }
+  };
+
+  const handlePrint = (shipment) => {
+    const printWindow = window.open("", "_blank");
+
+    const total =
+      shipment.packages?.reduce(
+        (sum, box) => sum + (box.shippingCost || 0),
+        0,
+      ) || 0;
+
+    const htmlContent = `
+  <html>
+    <head>
+      <title>Shipment Invoice - ${shipment.trackingId}</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background: #f5f5f5;
+        }
+        .invoice {
+          max-width: 800px;
+          margin: 20px auto;
+          background: #fff;
+          padding: 30px;
+          border: 1px solid #ddd;
+        }
+        .header {
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 2px solid #000;
+          padding-bottom: 15px;
+        }
+        .title {
+          font-size: 26px;
+          font-weight: bold;
+          margin: 20px 0;
+        }
+        .section {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        }
+        .box {
+          font-size: 14px;
+          line-height: 1.6;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 10px;
+        }
+        th, td {
+          border: 1px solid #ddd;
+          padding: 10px;
+          font-size: 14px;
+        }
+        th {
+          background: #f2f2f2;
+        }
+        .total-box {
+          width: 300px;
+          margin-left: auto;
+          margin-top: 20px;
+        }
+        .grand {
+          font-weight: bold;
+          border-top: 2px solid #000;
+        }
+        .footer {
+          text-align: center;
+          margin-top: 40px;
+          color: gray;
+        }
+      </style>
+    </head>
+
+    <body>
+      <div class="invoice">
+
+        <!-- Header -->
+        <div class="header">
+          <div>
+            <h2>XCARGO</h2>
+          </div>
+          <div style="text-align:right; font-size:13px;">
+            Dhaka, Bangladesh<br/>
+            Phone: 016xxxxxxxx<br/>
+            support@gmail.com
+          </div>
+        </div>
+
+        <div class="title">INVOICE</div>
+
+        <!-- Info -->
+        <div class="section">
+          <div class="box">
+            <strong>Bill To</strong><br/>
+            ${shipment.name}<br/>
+            ${shipment.address}<br/>
+            Phone: ${shipment.phone}
+          </div>
+
+          <div class="box">
+            <strong>Tracking ID:</strong> ${shipment.trackingId}<br/>
+            <strong>Date:</strong> ${new Date(
+              shipment.createdAt,
+            ).toLocaleDateString()}<br/>
+            <strong>Status:</strong> ${shipment.status}<br/>
+            <strong>Shipping:</strong> ${shipment.countryName || "N/A"}<br/>
+            <strong>Type:</strong> ${shipment.courierTypeName || "N/A"}
+          </div>
+        </div>
+
+        <!-- Packages -->
+        <table>
+          <thead>
+            <tr>
+              <th>Box</th>
+              <th>Weight</th>
+              <th>Size</th>
+              <th>Items</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${
+              shipment.packages
+                ?.map(
+                  (box, i) => `
+              <tr>
+                <td>Box ${i + 1}</td>
+                <td>${box.weight}kg</td>
+                <td>${box.length}×${box.width}×${box.height}</td>
+                <td>
+                  ${
+                    box.items
+                      ?.map((item) => `${item.itemName} (x${item.quantity})`)
+                      .join("<br/>") || "-"
+                  }
+                </td>
+                <td>৳${box.shippingCost || 0}</td>
+              </tr>
+            `,
+                )
+                .join("") || ""
+            }
+          </tbody>
+        </table>
+
+        <!-- Total -->
+        <table class="total-box">
+          
+          <tr class="grand">
+            <td>Grand Total</td>
+            <td align="right">৳${total}</td>
+          </tr>
+        </table>
+
+        <div class="footer">
+          Thank You ❤️
+        </div>
+
+      </div>
+    </body>
+  </html>
+  `;
+
+    printWindow.document.write(htmlContent);
+    printWindow.document.close();
+    printWindow.focus();
+    printWindow.print();
   };
 
   const handleDelete = async (id) => {
@@ -239,6 +412,13 @@ const AllShipments = () => {
                     </button>
 
                     <button
+                      onClick={() => handlePrint(shipment)}
+                      className="text-blue-500"
+                    >
+                      <FaPrint />
+                    </button>
+
+                    <button
                       onClick={() => handleDelete(shipment._id)}
                       className="text-red-500"
                     >
@@ -253,13 +433,21 @@ const AllShipments = () => {
                       <div className="grid md:grid-cols-2 gap-6 text-sm">
                         <div>
                           <h4 className="font-semibold mb-2">Sender Details</h4>
-                          <p><strong>Email:</strong> {shipment.email}</p>
-                          <p><strong>Address:</strong> {shipment.address}</p>
-                          <p><strong>Company:</strong> {shipment.company}</p>
+                          <p>
+                            <strong>Email:</strong> {shipment.email}
+                          </p>
+                          <p>
+                            <strong>Address:</strong> {shipment.address}
+                          </p>
+                          <p>
+                            <strong>Company:</strong> {shipment.company}
+                          </p>
                         </div>
 
                         <div>
-                          <h4 className="font-semibold mb-2">Package Details</h4>
+                          <h4 className="font-semibold mb-2">
+                            Package Details
+                          </h4>
 
                           {shipment.packages?.map((box, i) => (
                             <div
@@ -307,65 +495,102 @@ const AllShipments = () => {
       {editShipment && (
         <div className="fixed inset-0 bg-black/40 flex justify-center items-center z-50">
           <div className="bg-white w-225 max-h-[90vh] overflow-y-auto rounded-xl p-6 shadow-xl">
-
             <h2 className="text-2xl font-bold mb-6">Edit Shipment</h2>
 
             <div className="grid grid-cols-2 gap-4 mb-6">
+              <input
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
+                className="border p-2 rounded"
+              />
+              <input
+                name="phone"
+                value={formData.phone}
+                onChange={handleChange}
+                className="border p-2 rounded"
+              />
+              <input
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                className="border p-2 rounded"
+              />
+              <input
+                name="company"
+                value={formData.company}
+                onChange={handleChange}
+                className="border p-2 rounded"
+              />
 
-              <input name="name" value={formData.name} onChange={handleChange} className="border p-2 rounded" />
-              <input name="phone" value={formData.phone} onChange={handleChange} className="border p-2 rounded" />
-              <input name="email" value={formData.email} onChange={handleChange} className="border p-2 rounded" />
-              <input name="company" value={formData.company} onChange={handleChange} className="border p-2 rounded" />
-
-              <input name="address" value={formData.address} onChange={handleChange} className="border p-2 rounded col-span-2" />
-
+              <input
+                name="address"
+                value={formData.address}
+                onChange={handleChange}
+                className="border p-2 rounded col-span-2"
+              />
             </div>
 
             <h3 className="font-semibold mb-3">Packages</h3>
 
             {formData.packages?.map((box, boxIndex) => (
-
               <div key={boxIndex} className="border rounded-lg p-4 mb-4">
-
                 <div className="grid grid-cols-4 gap-3 mb-3">
-
-                  <input value={box.weight} onChange={(e)=>handlePackageChange(e,boxIndex,"weight")} className="border p-2 rounded" />
-                  <input value={box.length} onChange={(e)=>handlePackageChange(e,boxIndex,"length")} className="border p-2 rounded" />
-                  <input value={box.width} onChange={(e)=>handlePackageChange(e,boxIndex,"width")} className="border p-2 rounded" />
-                  <input value={box.height} onChange={(e)=>handlePackageChange(e,boxIndex,"height")} className="border p-2 rounded" />
-
+                  <input
+                    value={box.weight}
+                    onChange={(e) => handlePackageChange(e, boxIndex, "weight")}
+                    className="border p-2 rounded"
+                  />
+                  <input
+                    value={box.length}
+                    onChange={(e) => handlePackageChange(e, boxIndex, "length")}
+                    className="border p-2 rounded"
+                  />
+                  <input
+                    value={box.width}
+                    onChange={(e) => handlePackageChange(e, boxIndex, "width")}
+                    className="border p-2 rounded"
+                  />
+                  <input
+                    value={box.height}
+                    onChange={(e) => handlePackageChange(e, boxIndex, "height")}
+                    className="border p-2 rounded"
+                  />
                 </div>
 
-                <input value={box.shippingCost} onChange={(e)=>handlePackageChange(e,boxIndex,"shippingCost")} className="border p-2 rounded mb-3" />
+                <input
+                  value={box.shippingCost}
+                  onChange={(e) =>
+                    handlePackageChange(e, boxIndex, "shippingCost")
+                  }
+                  className="border p-2 rounded mb-3"
+                />
 
-                {box.items?.map((item,itemIndex)=>(
-
+                {box.items?.map((item, itemIndex) => (
                   <div key={itemIndex} className="flex gap-2 mb-2">
-
                     <input
                       value={item.itemName}
-                      onChange={(e)=>handleItemChange(e,boxIndex,itemIndex,"itemName")}
+                      onChange={(e) =>
+                        handleItemChange(e, boxIndex, itemIndex, "itemName")
+                      }
                       className="border p-2 rounded w-full"
                     />
 
                     <input
                       value={item.quantity}
-                      onChange={(e)=>handleItemChange(e,boxIndex,itemIndex,"quantity")}
+                      onChange={(e) =>
+                        handleItemChange(e, boxIndex, itemIndex, "quantity")
+                      }
                       className="border p-2 rounded w-24"
                     />
-
                   </div>
-
                 ))}
-
               </div>
-
             ))}
 
             <div className="flex justify-end gap-3 mt-8">
-
               <button
-                onClick={()=>setEditShipment(null)}
+                onClick={() => setEditShipment(null)}
                 className="px-4 py-2 border rounded"
               >
                 Cancel
@@ -377,13 +602,10 @@ const AllShipments = () => {
               >
                 Update Shipment
               </button>
-
             </div>
-
           </div>
         </div>
       )}
-
     </div>
   );
 };
