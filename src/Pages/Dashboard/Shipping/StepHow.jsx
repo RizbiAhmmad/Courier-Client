@@ -6,7 +6,6 @@ import { FaTrash } from "react-icons/fa";
 const StepHow = ({ formData, setFormData, errors }) => {
   const axiosPublic = useAxiosPublic();
 
-  // ✅ Fetch all rates for the category + country combination
   const { data: rateData } = useQuery({
     queryKey: ["ratesForCategoryCountry", formData.categoryId, formData.countryId],
     enabled: !!formData.categoryId && !!formData.countryId,

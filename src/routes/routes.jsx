@@ -26,6 +26,7 @@ import NoticeSettings from "@/Pages/Dashboard/Admin/NoticeSettings";
 import Profile from "@/Pages/Dashboard/Admin/Profile";
 import SalesReport from "@/Pages/Dashboard/Admin/SalesReport";
 import ShippingWizard from "@/Pages/Dashboard/Shipping/ShippingWizard";
+import MyOrders from "@/Pages/Dashboard/User/MyOrders";
 import AboutPage from "@/Pages/Home/AboutPage";
 import ContactPage from "@/Pages/Home/ContactPage";
 import Home from "@/Pages/Home/Home";
@@ -163,6 +164,11 @@ export const router = createBrowserRouter([
         path: "ExpenseReport",
         element: <ExpenseReport />,
       },
+      {
+        path: "myOrders",
+        element: <MyOrders />,
+      },
+
     ],
   },
 ]);

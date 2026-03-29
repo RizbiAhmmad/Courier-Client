@@ -235,6 +235,14 @@ const Dashboard = () => {
                     <PiLetterCircleP /> <span>PopUp Settings</span>
                   </NavLink>
                 </li>
+                {/* <li>
+                  <NavLink
+                    to="/dashboard/myOrders"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <FaReceipt /> <span>My Orders</span>
+                  </NavLink>
+                </li> */}
 
                 {/* Profile */}
                 <li className="pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">

@@ -9,8 +9,21 @@ import {
   FiHome,
 } from "react-icons/fi";
 
+import { useContext, useEffect } from "react";
+import { AuthContext } from "@/provider/AuthProvider";
+
 const StepWhere = ({ formData, setFormData, errors }) => {
   const axiosPublic = useAxiosPublic();
+  const { user } = useContext(AuthContext);
+  useEffect(() => {
+  if (user) {
+    setFormData((prev) => ({
+      ...prev,
+      name: prev.name || user.displayName || "",
+      email: prev.email || user.email || "",
+    }));
+  }
+}, [user]);
 
   const { data: categories = [] } = useQuery({
     queryKey: ["categories"],
