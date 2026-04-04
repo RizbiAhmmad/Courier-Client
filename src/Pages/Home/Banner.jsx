@@ -108,7 +108,7 @@ const Banner = () => {
                   className={`flex items-center gap-2 px-4 py-3 cursor-pointer transition ${
                     activeTab === cat._id
                       ? "border-b-2 border-yellow-500 text-black font-semibold"
-                      : "text-gray-400"
+                      : "text-gray-600"
                   }`}
                 >
                   {cat.name === "Import" && <FiTruck />}
@@ -122,7 +122,7 @@ const Banner = () => {
                 className={`flex items-center gap-2 px-4 py-3 cursor-pointer transition ${
                   activeTab === "Track"
                     ? "border-b-2 border-yellow-500 text-black font-semibold"
-                    : "text-gray-400"
+                    : "text-gray-600"
                 }`}
               >
                 <FiTarget />

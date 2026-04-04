@@ -5,11 +5,14 @@ import logo from "../../assets/R-logo.jpg";
 import { AuthContext } from "@/provider/AuthProvider";
 import { FaUser } from "react-icons/fa";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
+import Swal from "sweetalert2";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeLink, setActiveLink] = useState("/");
   const [scrolled, setScrolled] = useState(false);
+  const [trackingNumber, setTrackingNumber] = useState("");
+  const [isTracking, setIsTracking] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   const axiosPublic = useAxiosPublic();
@@ -35,6 +38,24 @@ const Navbar = () => {
   };
   const handleLogOut = () => {
     logOut().catch((error) => console.log(error));
+  };
+
+  const handleTrack = async () => {
+    if (!trackingNumber.trim()) {
+      return Swal.fire("Error", "Enter tracking number", "error");
+    }
+
+    setIsTracking(true);
+    try {
+      await axiosPublic.get(`/track/${trackingNumber}`);
+      setIsOpen(false);
+      navigate(`/track/${trackingNumber}`);
+      setTrackingNumber("");
+    } catch (error) {
+      Swal.fire("Not Found", "Tracking ID not found", "error");
+    } finally {
+      setIsTracking(false);
+    }
   };
 
   const baseLinks = [
@@ -144,6 +165,24 @@ const Navbar = () => {
             ))}
           </div>
 
+          {/* Desktop Tracking */}
+          <div className="hidden md:flex items-center space-x-1">
+            <input
+              value={trackingNumber}
+              onChange={(e) => setTrackingNumber(e.target.value)}
+              onKeyDown={(e) => e.key === "Enter" && handleTrack()}
+              placeholder="Tracking ID"
+              className="h-10 rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-orange-400"
+            />
+            <button
+              onClick={handleTrack}
+              disabled={isTracking}
+              className="h-10 px-4 rounded-lg text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-500 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {isTracking ? "Tracking..." : "Track"}
+            </button>
+          </div>
+
           {/*  Call Button (Desktop Only) */}
           {/* <div className="hidden md:flex items-center">
             <button
@@ -198,7 +237,7 @@ const Navbar = () => {
 
         {/*  Mobile Dropdown */}
         <div
-          className={`md:hidden absolute top-16 left-0 w-full bg-linear-to-b from-yellow-500 to-orange-500 backdrop-blur-xl transition-all duration-500 ease-in-out transform ${
+          className={`md:hidden absolute top-16 left-0 w-full bg-linear-to-b from-yellow-400 to-orange-400 backdrop-blur-xl transition-all duration-500 ease-in-out transform ${
             isOpen
               ? "translate-y-0 opacity-100 max-h-150 py-6"
               : "-translate-y-10 opacity-0 max-h-0 overflow-hidden"
@@ -219,6 +258,25 @@ const Navbar = () => {
                 {link.label}
               </a>
             ))}
+
+            {/* Mobile Tracking */}
+            <div className="w-full flex flex-col gap-2">
+              <input
+                value={trackingNumber}
+                onChange={(e) => setTrackingNumber(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleTrack()}
+                placeholder="Tracking number"
+                className="w-full h-10 rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-orange-400"
+              />
+              <button
+                onClick={handleTrack}
+                disabled={isTracking}
+                className="w-full h-10 rounded-lg text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-500 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {isTracking ? "Tracking..." : "Track"}
+              </button>
+            </div>
+
             {/* <button
               
               className="flex items-center gap-2 px-6 py-3 text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-500 rounded-xl shadow-md hover:opacity-90 transition-all"

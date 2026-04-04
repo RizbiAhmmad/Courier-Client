@@ -125,7 +125,7 @@ export const router = createBrowserRouter([
         element: <AllShipments></AllShipments>,
       },
       {
-        path: "salesReport",
+        path: "shipmentReport",
         element: <SalesReport></SalesReport>,
       },
       {

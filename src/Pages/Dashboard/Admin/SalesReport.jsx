@@ -76,7 +76,7 @@ const SalesReport = () => {
     <div className="max-w-7xl mx-auto p-6 space-y-10">
       {/* Header */}
       <div className="flex justify-between items-center flex-wrap gap-4">
-        <h2 className="text-4xl font-bold">Sales Dashboard</h2>
+        <h2 className="text-4xl font-bold">Shipment Dashboard</h2>
 
         <div className="flex gap-3 flex-wrap">
           <input

@@ -170,10 +170,10 @@ const Dashboard = () => {
                 </li>
                 <li>
                   <NavLink
-                    to="/dashboard/salesReport"
+                    to="/dashboard/shipmentReport"
                     className="flex px-2 items-center py-2 space-x-3"
                   >
-                    <FaChartBar /> <span>Sales Report</span>
+                    <FaChartBar /> <span>Shipment Report</span>
                   </NavLink>
                 </li>
                 <li>
