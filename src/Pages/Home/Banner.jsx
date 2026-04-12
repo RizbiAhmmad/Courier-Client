@@ -73,25 +73,43 @@ const Banner = () => {
 
   return (
     <section className="relative min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 flex items-center">
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-20 max-w-7xl">
+      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-20 max-w-8xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* LEFT CONTENT */}
           <div>
-            <h1 className="text-4xl md:text-6xl font-extrabold leading-tight">
-              <span className="text-indigo-900">Ship Worldwide</span>
-              <br />
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-50 text-yellow-700 text-xs font-bold uppercase tracking-widest mb-6 border border-yellow-100">
+               <FiTruck size={14} />
+               Premium Logistics Partner
+            </div>
+            <h1 className="text-3xl md:text-5xl font-black leading-[1.15] tracking-tight">
               <GradientText
                 className="block"
                 colors={["#f59e0b", "#ef4444", "#8b5cf6"]}
                 animationSpeed={5}
               >
-                Fast & Secure
+                Freight Forwarding & Global Courier <br className="hidden md:block"/> Solutions from Bangladesh
               </GradientText>
             </h1>
 
-            <p className="mt-6 text-gray-600 max-w-lg">
-              Affordable courier solutions for import & export shipments.
+            <p className="mt-8 text-lg text-gray-600 max-w-xl leading-relaxed">
+              SNS International provides seamless logistics coordination with global partners like <span className="font-bold text-black italic underline decoration-yellow-400">DHL, FedEx, UPS, and Aramex</span>. Ensuring your goods reach any destination safely, efficiently, and on time.
             </p>
+
+            <div className="mt-10 flex flex-wrap items-center gap-8">
+               <div className="flex flex-col">
+                  <div className="flex text-yellow-400 gap-0.5 mb-1">
+                     {[...Array(5)].map((_, i) => <svg key={i} className="w-5 h-5 fill-current" viewBox="0 0 20 20"><path d="M10 15l-5.878 3.09 1.123-6.545L.489 6.91l6.572-.955L10 0l2.939 5.955 6.572.955-4.756 4.635 1.123 6.545z"/></svg>)}
+                  </div>
+                  <p className="text-sm font-bold text-gray-900">1000+ Happy Clients</p>
+               </div>
+               
+               <div className="h-10 w-px bg-gray-200 hidden sm:block"></div>
+               
+               <div className="flex flex-col">
+                  <p className="text-2xl font-black text-indigo-950 leading-none mb-1">2017</p>
+                  <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Established Since</p>
+               </div>
+            </div>
           </div>
 
           {/* RIGHT CARD */}

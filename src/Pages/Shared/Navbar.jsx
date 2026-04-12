@@ -125,7 +125,7 @@ const Navbar = () => {
         scrolled ? "bg-white backdrop-blur-md shadow-lg" : "bg-transparent"
       }`}
     >
-      <div className="mx-auto max-w-7xl px-4 sm:px-8">
+      <div className="mx-auto max-w-8xl px-4 sm:px-8">
         <div className="flex items-center justify-between h-16">
           {/*  Logo & Name */}
           <div
@@ -138,77 +138,72 @@ const Navbar = () => {
               className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-md"
             />
             <h1 className="text-2xl font-extrabold text-orange-400 tracking-wide hover:text-orange-500 transition-colors">
-              XCARGO
+              SNS
             </h1>
           </div>
 
-          {/* 🖥 Desktop Menu */}
-          <div className="hidden md:flex items-center space-x-8 bg-white/10 border border-gray-900 px-8 py-3 rounded-3xl backdrop-blur-md">
-            {links.map((link) => (
-              <a
-                key={link.href}
-                href={link.href}
-                onClick={(e) => handleLinkClick(link.href, e)}
-                className={`relative font-semibold transition-all duration-300 ${
-                  activeLink === link.href
-                    ? "text-orange-400"
-                    : scrolled
-                      ? "text-gray-900 hover:text-orange-400"
-                      : "text-gray-900 hover:text-orange-500"
-                }`}
+          {/* 🖥 Desktop Menu (Middle) */}
+          <div className="hidden md:flex flex-1 justify-center">
+            <div className="flex items-center space-x-10 px-8 py-2 rounded-full backdrop-blur-sm border border-transparent transition-all">
+              {links.map((link) => (
+                <a
+                  key={link.href}
+                  href={link.href}
+                  onClick={(e) => handleLinkClick(link.href, e)}
+                  className={`relative font-bold text-lg transition-all duration-300 ${
+                    activeLink === link.href
+                      ? "text-orange-400"
+                      : scrolled
+                        ? "text-gray-950 hover:text-orange-400"
+                        : "text-gray-900 hover:text-orange-500"
+                  }`}
+                >
+                  {link.label}
+                  {activeLink === link.href && (
+                    <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-orange-400 rounded-full animate-in fade-in zoom-in duration-300"></span>
+                  )}
+                </a>
+              ))}
+            </div>
+          </div>
+
+          {/* Right Section: Tracking + Auth grouped together */}
+          <div className="hidden md:flex items-center space-x-4">
+            {/* Desktop Tracking */}
+            <div className="flex items-center">
+              <input
+                value={trackingNumber}
+                onChange={(e) => setTrackingNumber(e.target.value)}
+                onKeyDown={(e) => e.key === "Enter" && handleTrack()}
+                placeholder="Tracking ID"
+                className="h-11 w-40 rounded-l-xl border border-gray-200 px-4 text-xs outline-none focus:border-orange-400 focus:ring-2 focus:ring-orange-100 transition-all bg-gray-50/50"
+              />
+              <button
+                onClick={handleTrack}
+                disabled={isTracking}
+                className="h-11 px-5 rounded-r-xl text-xs font-bold text-white bg-linear-to-r from-yellow-400 to-orange-500 hover:shadow-lg hover:shadow-orange-500/20 shadow-md transition-all active:scale-95 disabled:cursor-not-allowed disabled:opacity-60"
               >
-                {link.label}
-                {activeLink === link.href && (
-                  <span className="absolute left-0 -bottom-1 w-full h-0.5 bg-orange-400 rounded-full"></span>
-                )}
-              </a>
-            ))}
+                {isTracking ? "..." : "Track"}
+              </button>
+            </div>
+
+            {/* Auth buttons */}
+            {user ? (
+              <button
+                onClick={handleLogOut}
+                className="flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-linear-to-r from-red-500 to-red-600 rounded-xl shadow-md hover:shadow-red-500/20 transition-all active:scale-95"
+              >
+                Logout
+              </button>
+            ) : (
+              <button
+                onClick={handleLogin}
+                className="flex items-center gap-2 px-6 py-3 text-sm font-bold text-white bg-linear-to-r from-yellow-400 to-orange-500 rounded-xl shadow-md hover:shadow-orange-500/20 transition-all active:scale-95"
+              >
+                <FaUser className="mr-1" /> Login
+              </button>
+            )}
           </div>
-
-          {/* Desktop Tracking */}
-          <div className="hidden md:flex items-center space-x-1">
-            <input
-              value={trackingNumber}
-              onChange={(e) => setTrackingNumber(e.target.value)}
-              onKeyDown={(e) => e.key === "Enter" && handleTrack()}
-              placeholder="Tracking ID"
-              className="h-10 rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-orange-400"
-            />
-            <button
-              onClick={handleTrack}
-              disabled={isTracking}
-              className="h-10 px-4 rounded-lg text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-500 hover:opacity-90 disabled:cursor-not-allowed disabled:opacity-60"
-            >
-              {isTracking ? "Tracking..." : "Track"}
-            </button>
-          </div>
-
-          {/*  Call Button (Desktop Only) */}
-          {/* <div className="hidden md:flex items-center">
-            <button
-              
-              className="flex items-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-400 rounded-xl shadow-md hover:opacity-90 transition-all"
-            >
-              Login
-            </button>
-          </div> */}
-
-          {/* Auth buttons (Desktop only) */}
-          {user ? (
-            <button
-              onClick={handleLogOut}
-              className="hidden md:flex items-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-linear-to-r from-red-500 to-red-600 rounded-xl shadow-md hover:opacity-90 transition-all"
-            >
-              Logout
-            </button>
-          ) : (
-            <button
-              onClick={handleLogin}
-              className="hidden md:flex items-center gap-2 px-5 py-3 text-sm font-semibold text-white bg-linear-to-r from-yellow-400 to-orange-400 rounded-xl shadow-md hover:opacity-90 transition-all"
-            >
-              <FaUser className="mr-1" /> Login
-            </button>
-          )}
 
           {/*  Mobile Hamburger */}
           <div className="md:hidden z-50">

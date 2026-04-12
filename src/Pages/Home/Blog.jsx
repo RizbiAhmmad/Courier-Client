@@ -42,81 +42,82 @@ export default function Blog() {
   };
 
   return (
-    <section className="px-6 py-12 bg-linear-to-br from-yellow-50 via-white to-purple-50 dark:bg-black" id="blogs">
-      <div className="mx-auto text-center max-w-7xl">
-        <h2 className="mb-4 text-4xl font-extrabold text-black dark:text-white leading-tight">
-                  <GradientText className="inline-block pb-1">Our Blogs</GradientText>
-                </h2>
-        <p className="max-w-2xl mx-auto mb-12 text-gray-600 dark:text-white">
-          Our engaging articles provide valuable knowledge for professionals and
-          enthusiasts alike. Stay informed, stay inspired.
-        </p>
+    <section className="px-6 py-10 bg-linear-to-br from-yellow-50 via-white to-purple-50 dark:bg-black" id="blogs">
+      <div className="mx-auto max-w-7xl">
+        <div className="text-center mb-12 space-y-4">
+          <h2 className="text-4xl font-extrabold text-indigo-950 dark:text-white leading-tight">
+            <GradientText className="inline-block pb-1">Our Latest News & Insights</GradientText>
+          </h2>
+          <p className="max-w-2xl mx-auto text-gray-600 dark:text-zinc-400">
+            Explore our expert perspectives on global logistics, shipping trends, and business growth strategies.
+          </p>
+        </div>
 
         {/* Show loading while fetching */}
         {loading ? (
-          <Loading />
+          <div className="flex justify-center items-center py-20">
+            <Loading />
+          </div>
         ) : (
           <>
             <motion.div
-              className="grid gap-8 md:grid-cols-2 lg:grid-cols-3"
+              className="grid gap-10 md:grid-cols-2 lg:grid-cols-3"
               variants={containerVariants}
               initial="hidden"
-              animate="visible"
+              whileInView="visible"
+              viewport={{ once: true }}
             >
               {topBlogs.map(({ _id, title, description, image, tag }) => (
                 <motion.div
                   key={_id}
                   variants={cardVariants}
-                  whileHover={{
-                    scale: 1.03,
-                    boxShadow: "0px 10px 30px rgba(0,0,0,0.1)",
-                  }}
-                  className="flex flex-col overflow-hidden transition bg-white border-2 border-orange-100 shadow-md rounded-xl"
+                  className="group flex flex-col bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
                 >
-                  <img
-                    src={image}
-                    alt={title}
-                    className="object-cover w-full h-48"
-                  />
-                  <div className="flex flex-col grow p-6">
-                    <h3 className="mb-2 text-lg font-semibold text-gray-800">
+                  <div className="relative h-60 overflow-hidden">
+                    <img
+                      src={image}
+                      alt={title}
+                      className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
+                    />
+                  </div>
+                  
+                  <div className="flex flex-col grow p-8">
+                    <h3 className="mb-4 text-xl font-bold text-indigo-950 dark:text-white line-clamp-2 min-h-[3.5rem] group-hover:text-amber-500 transition-colors">
                       {title}
                     </h3>
-                    <p className="mb-4 text-sm text-gray-600 line-clamp-2">
+                    <p className="mb-6 text-gray-600 dark:text-zinc-400 text-sm leading-relaxed line-clamp-3">
                       {description}
                     </p>
 
-                    <div className="flex items-center justify-between pt-4 mt-auto border-t border-gray-100">
-                      <span
+                    <div className="mt-auto pt-6 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between gap-4">
+                      <button
                         onClick={() => navigate(`/blogDetails/${_id}`)}
-                        className="flex items-center gap-1 text-sm font-semibold text-orange-500 cursor-pointer hover:underline"
+                        className="flex items-center gap-2 text-sm font-bold text-indigo-900 dark:text-yellow-500 hover:text-orange-500 group/btn transition-colors shrink-0"
                       >
-                        Learn more <ArrowRight size={14} />
-                      </span>
-                      <span className="text-xs text-gray-500 text-right max-w-70 truncate">
-                        {tag}
-                      </span>
+                        Read Article 
+                        <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                      </button>
+
+                      <div className="text-right">
+                        <span className="inline-block px-3 py-1 bg-yellow-50 dark:bg-zinc-800 text-yellow-600 dark:text-yellow-500 text-[10px] font-bold rounded-md uppercase tracking-wider truncate max-w-[120px]">
+                          {tag}
+                        </span>
+                      </div>
                     </div>
                   </div>
                 </motion.div>
               ))}
             </motion.div>
 
-            <div className="mt-10">
+            <div className="mt-16 text-center">
               <motion.button
                 onClick={() => navigate("/blogs")}
-                className="relative px-5 py-2.5 mt-2 text-md font-semibold text-white 
-                                   rounded-full overflow-hidden group
-                                   bg-linear-to-b from-yellow-400 to-orange-500 
-                                   shadow-md transition-all duration-300"
-                whileTap={{ scale: 0.95 }}
+                className="inline-flex items-center justify-center gap-3 px-10 py-4 text-lg font-bold text-white rounded-full bg-linear-to-r from-yellow-400 to-orange-500 shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 transition-all active:scale-95 group"
               >
-                <span className="relative z-10 flex items-center justify-center gap-2">
-                  See All
-                </span>
-
-                {/* Hover shine effect */}
-                <span className="absolute inset-0 transition-transform duration-500 -translate-x-full bg-white opacity-20 group-hover:translate-x-0"></span>
+                Explore All Blogs
+                <div className="p-1 bg-white/20 rounded-full group-hover:bg-white/40 transition-colors">
+                  <ArrowRight size={20} />
+                </div>
               </motion.button>
             </div>
           </>

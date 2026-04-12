@@ -4,53 +4,72 @@ import { GradientText } from "@/components/ui/GradientText";
 
 export default function ShippingHero() {
   return (
-    <div className="min-h-screen bg-linear-to-br from-yellow-100 via-white to-blue-50 flex items-center px-6">
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    <div className="min-h-screen bg-linear-to-br from-yellow-50 via-white to-indigo-50 flex items-center px-6 py-20 overflow-hidden">
+      <div className="max-w-8xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
         {/* Left Content */}
-        <div>
-          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-[#1B1F5C]">
-            XCARGO <GradientText>helps</GradientText>{" "}
-            <GradientText colors={["#7c3aed", "#22d3ee", "#7c3aed"]}>
-              you
-            </GradientText>{" "}
-            like there are no borders!
+        <div className="space-y-8">
+          <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-900 rounded-full text-sm font-bold tracking-wide border border-indigo-100">
+            <CheckCircle size={16} className="text-yellow-500" />
+            Serving Businesses Since 2017
+          </div>
+
+          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-indigo-950">
+            Global Logistics <GradientText colors={["#f59e0b", "#ef4444", "#8b5cf6"]}>Redefined</GradientText>
           </h1>
 
-          <p className="mt-6 text-gray-700 max-w-xl">
-            Shipping provides you with a full package of shipping perks along
-            with freight forwarding to almost every country of the world!
+          <p className="text-lg text-gray-600 leading-relaxed max-w-2xl">
+            SNS International is a Bangladesh-based freight forwarding, international courier, and logistics solutions company helping businesses and individuals move goods safely and efficiently across the world.
           </p>
 
-          <p className="mt-6 font-medium text-gray-800">
-            Sign up for XCARGO and unleash the world of shipping perks such as:
+          <p className="text-gray-600 leading-relaxed max-w-2xl italic border-l-4 border-yellow-400 pl-4 bg-yellow-50/30 py-2">
+            We provide Import, Export, Air Freight, Sea Freight, International Courier, and Customs Support with dependable service, practical expertise, and customer-focused logistics solutions.
           </p>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-y-4 gap-x-8 mt-10">
             {[
-              "Free fast processing",
-              "Package insurance",
-              "Package consolidation",
-              "Address correction",
+              "International Courier",
+              "Air Freight",
+              "Sea Freight",
+              "Customs Support",
+              "Import & Export Solutions",
+              "Door-to-Door Delivery",
             ].map((item) => (
-              <div key={item} className="flex items-center gap-3">
-                <CheckCircle className="text-orange-400" />
-                <span className="text-gray-800">{item}</span>
+              <div key={item} className="flex items-center gap-3 group">
+                <div className="w-8 h-8 rounded-lg bg-yellow-100 flex items-center justify-center text-yellow-600 group-hover:bg-yellow-500 group-hover:text-white transition-all">
+                  <CheckCircle size={18} />
+                </div>
+                <span className="text-gray-800 font-medium group-hover:text-indigo-900 transition-colors">{item}</span>
               </div>
             ))}
           </div>
 
-          <button className="mt-8 inline-flex items-center gap-2 text-blue-600 font-semibold hover:underline">
-            Learn more <ArrowUpRight size={18} />
-          </button>
+          <div className="flex flex-wrap gap-4 mt-12">
+            <button className="px-10 py-4 bg-linear-to-r from-yellow-400 to-orange-500 text-white rounded-full font-bold shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 hover:-translate-y-1 transition-all flex items-center gap-2 active:scale-95">
+              Request a Quote <ArrowUpRight size={20} />
+            </button>
+            <button className="px-10 py-4 border-2 border-indigo-900 text-indigo-900 rounded-full font-bold hover:bg-indigo-900 hover:text-white transition-all active:scale-95">
+              Contact Us
+            </button>
+          </div>
         </div>
 
         {/* Right Image */}
-        <div className="flex justify-center md:justify-end">
+        <div className="relative flex justify-center md:justify-end">
+          <div className="absolute -inset-10 bg-indigo-500/5 blur-3xl rounded-full animate-pulse"></div>
           <img
-            src="https://img.freepik.com/free-photo/global-logistics-transportation-network_23-2151989598.jpg?semt=ais_user_personalization&w=740&q=80"
-            alt="Shipping illustration"
-            className="max-w-full w-105 md:w-130 drop-shadow-xl"
+            src="/shipping-hero.png"
+            alt="SNS International Logistics"
+            className="relative max-w-full w-full lg:w-[120%] h-auto rounded-[3rem] shadow-2xl z-10 transform scale-105 border-8 border-white dark:border-zinc-800"
           />
+          <div className="absolute -bottom-6 -left-6 z-20 bg-white dark:bg-zinc-900 p-6 rounded-3xl shadow-2xl flex items-center gap-4 border border-indigo-50">
+             <div className="w-12 h-12 bg-indigo-900 rounded-xl flex items-center justify-center text-white font-bold text-xl">
+               8+
+             </div>
+             <div>
+               <p className="font-bold text-indigo-950">Years Experience</p>
+               <p className="text-xs text-gray-500">Trusted Logistics Partner</p>
+             </div>
+          </div>
         </div>
       </div>
     </div>
