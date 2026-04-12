@@ -31,6 +31,7 @@ import AboutPage from "@/Pages/Home/AboutPage";
 import ContactPage from "@/Pages/Home/ContactPage";
 import Home from "@/Pages/Home/Home";
 import TrackResult from "@/Pages/Home/TrackResult";
+import ServicesPage from "@/Pages/Services/ServicesPage";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -61,6 +62,10 @@ export const router = createBrowserRouter([
       {
         path: "/about",
         element: <AboutPage />,
+      },
+      {
+        path: "/services",
+        element: <ServicesPage />,
       },
       {
         path: "/contact",
