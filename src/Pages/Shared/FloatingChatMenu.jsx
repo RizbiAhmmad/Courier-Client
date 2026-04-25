@@ -32,11 +32,11 @@ export default function FloatingChatMenu() {
   ];
 
   return (
-    <div className="fixed bottom-16 right-8 md:bottom-12 md:right-16 z-9999 flex flex-col items-end space-y-3">
+    <div className="fixed bottom-16 right-8 md:bottom-12 md:right-16 z-9999 flex flex-col items-end space-y-3 pointer-events-none">
       {/* Action buttons */}
       <div
-        className={`flex flex-col items-end space-y-3 transform transition-all duration-300 ${
-          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5 pointer-events-none'
+        className={`flex flex-col items-end space-y-3 transform transition-all duration-300 pointer-events-auto ${
+          isOpen ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5 invisible'
         }`}
       >
         {menuItems.map((item, idx) => (
@@ -65,7 +65,7 @@ export default function FloatingChatMenu() {
       {!isOpen && (
         <button
           onClick={() => setIsOpen(true)}
-          className="p-4 rounded-full text-white bg-linear-to-b from-yellow-400 to-orange-500  hover:from-yellow-500 hover:to-orange-600 shadow-xl hover:scale-110 transition animate-pulse"
+          className="p-4 rounded-full text-white bg-linear-to-b from-yellow-400 to-orange-500  hover:from-yellow-500 hover:to-orange-600 shadow-xl hover:scale-110 transition animate-pulse pointer-events-auto"
           aria-label="Open chat menu"
         >
           <FaCommentDots size={20} />

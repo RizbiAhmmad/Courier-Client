@@ -62,6 +62,7 @@ const Navbar = () => {
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/services", label: "Services" },
+    { href: "/why-choose-us", label: "Why Choose Us" },
     { href: "/blogs", label: "Blogs" },
     { href: "/contact", label: "Contact" },
   ];
@@ -70,10 +71,17 @@ const Navbar = () => {
     ? [...baseLinks, { href: "/dashboard", label: "Dashboard" }]
     : baseLinks;
 
+  // Update active link on route change
+  useEffect(() => {
+    setActiveLink(location.pathname);
+  }, [location.pathname]);
+
+  // Handle scroll logic for Home page
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
 
+      // Only handle section highlighting on the Home page
       if (location.pathname !== "/") return;
 
       const scrollPosition = window.scrollY;
@@ -98,7 +106,7 @@ const Navbar = () => {
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, [location.pathname]);
+  }, [location.pathname, links]);
 
   const handleLinkClick = (href, e) => {
     e.preventDefault();
@@ -138,13 +146,13 @@ const Navbar = () => {
               className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-md"
             />
             <h1 className="text-2xl font-extrabold text-orange-400 tracking-wide hover:text-orange-500 transition-colors">
-              SNS
+              SNS International
             </h1>
           </div>
 
           {/* 🖥 Desktop Menu (Middle) */}
           <div className="hidden md:flex flex-1 justify-center">
-            <div className="flex items-center space-x-10 px-8 py-2 rounded-full backdrop-blur-sm border border-transparent transition-all">
+            <div className="flex items-center space-x-6 px-8 py-2 rounded-full backdrop-blur-sm border border-transparent transition-all">
               {links.map((link) => (
                 <a
                   key={link.href}

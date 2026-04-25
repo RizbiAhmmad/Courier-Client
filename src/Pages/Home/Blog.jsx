@@ -81,15 +81,15 @@ export default function Blog() {
                     />
                   </div>
                   
-                  <div className="flex flex-col grow p-8">
-                    <h3 className="mb-4 text-xl font-bold text-indigo-950 dark:text-white line-clamp-2 min-h-[3.5rem] group-hover:text-amber-500 transition-colors">
+                  <div className="flex flex-col grow p-6">
+                    <h3 className="mb-2 text-xl font-bold text-indigo-950 dark:text-white line-clamp-2 min-h-[3.5rem] group-hover:text-amber-500 transition-colors">
                       {title}
                     </h3>
-                    <p className="mb-6 text-gray-600 dark:text-zinc-400 text-sm leading-relaxed line-clamp-3">
+                    <p className="mb-4 text-gray-600 dark:text-zinc-400 text-sm leading-relaxed line-clamp-3">
                       {description}
                     </p>
 
-                    <div className="mt-auto pt-6 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between gap-4">
+                    <div className="mt-auto pt-4 border-t border-zinc-100 dark:border-zinc-800 flex items-center justify-between gap-4">
                       <button
                         onClick={() => navigate(`/blogDetails/${_id}`)}
                         className="flex items-center gap-2 text-sm font-bold text-indigo-900 dark:text-yellow-500 hover:text-orange-500 group/btn transition-colors shrink-0"

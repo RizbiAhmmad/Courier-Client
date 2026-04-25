@@ -5,6 +5,7 @@ import { GradientText } from "@/components/ui/GradientText";
 import { FaPaperPlane } from "react-icons/fa";
 import { FiTruck, FiShoppingCart, FiTarget } from "react-icons/fi";
 import { useNavigate } from "react-router-dom";
+import { motion } from "framer-motion";
 import Swal from "sweetalert2";
 
 const pushGTM = (data) => {
@@ -73,19 +74,19 @@ const Banner = () => {
 
   return (
     <section className="relative min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 flex items-center">
-      <div className="container mx-auto px-4 sm:px-6 py-12 sm:py-20 max-w-8xl">
+      <div className="container mx-auto px-4 sm:px-8 py-12 sm:py-20 max-w-8xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* LEFT CONTENT */}
           <div>
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-yellow-50 text-yellow-700 text-xs font-bold uppercase tracking-widest mb-6 border border-yellow-100">
+            <div className="inline-flex mt-4 items-center gap-2 px-3 py-1 rounded-full bg-yellow-50 text-yellow-700 text-xs font-bold uppercase tracking-widest mb-6 border border-yellow-100">
                <FiTruck size={14} />
                Premium Logistics Partner
             </div>
             <h1 className="text-3xl md:text-5xl font-black leading-[1.15] tracking-tight">
               <GradientText
-                className="block"
+                className="inline-block pb-1"
                 colors={["#f59e0b", "#ef4444", "#8b5cf6"]}
-                animationSpeed={5}
+                animationSpeed={3}
               >
                 Freight Forwarding & Global Courier <br className="hidden md:block"/> Solutions from Bangladesh
               </GradientText>
@@ -115,7 +116,7 @@ const Banner = () => {
           {/* RIGHT CARD */}
          <div className="bg-white rounded-3xl shadow-2xl p-6 flex flex-col justify-center w-full">
             {/* Tabs */}
-            <div className="flex justify-between border-b mb-6">
+            <div className="flex bg-zinc-100 dark:bg-zinc-800/50 p-1.5 rounded-2xl mb-8 relative">
               {categories.map((cat) => (
                 <div
                   key={cat._id}
@@ -123,28 +124,46 @@ const Banner = () => {
                     setActiveTab(cat._id);
                     setFromCountry("");
                   }}
-                  className={`flex items-center gap-2 px-4 py-3 cursor-pointer transition ${
+                  className={`relative flex items-center justify-center gap-2 flex-1 px-4 py-3 cursor-pointer transition-all duration-300 z-10 ${
                     activeTab === cat._id
-                      ? "border-b-2 border-yellow-500 text-black font-semibold"
-                      : "text-gray-600"
+                      ? "text-indigo-950 font-bold"
+                      : "text-gray-500 hover:text-gray-700 font-semibold"
                   }`}
                 >
-                  {cat.name === "Import" && <FiTruck />}
-                  {cat.name === "Export" && <FiShoppingCart />}
-                  <span>{cat.name}</span>
+                  {activeTab === cat._id && (
+                    <motion.div
+                      layoutId="activeTabIndicator"
+                      className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-xl shadow-md"
+                      transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                    />
+                  )}
+                  <div className="relative z-20 flex items-center gap-2">
+                    {cat.name === "Import" && <FiTruck className={activeTab === cat._id ? "text-yellow-500" : ""} />}
+                    {cat.name === "Export" && <FiShoppingCart className={activeTab === cat._id ? "text-yellow-500" : ""} />}
+                    <span>{cat.name}</span>
+                  </div>
                 </div>
               ))}
 
               <div
                 onClick={() => setActiveTab("Track")}
-                className={`flex items-center gap-2 px-4 py-3 cursor-pointer transition ${
+                className={`relative flex items-center justify-center gap-2 flex-1 px-4 py-3 cursor-pointer transition-all duration-300 z-10 ${
                   activeTab === "Track"
-                    ? "border-b-2 border-yellow-500 text-black font-semibold"
-                    : "text-gray-600"
+                    ? "text-indigo-950 font-bold"
+                    : "text-gray-500 hover:text-gray-700 font-semibold"
                 }`}
               >
-                <FiTarget />
-                <span>Track</span>
+                {activeTab === "Track" && (
+                  <motion.div
+                    layoutId="activeTabIndicator"
+                    className="absolute inset-0 bg-white dark:bg-zinc-900 rounded-xl shadow-md"
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
+                  />
+                )}
+                <div className="relative z-20 flex items-center gap-2">
+                  <FiTarget className={activeTab === "Track" ? "text-yellow-500" : ""} />
+                  <span>Track</span>
+                </div>
               </div>
             </div>
 

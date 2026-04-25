@@ -1,8 +1,10 @@
 import { CheckCircle, ArrowUpRight } from "lucide-react";
 // import shippingcard from "../../assets/credit_card.png";
 import { GradientText } from "@/components/ui/GradientText";
+import { useNavigate } from "react-router-dom";
 
 export default function ShippingHero() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen bg-linear-to-br from-yellow-50 via-white to-indigo-50 flex items-center px-6 py-20 overflow-hidden">
       <div className="max-w-8xl mx-auto w-full grid grid-cols-1 md:grid-cols-2 gap-16 items-center">
@@ -13,7 +15,7 @@ export default function ShippingHero() {
             Serving Businesses Since 2017
           </div>
 
-          <h1 className="text-4xl md:text-6xl font-extrabold leading-tight text-indigo-950">
+          <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-indigo-950">
             Global Logistics <GradientText colors={["#f59e0b", "#ef4444", "#8b5cf6"]}>Redefined</GradientText>
           </h1>
 
@@ -44,12 +46,12 @@ export default function ShippingHero() {
           </div>
 
           <div className="flex flex-wrap gap-4 mt-12">
-            <button className="px-10 py-4 bg-linear-to-r from-yellow-400 to-orange-500 text-white rounded-full font-bold shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 hover:-translate-y-1 transition-all flex items-center gap-2 active:scale-95">
-              Request a Quote <ArrowUpRight size={20} />
+            <button  onClick={() => navigate(`/contact`)} className="px-10 py-4 bg-linear-to-r from-yellow-400 to-orange-500 text-white rounded-full font-bold shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 hover:-translate-y-1 transition-all flex items-center gap-2 active:scale-95">
+              Contact Us <ArrowUpRight size={20} />
             </button>
-            <button className="px-10 py-4 border-2 border-indigo-900 text-indigo-900 rounded-full font-bold hover:bg-indigo-900 hover:text-white transition-all active:scale-95">
+            {/* <button className="px-10 py-4 border-2 border-indigo-900 text-indigo-900 rounded-full font-bold hover:bg-indigo-900 hover:text-white transition-all active:scale-95">
               Contact Us
-            </button>
+            </button> */}
           </div>
         </div>
 

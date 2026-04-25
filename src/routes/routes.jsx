@@ -32,6 +32,7 @@ import ContactPage from "@/Pages/Home/ContactPage";
 import Home from "@/Pages/Home/Home";
 import TrackResult from "@/Pages/Home/TrackResult";
 import ServicesPage from "@/Pages/Services/ServicesPage";
+import WhyChooseUsPage from "@/Pages/Home/WhyChooseUsPage";
 import { createBrowserRouter } from "react-router-dom";
 
 export const router = createBrowserRouter([
@@ -78,6 +79,10 @@ export const router = createBrowserRouter([
       {
         path: "/blogDetails/:id",
         element: <BlogDetails></BlogDetails>,
+      },
+      {
+        path: "/why-choose-us",
+        element: <WhyChooseUsPage />,
       },
     ],
   },

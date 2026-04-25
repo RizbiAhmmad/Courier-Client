@@ -15,8 +15,11 @@ import {
   FiAnchor
 } from "react-icons/fi";
 import bgimg from "../../assets/BG-Image.jpg";
+import { useNavigate } from "react-router-dom";
 
 const AboutPage = () => {
+  const navigate = useNavigate();
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -287,7 +290,7 @@ const AboutPage = () => {
            <p className="text-indigo-900 font-bold opacity-80">Join hundreds of successful businesses who trust SNS International for their logistics needs.</p>
            <div className="flex flex-wrap justify-center gap-4">
               {/* <button className="px-10 py-4 bg-indigo-950 text-white rounded-full font-bold hover:shadow-2xl transition-all hover:scale-105">Get a Free Quote</button> */}
-              <button className="px-10 py-4 bg-white text-indigo-950 rounded-full font-bold shadow-md hover:bg-zinc-50 transition-all hover:scale-105">Contact Us Now</button>
+              <button onClick={() => navigate(`/contact`)} className="px-10 py-4 bg-white text-indigo-950 rounded-full font-bold shadow-md hover:bg-zinc-50 transition-all hover:scale-105">Contact Us Now</button>
            </div>
         </div>
       </section>

@@ -6,7 +6,7 @@ import { GradientText } from "@/components/ui/GradientText";
 
 const ContactForm = () => {
   return (
-    <section className="w-full py-12 px-4">
+    <section className="w-full py-8 px-4">
       <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 p-7.5 rounded-xl shadow-xl bg-white dark:bg-slate-800">
         {/* informations */}
         <aside className="w-full bg-gray-800 dark:bg-slate-900 flex flex-col justify-between p-7.5 rounded-lg shadow-lg">

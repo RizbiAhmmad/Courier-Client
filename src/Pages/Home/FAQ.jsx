@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Plus, Minus, HelpCircle, MessageCircle } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function FAQAccordion() {
+  const navigate = useNavigate();
+  
   const faqData = [
     {
       question: "What services does SNS International provide?",
@@ -47,7 +50,7 @@ export default function FAQAccordion() {
   ];
 
   return (
-    <section className="py-24 bg-white dark:bg-zinc-950 overflow-hidden">
+    <section className="py-12 bg-white dark:bg-zinc-950 overflow-hidden">
       <div className="container mx-auto px-6">
         <div className="flex flex-col lg:flex-row gap-16 items-start">
           
@@ -75,7 +78,7 @@ export default function FAQAccordion() {
               <MessageCircle size={40} className="mb-4 opacity-50" />
               <h4 className="text-xl font-bold mb-2 transition-transform">Still have questions?</h4>
               <p className="text-white/90 mb-6 text-sm">Our logistics experts are ready to provide technical support and practical guidance.</p>
-              <button className="w-full py-3 bg-white text-orange-500 font-bold rounded-2xl hover:bg-zinc-50 transition-all active:scale-95 shadow-lg">
+              <button  onClick={() => navigate(`/contact`)} className="w-full py-3 bg-white text-orange-500 font-bold rounded-2xl hover:bg-zinc-50 transition-all active:scale-95 shadow-lg">
                 Contact Support
               </button>
             </div>
@@ -86,7 +89,7 @@ export default function FAQAccordion() {
             initial={{ opacity: 0, x: 50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
-            className="lg:w-2/3 w-full space-y-4"
+            className="lg:w-2/3 w-full space-y-4 mt-6"
           >
             {faqData.map((item, index) => (
               <AccordionItem 
