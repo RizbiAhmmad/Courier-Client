@@ -42,8 +42,13 @@ const Footer = () => {
               A trusted Bangladesh-based freight forwarding and international courier company committed to making global shipping easier, faster, and more dependable for businesses worldwide.
             </p>
             <div className="flex items-center gap-4">
-               {[FiFacebook, FiInstagram, FiLinkedin, FiTwitter].map((Icon, idx) => (
-                 <a key={idx} href="#" className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-yellow-400 hover:text-indigo-950 transition-all duration-300">
+               {[
+                 { Icon: FiFacebook, href: "https://facebook.com/snsexpress" },
+                 { Icon: FiInstagram, href: "https://instagram.com/snsintl" },
+                 { Icon: FiLinkedin, href: "https://linkedin.com/company/snsintl" },
+                 { Icon: FiTwitter, href: "https://twitter.com/snsintl" },
+               ].map(({ Icon, href }, idx) => (
+                 <a key={idx} href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-yellow-400 hover:text-indigo-950 transition-all duration-300">
                     <Icon size={18} />
                  </a>
                ))}
@@ -88,7 +93,7 @@ const Footer = () => {
                   </div>
                   <div>
                      <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-1">Phone Number</p>
-                     <p className="text-zinc-300 font-medium">+880 1234 567899</p>
+                     <p className="text-zinc-300 font-medium">+880 1712 413838</p>
                   </div>
                </div>
 
@@ -98,7 +103,7 @@ const Footer = () => {
                   </div>
                   <div>
                      <p className="text-xs text-zinc-500 font-bold uppercase tracking-wider mb-1">Email Support</p>
-                     <p className="text-zinc-300 font-medium italic underline decoration-white/10 underline-offset-4">info@sns-intl.com</p>
+                     <p className="text-zinc-300 font-medium italic underline decoration-white/10 underline-offset-4">samun@sns-intl.com</p>
                   </div>
                </div>
             </div>

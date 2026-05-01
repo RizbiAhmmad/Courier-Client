@@ -29,12 +29,12 @@ const ContactForm = () => {
           <div className="flex flex-col gap-5 text-gray-300 text-[15px]">
             <p className="flex items-center gap-2">
               <MdOutlineCall />
-              +8801234567899
+              +880 1712 413838
             </p>
 
             <p className="flex items-center break-all gap-2">
               <MdOutlineEmail />
-              sns@gmail.com
+              samun@sns-intl.com
             </p>
 
             <p className="flex items-center gap-2">

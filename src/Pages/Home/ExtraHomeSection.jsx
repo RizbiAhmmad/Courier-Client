@@ -54,7 +54,7 @@ const ExtraHomeSection = () => {
             <img
               src="/about-us.png"
               alt="Logistics Port"
-              className="relative rounded-2xl shadow-2xl object-cover w-full h-[400px] lg:h-[500px]"
+              className="relative rounded-2xl shadow-2xl object-cover w-full h-100 lg:h-125"
             />
             <div className="absolute -bottom-6 -right-6 bg-white dark:bg-zinc-900 p-8 rounded-2xl shadow-xl hidden md:block">
               <p className="text-4xl font-bold text-primary">8+</p>

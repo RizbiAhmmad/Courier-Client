@@ -12,7 +12,7 @@ export default function ShippingHero() {
         <div className="space-y-8">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-indigo-50 text-indigo-900 rounded-full text-sm font-bold tracking-wide border border-indigo-100">
             <CheckCircle size={16} className="text-yellow-500" />
-            Serving Businesses Since 2017
+            Serving Businesses Since 2018
           </div>
 
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight text-indigo-950">

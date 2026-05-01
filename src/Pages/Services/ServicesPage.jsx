@@ -5,13 +5,13 @@ import {
   Ship, 
   Globe, 
   FileText, 
-  CheckCircle, 
-  ArrowRight,
+  CheckCircle,
   TrendingUp,
   Package,
   ShieldCheck,
   Briefcase
 } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 const ServicesPage = () => {
   const containerVariants = {
@@ -33,11 +33,13 @@ const ServicesPage = () => {
     }
   };
 
+  const navigate = useNavigate();
+
   return (
     <div className="w-full bg-white dark:bg-zinc-950 font-sans mt-16 overflow-hidden">
       
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[600px] flex items-center justify-center text-center px-6 py-20 bg-indigo-950 overflow-hidden">
+      <section className="relative min-h-150 flex items-center justify-center text-center px-6 py-20 bg-indigo-950 overflow-hidden">
         {/* Abstract Background Elements */}
         <div className="absolute top-0 left-0 w-full h-full opacity-20 pointer-events-none">
           <Globe size={600} className="absolute -left-20 -top-20 text-white" />
@@ -67,7 +69,7 @@ const ServicesPage = () => {
       <section className="py-16 bg-zinc-50 dark:bg-zinc-900/50 border-b border-zinc-100 dark:border-zinc-800">
         <div className="max-w-7xl mx-auto px-6 text-center">
           <p className="text-2xl text-indigo-950 dark:text-white font-bold max-w-4xl mx-auto leading-relaxed italic">
-            "We focus on making freight forwarding and courier operations more efficient, more accessible, and more customer-friendly."
+            "We focus on making freight forwarding, courier operations and door to door delivery more efficient, more accessible, and more customer-friendly."
           </p>
         </div>
       </section>
@@ -111,7 +113,7 @@ const ServicesPage = () => {
              initial={{ opacity: 0, x: 50 }}
              whileInView={{ opacity: 1, x: 0 }}
              viewport={{ once: true }}
-             className="relative rounded-[3rem] overflow-hidden shadow-2xl h-[500px]"
+             className="relative rounded-[3rem] overflow-hidden shadow-2xl h-125"
           >
             <img 
                src="https://img.freepik.com/free-photo/view-huge-cargo-plane-airport_23-2149503460.jpg" 
@@ -127,7 +129,7 @@ const ServicesPage = () => {
              initial={{ opacity: 0, scale: 0.95 }}
              whileInView={{ opacity: 1, scale: 1 }}
              viewport={{ once: true }}
-             className="relative rounded-[3rem] overflow-hidden shadow-2xl h-[500px] order-2 lg:order-1"
+             className="relative rounded-[3rem] overflow-hidden shadow-2xl h-125 order-2 lg:order-1"
           >
             <img 
                src="https://img.freepik.com/free-photo/industrial-port-container-ship-yard-business-logistical-transportation-import-export-international_42612-45.jpg" 
@@ -239,7 +241,7 @@ const ServicesPage = () => {
              initial={{ opacity: 0, scale: 0.95 }}
              whileInView={{ opacity: 1, scale: 1 }}
              viewport={{ once: true }}
-             className="relative rounded-[3rem] overflow-hidden shadow-2xl h-[500px]"
+             className="relative rounded-[3rem] overflow-hidden shadow-2xl h-125"
           >
             <img 
                src="https://img.freepik.com/free-photo/working-process-factory-logistics_23-2149021422.jpg" 
@@ -314,7 +316,7 @@ const ServicesPage = () => {
             </p>
             <div className="flex flex-wrap justify-center gap-6">
                {/* <button className="px-12 py-5 bg-indigo-950 text-white rounded-full font-black text-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all">Get a Quote Now</button> */}
-               <button className="px-12 py-5 bg-white text-indigo-950 rounded-full font-black text-lg shadow-md hover:bg-zinc-50 hover:scale-105 active:scale-95 transition-all">Contact Logistics Team</button>
+               <button onClick={() => navigate(`/contact`)} className="px-12 py-5 bg-white text-indigo-950 rounded-full font-black text-lg shadow-md hover:bg-zinc-50 hover:scale-105 active:scale-95 transition-all">Contact Logistics Team</button>
             </div>
          </motion.div>
       </section>

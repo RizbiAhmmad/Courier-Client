@@ -82,18 +82,18 @@ const Banner = () => {
                <FiTruck size={14} />
                Premium Logistics Partner
             </div>
-            <h1 className="text-3xl md:text-5xl font-black leading-[1.15] tracking-tight">
+            <h1 className="text-3xl md:text-4xl font-black leading-[1.15] tracking-tight">
               <GradientText
                 className="inline-block pb-1"
                 colors={["#f59e0b", "#ef4444", "#8b5cf6"]}
                 animationSpeed={3}
               >
-                Freight Forwarding & Global Courier <br className="hidden md:block"/> Solutions from Bangladesh
+                Freight Forwarding, Door to Door & Global Courier Solutions from Bangladesh
               </GradientText>
             </h1>
 
             <p className="mt-8 text-lg text-gray-600 max-w-xl leading-relaxed">
-              SNS International provides seamless logistics coordination with global partners like <span className="font-bold text-black italic underline decoration-yellow-400">DHL, FedEx, UPS, and Aramex</span>. Ensuring your goods reach any destination safely, efficiently, and on time.
+             SNS International provides seamless logistics coordination through trusted global partners. We offer Air Freight, Sea Freight, Door-to-Door delivery (including taxes and duties), and Courier Solutions from Bangladesh to destinations worldwide. We ensure fast, secure, and affordable shipping, making sure your goods reach any destination safely, efficiently, and on time.
             </p>
 
             <div className="mt-10 flex flex-wrap items-center gap-8">
@@ -107,7 +107,7 @@ const Banner = () => {
                <div className="h-10 w-px bg-gray-200 hidden sm:block"></div>
                
                <div className="flex flex-col">
-                  <p className="text-2xl font-black text-indigo-950 leading-none mb-1">2017</p>
+                  <p className="text-2xl font-black text-indigo-950 leading-none mb-1">2018</p>
                   <p className="text-xs font-semibold text-gray-500 uppercase tracking-wider">Established Since</p>
                </div>
             </div>
