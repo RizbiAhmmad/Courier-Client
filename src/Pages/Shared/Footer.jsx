@@ -7,9 +7,9 @@ import {
   FiFacebook, 
   FiInstagram, 
   FiLinkedin, 
-  FiTwitter,
   FiArrowRight
 } from "react-icons/fi";
+import { RiTiktokLine } from "react-icons/ri";
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -45,8 +45,9 @@ const Footer = () => {
                {[
                  { Icon: FiFacebook, href: "https://facebook.com/snsexpress" },
                  { Icon: FiInstagram, href: "https://instagram.com/snsintl" },
+                 { Icon: RiTiktokLine, href: "https://tiktok.com/@snsinternational" },
                  { Icon: FiLinkedin, href: "https://linkedin.com/company/snsintl" },
-                 { Icon: FiTwitter, href: "https://twitter.com/snsintl" },
+                 
                ].map(({ Icon, href }, idx) => (
                  <a key={idx} href={href} target="_blank" rel="noopener noreferrer" className="w-10 h-10 rounded-xl bg-white/5 flex items-center justify-center hover:bg-yellow-400 hover:text-indigo-950 transition-all duration-300">
                     <Icon size={18} />

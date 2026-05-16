@@ -9,7 +9,7 @@ import {
   FiGlobe,
   FiCheckCircle,
 } from "react-icons/fi";
-import bgimg from "../../assets/BG-Image.jpg";
+import bgimg from "../../assets/BG-Image.jpeg";
 import { useNavigate } from "react-router-dom";
 
 const AboutPage = () => {
@@ -38,23 +38,23 @@ const AboutPage = () => {
     <div className="w-full bg-white dark:bg-zinc-950 font-sans mt-16">
       {/* 1. HERO SECTION */}
       <section
-        className="relative flex items-center justify-center min-h-150 text-white text-center bg-cover bg-fixed bg-center"
+        className="relative w-full min-h-150 flex items-center justify-center text-center px-6 overflow-hidden bg-cover bg-center bg-no-repeat"
         style={{ backgroundImage: `url(${bgimg})` }}
       >
-        <div className="absolute inset-0 bg-indigo-950/70 backdrop-blur-[2px]"></div>
+        <div className="absolute inset-0 bg-indigo-950/70"></div>
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 0.8 }}
           className="relative max-w-7xl mx-auto px-6"
         >
-          <h1 className="text-5xl md:text-7xl font-black mb-6 tracking-tight">
+          <h1 className="text-5xl md:text-7xl font-black text-white mb-6 tracking-tight">
             About{" "}
             <span className="text-yellow-400 italic">SNS International</span>
           </h1>
-          <p className="max-w-2xl mx-auto text-xl opacity-90 leading-relaxed font-medium">
+          <p className="max-w-2xl mx-auto text-xl text-zinc-300 opacity-90 leading-relaxed font-medium">
             Bridging global gaps through reliable, practical, and dependable
-            logistics solutions since 2017.
+            logistics solutions since 2018.
           </p>
         </motion.div>
       </section>

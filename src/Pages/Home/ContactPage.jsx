@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { motion } from "framer-motion";
+import emailjs from "@emailjs/browser";
+import Swal from "sweetalert2";
 import {
   FiPhone,
   FiMail,
@@ -9,8 +11,12 @@ import {
   FiGlobe,
   FiCheckCircle,
 } from "react-icons/fi";
+import bgimg from "../../assets/Contact.jpg";
 
 const ContactPage = () => {
+  const form = useRef();
+  const [isSending, setIsSending] = useState(false);
+
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: { opacity: 1, transition: { staggerChildren: 0.1 } },
@@ -21,17 +27,60 @@ const ContactPage = () => {
     visible: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   };
 
+  const sendEmail = (e) => {
+    e.preventDefault();
+    setIsSending(true);
+
+    // Get current time formatted
+    const now = new Date();
+    const formattedTime = now.toLocaleString("en-US", {
+      dateStyle: "medium",
+      timeStyle: "short",
+    });
+
+    // Set the hidden time input value
+    if (form.current.time) {
+      form.current.time.value = formattedTime;
+    }
+
+    const SERVICE_ID = "service_udqklzh";
+    const TEMPLATE_ID = "template_5ofyi2p";
+    const PUBLIC_KEY = "IoCJ67x4jxlaF5_JP";
+
+    // Send the form data
+    emailjs
+      .sendForm(SERVICE_ID, TEMPLATE_ID, form.current, {
+        publicKey: PUBLIC_KEY,
+      })
+      .then(
+        () => {
+          setIsSending(false);
+          Swal.fire({
+            title: "Success!",
+            text: "Your message has been sent successfully. We will get back to you soon!",
+            icon: "success",
+            confirmButtonColor: "#fbbf24",
+          });
+          form.current.reset();
+        },
+        (error) => {
+          setIsSending(false);
+          Swal.fire({
+            title: "Error!",
+            text: "Something went wrong. Please try again later.",
+            icon: "error",
+            confirmButtonColor: "#ef4444",
+          });
+          console.error("FAILED...", error.text);
+        },
+      );
+  };
+
   return (
     <div className="w-full bg-white dark:bg-zinc-950 font-sans mt-16 overflow-hidden">
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-125 flex items-center justify-center text-center px-6 py-20 bg-indigo-950">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <FiGlobe
-            size={500}
-            className="absolute -left-20 -top-20 text-white"
-          />
-        </div>
-        <div className="absolute -bottom-40 -right-20 w-80 h-80 bg-orange-500 blur-[120px] opacity-20 rounded-full"></div>
+      <section className="relative w-full min-h-150 flex items-center justify-center text-center px-6 overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${bgimg})` }}>
+        <div className="absolute inset-0 bg-indigo-950/70"></div>
 
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -133,13 +182,18 @@ const ContactPage = () => {
                 </p>
               </div>
 
-              <form className="grid gap-6">
+              <form ref={form} onSubmit={sendEmail} className="grid gap-6">
+                {/* Hidden field for time */}
+                <input type="hidden" name="time" />
+
                 <div className="space-y-2">
                   <label className="text-xs font-bold text-indigo-950 dark:text-zinc-400 uppercase tracking-widest pl-1">
                     Name
                   </label>
                   <input
                     type="text"
+                    name="name"
+                    required
                     placeholder="Your Name"
                     className="w-full px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-400 transition-all font-medium"
                   />
@@ -151,6 +205,8 @@ const ContactPage = () => {
                   </label>
                   <input
                     type="email"
+                    name="email"
+                    required
                     placeholder="your.email@example.com"
                     className="w-full px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-400 transition-all font-medium"
                   />
@@ -162,14 +218,28 @@ const ContactPage = () => {
                   </label>
                   <textarea
                     rows="4"
+                    name="message"
+                    required
                     placeholder="Describe your shipment or service needs..."
                     className="w-full px-6 py-4 bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-800 rounded-2xl outline-none focus:ring-2 focus:ring-yellow-400 transition-all font-medium"
                   ></textarea>
                 </div>
 
-                <button className="flex items-center justify-center gap-3 w-full py-5 bg-linear-to-r from-yellow-400 to-orange-500 text-indigo-950 font-black text-lg rounded-2xl shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 transition-all active:scale-95 group">
-                  <FiSend className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                  Send Shipping Inquiry
+                <button
+                  type="submit"
+                  disabled={isSending}
+                  className={`flex items-center justify-center gap-3 w-full py-5 bg-linear-to-r from-yellow-400 to-orange-500 text-indigo-950 font-black text-lg rounded-2xl shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 transition-all active:scale-95 group ${
+                    isSending ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
+                >
+                  {isSending ? (
+                    <div className="w-6 h-6 border-4 border-indigo-950 border-t-transparent rounded-full animate-spin"></div>
+                  ) : (
+                    <>
+                      <FiSend className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                      Send Shipping Inquiry
+                    </>
+                  )}
                 </button>
               </form>
             </motion.div>

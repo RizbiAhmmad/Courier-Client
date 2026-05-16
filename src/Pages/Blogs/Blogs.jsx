@@ -4,7 +4,7 @@ import { ArrowRight, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import Loading from "../Shared/Loading";
-import { GradientText } from "@/components/ui/GradientText";
+import bgimg from "../../assets/blogs.jpg";
 
 export default function Blogs() {
   const [blogs, setBlogs] = useState([]);
@@ -43,11 +43,8 @@ export default function Blogs() {
     <div className="w-full bg-white dark:bg-zinc-950 font-sans mt-16 overflow-hidden">
       
       {/* 1. HERO SECTION */}
-      <section className="relative min-h-[600px] flex items-center justify-center text-center px-6 py-20 bg-indigo-950">
-        <div className="absolute inset-0 opacity-10 pointer-events-none">
-          <BookOpen size={500} className="absolute -left-20 -top-20 text-white" />
-        </div>
-        <div className="absolute -bottom-40 -right-20 w-80 h-80 bg-orange-500 blur-[120px] opacity-20 rounded-full"></div>
+      <section className="relative w-full min-h-150 flex items-center justify-center text-center px-6 overflow-hidden bg-cover bg-center bg-no-repeat" style={{ backgroundImage: `url(${bgimg})` }}>
+        <div className="absolute inset-0 bg-indigo-950/70"></div>
         
         <motion.div 
           initial={{ opacity: 0, y: -20 }}
@@ -90,7 +87,8 @@ export default function Blogs() {
                 <motion.div
                   key={_id}
                   variants={cardVariants}
-                  className="group flex flex-col bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
+                  onClick={() => navigate(`/blogDetails/${_id}`)}
+                  className="group flex flex-col  bg-white dark:bg-zinc-900 rounded-[2.5rem] overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
                 >
                   <div className="relative h-64 overflow-hidden">
                     <img
@@ -101,7 +99,7 @@ export default function Blogs() {
                   </div>
                   
                   <div className="flex flex-col grow p-10">
-                    <h3 className="mb-4 text-xl font-bold text-indigo-950 dark:text-white line-clamp-2 min-h-[3.5rem] group-hover:text-amber-500 transition-colors">
+                    <h3 className="mb-4 text-xl font-bold text-indigo-950 dark:text-white line-clamp-2 min-h-14 group-hover:text-amber-500 transition-colors">
                       {title}
                     </h3>
                     <p className="mb-6 text-gray-600 dark:text-zinc-400 text-sm leading-relaxed line-clamp-3">
@@ -118,7 +116,7 @@ export default function Blogs() {
                       </button>
 
                       <div className="text-right">
-                        <span className="inline-block px-4 py-1.5 bg-yellow-50 dark:bg-zinc-800 text-yellow-600 dark:text-yellow-500 text-[10px] font-black rounded-lg uppercase tracking-wider truncate max-w-[140px]">
+                        <span className="inline-block px-4 py-1.5 bg-yellow-50 dark:bg-zinc-800 text-yellow-600 dark:text-yellow-500 text-[10px] font-black rounded-lg uppercase tracking-wider truncate max-w-35">
                           {tag}
                         </span>
                       </div>
@@ -141,10 +139,10 @@ export default function Blogs() {
          >
             <h2 className="text-4xl md:text-5xl font-black text-indigo-950 tracking-tight leading-tight italic">Want to stay ahead <br/> of the market?</h2>
             <p className="text-lg text-indigo-900 font-bold opacity-80 leading-relaxed">
-              Subscribe to SNS International insights and get global shipping updates delivered to your inbox.
+              Contact SNS International insights and get global shipping updates delivered to your inbox.
             </p>
             <div className="flex flex-wrap justify-center gap-6">
-               <button className="px-12 py-5 bg-indigo-950 text-white rounded-full font-black text-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all">Subscribe Now</button>
+               {/* <button className="px-12 py-5 bg-indigo-950 text-white rounded-full font-black text-lg hover:shadow-2xl hover:scale-105 active:scale-95 transition-all">Subscribe Now</button> */}
                <button className="px-12 py-5 bg-white text-indigo-950 rounded-full font-black text-lg shadow-md hover:bg-zinc-50 hover:scale-105 active:scale-95 transition-all" onClick={() => navigate("/contact")}>Contact Us</button>
             </div>
          </motion.div>

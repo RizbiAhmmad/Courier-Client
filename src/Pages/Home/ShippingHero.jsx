@@ -1,5 +1,4 @@
 import { CheckCircle, ArrowUpRight } from "lucide-react";
-// import shippingcard from "../../assets/credit_card.png";
 import { GradientText } from "@/components/ui/GradientText";
 import { useNavigate } from "react-router-dom";
 
@@ -49,9 +48,7 @@ export default function ShippingHero() {
             <button  onClick={() => navigate(`/contact`)} className="px-10 py-4 bg-linear-to-r from-yellow-400 to-orange-500 text-white rounded-full font-bold shadow-xl shadow-orange-500/20 hover:shadow-orange-500/40 hover:-translate-y-1 transition-all flex items-center gap-2 active:scale-95">
               Contact Us <ArrowUpRight size={20} />
             </button>
-            {/* <button className="px-10 py-4 border-2 border-indigo-900 text-indigo-900 rounded-full font-bold hover:bg-indigo-900 hover:text-white transition-all active:scale-95">
-              Contact Us
-            </button> */}
+            
           </div>
         </div>
 

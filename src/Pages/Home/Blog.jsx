@@ -42,14 +42,19 @@ export default function Blog() {
   };
 
   return (
-    <section className="px-6 py-10 bg-linear-to-br from-yellow-50 via-white to-purple-50 dark:bg-black" id="blogs">
+    <section
+      className="px-6 py-10 bg-linear-to-br from-yellow-50 via-white to-purple-50 dark:bg-black"
+      id="blogs"
+    >
       <div className="mx-auto max-w-7xl">
         <div className="text-center mb-12 space-y-4">
-          <h2 className="text-4xl font-extrabold text-indigo-950 dark:text-white leading-tight">
-            <GradientText className="inline-block pb-1">Our Latest News & Insights</GradientText>
+          <h2 className="text-4xl md:text-5xl font-extrabold text-gray-900 mb-4">
+            Our Latest <span className="text-orange-500">News & Insights</span>
           </h2>
+          <div className="w-24 h-1.5 bg-orange-500 mx-auto rounded-full mb-6"></div>
           <p className="max-w-2xl mx-auto text-gray-600 dark:text-zinc-400">
-            Explore our expert perspectives on global logistics, shipping trends, and business growth strategies.
+            Explore our expert perspectives on global logistics, shipping
+            trends, and business growth strategies.
           </p>
         </div>
 
@@ -71,6 +76,7 @@ export default function Blog() {
                 <motion.div
                   key={_id}
                   variants={cardVariants}
+                  onClick={() => navigate(`/blogDetails/${_id}`)}
                   className="group flex flex-col bg-white dark:bg-zinc-900 rounded-[2rem] overflow-hidden border border-zinc-100 dark:border-zinc-800 shadow-sm hover:shadow-2xl hover:-translate-y-2 transition-all duration-500"
                 >
                   <div className="relative h-60 overflow-hidden">
@@ -80,9 +86,9 @@ export default function Blog() {
                       className="object-cover w-full h-full group-hover:scale-110 transition-transform duration-700"
                     />
                   </div>
-                  
+
                   <div className="flex flex-col grow p-6">
-                    <h3 className="mb-2 text-xl font-bold text-indigo-950 dark:text-white line-clamp-2 min-h-[3.5rem] group-hover:text-amber-500 transition-colors">
+                    <h3 className="mb-2 text-xl font-bold text-indigo-950 dark:text-white line-clamp-2 min-h-14 group-hover:text-amber-500 transition-colors">
                       {title}
                     </h3>
                     <p className="mb-4 text-gray-600 dark:text-zinc-400 text-sm leading-relaxed line-clamp-3">
@@ -94,12 +100,15 @@ export default function Blog() {
                         onClick={() => navigate(`/blogDetails/${_id}`)}
                         className="flex items-center gap-2 text-sm font-bold text-indigo-900 dark:text-yellow-500 hover:text-orange-500 group/btn transition-colors shrink-0"
                       >
-                        Read Article 
-                        <ArrowRight size={18} className="group-hover/btn:translate-x-1 transition-transform" />
+                        Read Article
+                        <ArrowRight
+                          size={18}
+                          className="group-hover/btn:translate-x-1 transition-transform"
+                        />
                       </button>
 
                       <div className="text-right">
-                        <span className="inline-block px-3 py-1 bg-yellow-50 dark:bg-zinc-800 text-yellow-600 dark:text-yellow-500 text-[10px] font-bold rounded-md uppercase tracking-wider truncate max-w-[120px]">
+                        <span className="inline-block px-3 py-1 bg-yellow-50 dark:bg-zinc-800 text-yellow-600 dark:text-yellow-500 text-[10px] font-bold rounded-md uppercase tracking-wider truncate max-w-30">
                           {tag}
                         </span>
                       </div>

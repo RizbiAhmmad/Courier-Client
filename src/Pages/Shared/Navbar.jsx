@@ -158,7 +158,7 @@ const Navbar = () => {
                   key={link.href}
                   href={link.href}
                   onClick={(e) => handleLinkClick(link.href, e)}
-                  className={`relative font-bold text-lg transition-all duration-300 ${
+                  className={`relative font-semibold text-lg transition-all duration-300 ${
                     activeLink === link.href
                       ? "text-orange-400"
                       : scrolled

@@ -52,7 +52,7 @@ const ExtraHomeSection = () => {
           >
             <div className="absolute -inset-4 bg-primary/5 rounded-3xl blur-2xl transform rotate-2"></div>
             <img
-              src="/about-us.png"
+              src="/about-us.jpeg"
               alt="Logistics Port"
               className="relative rounded-2xl shadow-2xl object-cover w-full h-100 lg:h-125"
             />
@@ -133,7 +133,7 @@ const ExtraHomeSection = () => {
               {
                 icon: Clock,
                 title: "Trusted Experience",
-                desc: "Serving clients since 2017 with practical knowledge of freight forwarding and international logistics.",
+                desc: "Serving clients since 2018 with practical knowledge of freight forwarding and international logistics.",
               },
               {
                 icon: Globe2,
@@ -247,7 +247,7 @@ const ExtraHomeSection = () => {
               <h3 className="text-lg font-bold mb-3 text-indigo-950 dark:text-white">
                 {item.title}
               </h3>
-              <p className="text-gray-600 dark:text-zinc-400 text-sm leading-relaxed">
+              <p className="text-gray-600 dark:text-zinc-400 text-md leading-relaxed">
                 {item.desc}
               </p>
             </motion.div>
