@@ -117,33 +117,64 @@ const StepOverview = ({ formData, onSuccess }) => {
           Review Your Shipment
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-8">
+        <div className="grid md:grid-cols-3 gap-8">
           {/* Sender Info */}
           <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-3">
             <h3 className="font-semibold text-lg flex items-center gap-2">
               <FiUser /> Sender Information
             </h3>
-            <p>
-              <FiUser className="inline mr-2" />
-              {formData.name}
+            <p className="flex items-start gap-2 break-all">
+              <FiUser className="mt-1 shrink-0" />
+              <span>{formData.name}</span>
             </p>
-            <p>
-              <FiMail className="inline mr-2" />
-              {formData.email}
+            <p className="flex items-start gap-2 break-all">
+              <FiMail className="mt-1 shrink-0" />
+              <span>{formData.email}</span>
             </p>
-            <p>
-              <FiPhone className="inline mr-2" />
-              {formData.phone}
+            <p className="flex items-start gap-2 break-all">
+              <FiPhone className="mt-1 shrink-0" />
+              <span>{formData.phone}</span>
             </p>
             {formData.company && (
-              <p>
-                <FiPackage className="inline mr-2" />
-                {formData.company}
+              <p className="flex items-start gap-2 break-all">
+                <FiPackage className="mt-1 shrink-0" />
+                <span>{formData.company}</span>
               </p>
             )}
-            <p>
-              <FiHome className="inline mr-2" />
-              {formData.address}
+            <p className="flex items-start gap-2 break-all">
+              <FiHome className="mt-1 shrink-0" />
+              <span>{formData.address}</span>
+            </p>
+          </div>
+
+          {/* Receiver Info */}
+          <div className="bg-white rounded-2xl p-6 shadow-sm border space-y-3">
+            <h3 className="font-semibold text-lg flex items-center gap-2">
+              <FiUser /> Receiver Information
+            </h3>
+            <p className="flex items-start gap-2 break-all">
+              <FiUser className="mt-1 shrink-0" />
+              <span>{formData.receiverName}</span>
+            </p>
+            {formData.receiverEmail && (
+              <p className="flex items-start gap-2 break-all">
+                <FiMail className="mt-1 shrink-0" />
+                <span>{formData.receiverEmail}</span>
+              </p>
+            )}
+            <p className="flex items-start gap-2 break-all">
+              <FiPhone className="mt-1 shrink-0" />
+              <span>{formData.receiverPhone}</span>
+            </p>
+            {formData.receiverCompany && (
+              <p className="flex items-start gap-2 break-all">
+                <FiPackage className="mt-1 shrink-0" />
+                <span>{formData.receiverCompany}</span>
+              </p>
+            )}
+            <p className="flex items-start gap-2 break-all">
+              <FiHome className="mt-1 shrink-0" />
+              <span>{formData.receiverAddress}</span>
             </p>
           </div>
 

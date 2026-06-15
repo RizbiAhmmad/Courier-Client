@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useState, useEffect, useContext } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
-import logo from "../../assets/R-logo.jpg";
+import logo from "../../assets/sns_logo.png";
 import { AuthContext } from "@/provider/AuthProvider";
 import { FaUser } from "react-icons/fa";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
@@ -143,7 +143,7 @@ const Navbar = () => {
             <img
               src={logo}
               alt="Logo"
-              className="h-12 w-12 rounded-full object-cover border-2 border-white shadow-md"
+              className="h-14 w-14 rounded-full object-cover border-2 border-white shadow-md"
             />
             <h1 className="text-2xl font-extrabold text-orange-400 tracking-wide hover:text-orange-500 transition-colors">
               SNS International

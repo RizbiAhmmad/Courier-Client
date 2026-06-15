@@ -73,7 +73,7 @@ const Banner = () => {
   const categoryName = categories.find((c) => c._id === activeTab)?.name || "";
 
   return (
-    <section className="relative min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 flex items-center">
+    <section className="relative min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 flex items-center overflow-x-hidden">
       <div className="container mx-auto px-4 sm:px-8 py-12 sm:py-20 max-w-8xl">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
           {/* LEFT CONTENT */}
@@ -114,7 +114,7 @@ const Banner = () => {
           </div>
 
           {/* RIGHT CARD */}
-         <div className="bg-white rounded-3xl shadow-2xl p-6 flex flex-col justify-center w-full">
+         <div className="bg-white rounded-3xl shadow-2xl p-4 flex flex-col justify-center w-full overflow-hidden">
             {/* Tabs */}
             <div className="flex bg-zinc-100 dark:bg-zinc-800/50 p-1.5 rounded-2xl mb-8 relative">
               {categories.map((cat) => (
@@ -124,7 +124,7 @@ const Banner = () => {
                     setActiveTab(cat._id);
                     setFromCountry("");
                   }}
-                  className={`relative flex items-center justify-center gap-2 flex-1 px-4 py-3 cursor-pointer transition-all duration-300 z-10 ${
+                  className={`relative flex items-center justify-center gap-2 flex-1 px-3 py-3 cursor-pointer transition-all duration-300 z-10 ${
                     activeTab === cat._id
                       ? "text-indigo-950 font-bold"
                       : "text-gray-500 hover:text-gray-700 font-semibold"
@@ -137,7 +137,7 @@ const Banner = () => {
                       transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                     />
                   )}
-                  <div className="relative z-20 flex items-center gap-2">
+                  <div className="relative z-20 flex items-center gap-1">
                     {cat.name === "Import" && <FiTruck className={activeTab === cat._id ? "text-yellow-500" : ""} />}
                     {cat.name === "Export" && <FiShoppingCart className={activeTab === cat._id ? "text-yellow-500" : ""} />}
                     <span>{cat.name}</span>
@@ -147,7 +147,7 @@ const Banner = () => {
 
               <div
                 onClick={() => setActiveTab("Track")}
-                className={`relative flex items-center justify-center gap-2 flex-1 px-4 py-3 cursor-pointer transition-all duration-300 z-10 ${
+                className={`relative flex items-center justify-center gap-2 flex-1 px-3 py-3 cursor-pointer transition-all duration-300 z-10 ${
                   activeTab === "Track"
                     ? "text-indigo-950 font-bold"
                     : "text-gray-500 hover:text-gray-700 font-semibold"
@@ -160,7 +160,7 @@ const Banner = () => {
                     transition={{ type: "spring", bounce: 0.2, duration: 0.6 }}
                   />
                 )}
-                <div className="relative z-20 flex items-center gap-2">
+                <div className="relative z-20 flex items-center gap-1">
                   <FiTarget className={activeTab === "Track" ? "text-yellow-500" : ""} />
                   <span>Track</span>
                 </div>

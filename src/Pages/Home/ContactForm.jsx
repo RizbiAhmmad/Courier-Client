@@ -1,7 +1,8 @@
 import { MdOutlineCall, MdOutlineEmail } from "react-icons/md";
 import { IoLocationOutline } from "react-icons/io5";
 import { CgFacebook } from "react-icons/cg";
-import { BsInstagram, BsLinkedin, BsTwitter } from "react-icons/bs";
+import { BsInstagram, BsLinkedin } from "react-icons/bs";
+import { RiTiktokLine } from "react-icons/ri";
 import { GradientText } from "@/components/ui/GradientText";
 
 const ContactForm = () => {
@@ -39,24 +40,45 @@ const ContactForm = () => {
 
             <p className="flex items-center gap-2">
               <IoLocationOutline />
-              Nikunja 2, Khilkhet, Dhaka-1229
+              House 30, 1st Floor, Road 10, Nikunja 2 <br />
+              Khilkhet, Dhaka 1229
             </p>
           </div>
 
           <div className="flex gap-4 flex-wrap text-black mt-8">
-            <a className="text-[1.3rem] p-2 cursor-pointer rounded-full bg-orange-500 text-white hover:bg-white hover:text-orange-500 transition-all duration-300 shadow-md">
+            <a
+              href="https://facebook.com/snsexpress"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[1.3rem] p-2 cursor-pointer rounded-full bg-orange-500 text-white hover:bg-white hover:text-orange-500 transition-all duration-300 shadow-md"
+            >
               <CgFacebook />
             </a>
 
-            <a className="text-[1.2rem] p-2 cursor-pointer rounded-full bg-orange-500 text-white hover:bg-white hover:text-orange-500 transition-all duration-300 shadow-md">
-              <BsTwitter />
+            <a
+              href="https://tiktok.com/@snsinternational"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[1.2rem] p-2 cursor-pointer rounded-full bg-orange-500 text-white hover:bg-white hover:text-orange-500 transition-all duration-300 shadow-md"
+            >
+              <RiTiktokLine />
             </a>
 
-            <a className="text-[1.2rem] p-2 cursor-pointer rounded-full bg-orange-500 text-white hover:bg-white hover:text-orange-500 transition-all duration-300 shadow-md">
+            <a
+              href="https://instagram.com/snsintl"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[1.2rem] p-2 cursor-pointer rounded-full bg-orange-500 text-white hover:bg-white hover:text-orange-500 transition-all duration-300 shadow-md"
+            >
               <BsInstagram />
             </a>
 
-            <a className="text-[1.2rem] p-2 cursor-pointer rounded-full bg-orange-500 text-white hover:bg-white hover:text-orange-500 transition-all duration-300 shadow-md">
+            <a
+              href="https://www.linkedin.com/company/sns-international"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-[1.2rem] p-2 cursor-pointer rounded-full bg-orange-500 text-white hover:bg-white hover:text-orange-500 transition-all duration-300 shadow-md"
+            >
               <BsLinkedin />
             </a>
           </div>

@@ -84,22 +84,26 @@ const MyOrders = () => {
 
               {/* Info */}
               <div className="grid md:grid-cols-4 gap-4 mt-5 text-sm">
-                <div>
+                <div className="col-span-2 md:col-span-1">
                   <p className="text-gray-500">Sender</p>
                   <p className="font-medium">{order.name}</p>
-                </div>
-
-                <div>
-                  <p className="text-gray-500">Phone</p>
+                  <p className="text-gray-500 mt-2">Phone</p>
                   <p className="font-medium">{order.phone}</p>
                 </div>
 
-                <div>
+                <div className="col-span-2 md:col-span-1">
+                  <p className="text-gray-500">Receiver</p>
+                  <p className="font-medium">{order.receiverName || "N/A"}</p>
+                  <p className="text-gray-500 mt-2">Phone</p>
+                  <p className="font-medium">{order.receiverPhone || "N/A"}</p>
+                </div>
+
+                <div className="col-span-2 md:col-span-1">
                   <p className="text-gray-500">Destination</p>
                   <p className="font-medium">{order.countryName}</p>
                 </div>
 
-                <div>
+                <div className="col-span-2 md:col-span-1">
                   <p className="text-gray-500">Type</p>
                   <p className="font-medium">{order.courierTypeName}</p>
                 </div>

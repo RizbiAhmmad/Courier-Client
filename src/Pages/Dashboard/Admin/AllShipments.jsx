@@ -4,6 +4,7 @@ import useAxiosPublic from "@/Hooks/useAxiosPublic";
 import { FaTrash, FaEye, FaEdit, FaPrint } from "react-icons/fa";
 import Swal from "sweetalert2";
 import Loading from "@/Pages/Shared/Loading";
+import logo from "../../../assets/sns_logo.png";
 
 const AllShipments = () => {
   const axiosPublic = useAxiosPublic();
@@ -63,6 +64,7 @@ const AllShipments = () => {
 
   const handlePrint = (shipment) => {
     const printWindow = window.open("", "_blank");
+    const logoUrl = new URL(logo, window.location.origin).href;
 
     const total =
       shipment.packages?.reduce(
@@ -141,13 +143,15 @@ const AllShipments = () => {
 
         <!-- Header -->
         <div class="header">
-          <div>
-            <h2>XCARGO</h2>
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="${logoUrl}" alt="SNS International" style="width: 50px; height: 50px; border-radius: 50%;" />
+            <h2 style="margin: 0;">SNS International</h2>
           </div>
           <div style="text-align:right; font-size:13px;">
-            Dhaka, Bangladesh<br/>
-            Phone: 016xxxxxxxx<br/>
-            support@gmail.com
+            House 30, 1st Floor, Road 10, Nikunja 2<br/>
+            Khilkhet, Dhaka 1229<br/>
+            Phone: +880 1712 413838<br/>
+            samun@sns-intl.com
           </div>
         </div>
 
@@ -156,10 +160,17 @@ const AllShipments = () => {
         <!-- Info -->
         <div class="section">
           <div class="box">
-            <strong>Bill To</strong><br/>
+            <strong>Sender</strong><br/>
             ${shipment.name}<br/>
             ${shipment.address}<br/>
             Phone: ${shipment.phone}
+          </div>
+
+          <div class="box">
+            <strong>Receiver</strong><br/>
+            ${shipment.receiverName || "N/A"}<br/>
+            ${shipment.receiverAddress || "N/A"}<br/>
+            Phone: ${shipment.receiverPhone || "N/A"}
           </div>
 
           <div class="box">
@@ -430,11 +441,17 @@ const AllShipments = () => {
                 {openId === shipment._id && (
                   <tr className="bg-gray-50">
                     <td colSpan="9" className="px-8 py-6">
-                      <div className="grid md:grid-cols-2 gap-6 text-sm">
+                      <div className="grid md:grid-cols-3 gap-6 text-sm">
                         <div>
                           <h4 className="font-semibold mb-2">Sender Details</h4>
                           <p>
+                            <strong>Name:</strong> {shipment.name}
+                          </p>
+                          <p>
                             <strong>Email:</strong> {shipment.email}
+                          </p>
+                          <p>
+                            <strong>Phone:</strong> {shipment.phone}
                           </p>
                           <p>
                             <strong>Address:</strong> {shipment.address}
@@ -442,6 +459,29 @@ const AllShipments = () => {
                           <p>
                             <strong>Company:</strong> {shipment.company}
                           </p>
+                        </div>
+
+                        <div>
+                          <h4 className="font-semibold mb-2">Receiver Details</h4>
+                          <p>
+                            <strong>Name:</strong> {shipment.receiverName}
+                          </p>
+                          {shipment.receiverEmail && (
+                            <p>
+                              <strong>Email:</strong> {shipment.receiverEmail}
+                            </p>
+                          )}
+                          <p>
+                            <strong>Phone:</strong> {shipment.receiverPhone}
+                          </p>
+                          <p>
+                            <strong>Address:</strong> {shipment.receiverAddress}
+                          </p>
+                          {shipment.receiverCompany && (
+                            <p>
+                              <strong>Company:</strong> {shipment.receiverCompany}
+                            </p>
+                          )}
                         </div>
 
                         <div>

@@ -131,8 +131,8 @@ const ContactPage = () => {
               {
                 icon: FiMapPin,
                 title: "Our Location",
-                info: "Nikunja-2, Khilkhet",
-                desc: "Dhaka-1229, Bangladesh.",
+                info: "House 30, 1st Floor, Road 10, Nikunja 2",
+                desc: "Khilkhet, Dhaka 1229",
                 color: "bg-orange-50 text-orange-600 border-orange-100",
               },
             ].map((card, idx) => (

@@ -261,6 +261,125 @@ const Dashboard = () => {
               </>
             )}
 
+            {/* Manager Menu */}
+             {userRole === "manager" && (
+              <>
+                <li>
+                  <NavLink to="/" className="flex items-center py-2 space-x-3">
+                    <FaHome /> <span>Home</span>
+                  </NavLink>
+                </li>
+
+                {/* Courier*/}
+                <li className=" pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
+                  Courier Management
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/dashboard/allCategories"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <FaListAlt /> <span>Categories</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allCourierTypes"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <GiCargoCrate /> <span>Courier Type</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allCountries"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <BiWorld /> <span>Countries</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allCourierRates"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <MdOutlinePriceChange /> <span>Rates</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/allShipments"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <FaJediOrder /> <span>Shipments</span>
+                  </NavLink>
+                </li>
+                <li className="pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
+                  REPORT
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/shipmentReport"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <FaChartBar /> <span>Shipment Report</span>
+                  </NavLink>
+                </li>
+
+                <li className=" pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
+                  Others
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/dashboard/allBlogs"
+                    className="flex px-2 items-center py-2 space-x-3"
+                  >
+                    <ImBlogger /> <span>Blogs</span>
+                  </NavLink>
+                </li>
+
+                <li>
+                  <NavLink
+                    to="/dashboard/gtmSettings"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <SiGoogleanalytics /> <span>GTM Settings</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/popupSettings"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <PiLetterCircleP /> <span>PopUp Settings</span>
+                  </NavLink>
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/manageReviews"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <MdOutlineRateReview /> <span>Manage Reviews</span>
+                  </NavLink>
+                </li>
+
+                {/* Profile */}
+                <li className="pt-4 pb-1 text-xs font-semibold md:text-gray-500 uppercase">
+                  ACCOUNT
+                </li>
+                <li>
+                  <NavLink
+                    to="/dashboard/profile"
+                    className="flex items-center px-2 py-2 space-x-3"
+                  >
+                    <CgProfile /> <span>Profile</span>
+                  </NavLink>
+                </li>
+              </>
+            )}
+
             {/* User Menu */}
             {userRole === "user" && (
               <>

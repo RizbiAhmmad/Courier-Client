@@ -89,24 +89,43 @@ const TrackResult = () => {
         </div>
 
         {/* MAIN INFO */}
-        <div className="grid md:grid-cols-2 gap-8 mb-10">
+        <div className="grid md:grid-cols-3 gap-8 mb-10">
 
-          {/* CUSTOMER */}
+          {/* SENDER */}
           <div className="bg-white rounded-2xl shadow p-6 border">
             <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <FiUser /> Customer Information
+              <FiUser /> Sender Information
             </h3>
 
-            <p className="flex items-center gap-2 mb-2">
-              <FiUser /> {data.name}
+            <p className="flex items-start gap-2 mb-2 break-all">
+              <FiUser className="mt-1 shrink-0" /> <span>{data.name}</span>
             </p>
 
-            <p className="flex items-center gap-2 mb-2">
-              <FiPhone /> {data.phone}
+            <p className="flex items-start gap-2 mb-2 break-all">
+              <FiPhone className="mt-1 shrink-0" /> <span>{data.phone}</span>
             </p>
 
-            <p className="flex items-center gap-2">
-              <FiMapPin /> {data.address}
+            <p className="flex items-start gap-2 break-all">
+              <FiMapPin className="mt-1 shrink-0" /> <span>{data.address}</span>
+            </p>
+          </div>
+
+          {/* RECEIVER */}
+          <div className="bg-white rounded-2xl shadow p-6 border">
+            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
+              <FiUser /> Receiver Information
+            </h3>
+
+            <p className="flex items-start gap-2 mb-2 break-all">
+              <FiUser className="mt-1 shrink-0" /> <span>{data.receiverName || "N/A"}</span>
+            </p>
+
+            <p className="flex items-start gap-2 mb-2 break-all">
+              <FiPhone className="mt-1 shrink-0" /> <span>{data.receiverPhone || "N/A"}</span>
+            </p>
+
+            <p className="flex items-start gap-2 break-all">
+              <FiMapPin className="mt-1 shrink-0" /> <span>{data.receiverAddress || "N/A"}</span>
             </p>
           </div>
 

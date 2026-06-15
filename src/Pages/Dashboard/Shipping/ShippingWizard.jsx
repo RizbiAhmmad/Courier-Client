@@ -7,6 +7,7 @@ import html2canvas from "html2canvas";
 import StepWhere from "./StepWhere";
 import StepHow from "./StepHow";
 import StepOverview from "./StepOverview";
+import logo from "../../../assets/sns_logo.png";
 
 const pushGTM = (data) => {
   window.dataLayer = window.dataLayer || [];
@@ -46,6 +47,11 @@ const ShippingWizard = () => {
         items: [{ itemName: "", quantity: 1 }],
       },
     ],
+    receiverName: "",
+    receiverEmail: "",
+    receiverPhone: "",
+    receiverCompany: "",
+    receiverAddress: "",
   });
 
   const [formData, setFormData] = useState(initialData.current);
@@ -65,6 +71,9 @@ const ShippingWizard = () => {
         newErrors.categoryId = "Please select shipment type";
       if (!formData.countryId)
         newErrors.countryId = "Please select destination country";
+      if (!formData.receiverName.trim()) newErrors.receiverName = "Receiver full name is required";
+      if (!formData.receiverPhone.trim()) newErrors.receiverPhone = "Receiver phone is required";
+      if (!formData.receiverAddress.trim()) newErrors.receiverAddress = "Receiver address is required";
     }
 
     if (currentStep === 2) {
@@ -93,11 +102,11 @@ const ShippingWizard = () => {
   const nextStep = () => {
     if (!validateStep()) return;
 
-  const totalShipping =
-    formData.packages?.reduce(
-      (total, box) => total + (Number(box.shippingCost) || 0),
-      0
-    ) || 0;
+    const totalShipping =
+      formData.packages?.reduce(
+        (total, box) => total + (Number(box.shippingCost) || 0),
+        0
+      ) || 0;
 
     if (currentStep === 2) {
       pushGTM({
@@ -124,28 +133,186 @@ const ShippingWizard = () => {
   };
 
   const printInvoice = () => {
-    const invoiceEl = invoiceRef.current;
-    if (!invoiceEl) return;
+    if (!shipmentData) return;
+    const printWindow = window.open("", "_blank");
+    const logoUrl = new URL(logo, window.location.origin).href;
 
-    const clone = invoiceEl.cloneNode(true);
-    const printWindow = window.open("", "_blank", "width=900,height=700");
+    const total =
+      shipmentData.packages?.reduce(
+        (sum, box) => sum + (box.shippingCost || 0),
+        0,
+      ) || 0;
 
-    printWindow.document.write("<html><head><title>Shipment Invoice</title>");
-    printWindow.document.write(`
-    <style>
-      body { font-family: Arial, sans-serif; margin:0; padding:20px; background:#f5f5f5; }
-      .invoice-container { background:#fff; border:1px solid #ccc; border-radius:16px; padding:20px; }
-      h2,h3 { margin:0 0 8px 0; }
-      p { margin:4px 0; }
-    </style>
-  `);
-    printWindow.document.write("</head><body>");
-    printWindow.document.body.appendChild(clone);
-    printWindow.document.write("</body></html>");
+    const htmlContent = `
+  <html>
+    <head>
+      <title>Shipment Receipt - ${shipmentData.trackingId}</title>
+      <style>
+        body {
+          font-family: Arial, sans-serif;
+          background: #f5f5f5;
+        }
+        .invoice {
+          max-width: 800px;
+          margin: 20px auto;
+          background: #fff;
+          padding: 30px;
+          border: 1px solid #ddd;
+        }
+        .header {
+          display: flex;
+          justify-content: space-between;
+          border-bottom: 2px solid #000;
+          padding-bottom: 15px;
+        }
+        .title {
+          font-size: 26px;
+          font-weight: bold;
+          margin: 20px 0;
+        }
+        .section {
+          display: flex;
+          justify-content: space-between;
+          margin-bottom: 20px;
+        }
+        .box {
+          font-size: 14px;
+          line-height: 1.6;
+        }
+        table {
+          width: 100%;
+          border-collapse: collapse;
+          margin-top: 10px;
+        }
+        th, td {
+          border: 1px solid #ddd;
+          padding: 10px;
+          font-size: 14px;
+        }
+        th {
+          background: #f2f2f2;
+        }
+        .total-box {
+          width: 300px;
+          margin-left: auto;
+          margin-top: 20px;
+        }
+        .grand {
+          font-weight: bold;
+          border-top: 2px solid #000;
+        }
+        .footer {
+          text-align: center;
+          margin-top: 40px;
+          color: gray;
+        }
+      </style>
+    </head>
+
+    <body>
+      <div class="invoice">
+
+        <!-- Header -->
+        <div class="header">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <img src="${logoUrl}" alt="SNS International" style="width: 50px; height: 50px; border-radius: 50%;" />
+            <h2 style="margin: 0;">SNS International</h2>
+          </div>
+          <div style="text-align:right; font-size:13px;">
+            House 30, 1st Floor, Road 10, Nikunja 2<br/>
+            Khilkhet, Dhaka 1229<br/>
+            Phone: +880 1712 413838<br/>
+            samun@sns-intl.com
+          </div>
+        </div>
+
+        <div class="title">RECEIPT</div>
+
+        <!-- Info -->
+        <div class="section">
+          <div class="box">
+            <strong>Sender</strong><br/>
+            ${shipmentData.name}<br/>
+            ${shipmentData.address}<br/>
+            Phone: ${shipmentData.phone}
+          </div>
+
+          <div class="box">
+            <strong>Receiver</strong><br/>
+            ${shipmentData.receiverName || "N/A"}<br/>
+            ${shipmentData.receiverAddress || "N/A"}<br/>
+            Phone: ${shipmentData.receiverPhone || "N/A"}
+          </div>
+
+          <div class="box">
+            <strong>Tracking ID:</strong> ${shipmentData.trackingId}<br/>
+            <strong>Date:</strong> ${new Date(
+              shipmentData.createdAt || Date.now()
+            ).toLocaleDateString()}<br/>
+            <strong>Status:</strong> ${shipmentData.status || "pending"}<br/>
+            <strong>Shipping:</strong> ${shipmentData.countryName || "N/A"}<br/>
+            <strong>Type:</strong> ${shipmentData.courierTypeName || "N/A"}
+          </div>
+        </div>
+
+        <!-- Packages -->
+        <table>
+          <thead>
+            <tr>
+              <th>Box</th>
+              <th>Weight</th>
+              <th>Size</th>
+              <th>Items</th>
+              <th>Cost</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            ${
+              shipmentData.packages
+                ?.map(
+                  (box, i) => `
+              <tr>
+                <td>Box ${i + 1}</td>
+                <td>${box.weight}kg</td>
+                <td>${box.length}×${box.width}×${box.height}</td>
+                <td>
+                  ${
+                    box.items
+                      ?.map((item) => `${item.itemName} (x${item.quantity})`)
+                      .join("<br/>") || "-"
+                  }
+                </td>
+                <td>৳${box.shippingCost || 0}</td>
+              </tr>
+            `
+                )
+                .join("") || ""
+            }
+          </tbody>
+        </table>
+
+        <!-- Total -->
+        <table class="total-box">
+          <tr class="grand">
+            <td>Grand Total</td>
+            <td align="right">৳${total}</td>
+          </tr>
+        </table>
+
+        <div class="footer">
+          Thank You ❤️
+        </div>
+
+      </div>
+    </body>
+  </html>
+  `;
+
+    printWindow.document.write(htmlContent);
     printWindow.document.close();
     printWindow.focus();
     printWindow.print();
-    printWindow.close();
   };
 
   const downloadPDF = async () => {
@@ -271,7 +438,7 @@ const ShippingWizard = () => {
                 <div className=" text-center items-center border-b pb-6">
                   <div>
                     <h2 className="text-3xl font-bold text-green-600">
-                      Shipment Invoice
+                      Shipment Receipt
                     </h2>
                     <p className="text-gray-500">Tracking ID: {trackingId}</p>
                     <p className="text-gray-500">
@@ -282,13 +449,20 @@ const ShippingWizard = () => {
                 </div>
 
                 {/* Sender + Receiver */}
-                <div className="grid md:grid-cols-2 gap-6 mt-8">
+                <div className="grid md:grid-cols-3 gap-6 mt-8">
                   <div className="bg-gray-50 p-6 rounded-2xl">
-                    <h3 className="font-semibold mb-2">Personal Information</h3>
+                    <h3 className="font-semibold mb-2">Sender Information</h3>
                     <p>{shipmentData.name}</p>
                     <p>{shipmentData.email}</p>
                     <p>{shipmentData.phone}</p>
                     <p>{shipmentData.address}</p>
+                  </div>
+                  <div className="bg-gray-50 p-6 rounded-2xl">
+                    <h3 className="font-semibold mb-2">Receiver Information</h3>
+                    <p>{shipmentData.receiverName}</p>
+                    <p>{shipmentData.receiverEmail}</p>
+                    <p>{shipmentData.receiverPhone}</p>
+                    <p>{shipmentData.receiverAddress}</p>
                   </div>
                   <div className="bg-gray-50 p-6 rounded-2xl">
                     <h3 className="font-semibold mb-2">Courier Information</h3>
@@ -328,7 +502,7 @@ const ShippingWizard = () => {
                   onClick={printInvoice}
                   className="px-6 py-2 bg-blue-600 text-white rounded-xl"
                 >
-                  Print Invoice
+                  Print Receipt
                 </button>
 
                 {/* <button

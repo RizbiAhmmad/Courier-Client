@@ -62,7 +62,8 @@ const StepWhere = ({ formData, setFormData, errors }) => {
           Where does your shipment come from?
         </h2>
 
-        {/* Personal Info Section */}
+        {/* Sender Info Section */}
+        <h3 className="text-2xl font-bold mb-4 border-b pb-2">Sender Information</h3>
         <div className="grid md:grid-cols-2 gap-6 mb-8">
           {/* Name */}
           <div>
@@ -166,6 +167,100 @@ const StepWhere = ({ formData, setFormData, errors }) => {
 
           {errors.address && (
             <p className="text-red-500 text-sm mt-1">{errors.address}</p>
+          )}
+        </div>
+
+        {/* Receiver Info Section */}
+        <h3 className="text-2xl font-bold mb-4 mt-8 border-b pb-2">Receiver Information</h3>
+        <div className="grid md:grid-cols-2 gap-6 mb-8">
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2">
+              <FiUser /> Full Name
+            </label>
+            <input
+              type="text"
+              value={formData.receiverName || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, receiverName: e.target.value })
+              }
+              placeholder="Enter receiver's full name"
+              className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border 
+    ${errors.receiverName ? "border-red-500" : "border-gray-200"}
+    focus:ring-2 focus:ring-yellow-400 outline-none transition`}
+            />
+            {errors.receiverName && (
+              <p className="text-red-500 text-sm mt-1">{errors.receiverName}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2">
+              <FiMail /> Email (Optional)
+            </label>
+            <input
+              type="email"
+              value={formData.receiverEmail || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, receiverEmail: e.target.value })
+              }
+              placeholder="Enter receiver's email"
+              className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-yellow-400 outline-none transition`}
+            />
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2">
+              <FiPhone /> Phone Number
+            </label>
+            <input
+              type="tel"
+              value={formData.receiverPhone || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, receiverPhone: e.target.value })
+              }
+              placeholder="Enter phone number"
+              className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border 
+    ${errors.receiverPhone ? "border-red-500" : "border-gray-200"}
+    focus:ring-2 focus:ring-yellow-400 outline-none transition`}
+            />
+            {errors.receiverPhone && (
+              <p className="text-red-500 text-sm mt-1">{errors.receiverPhone}</p>
+            )}
+          </div>
+
+          <div>
+            <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2">
+              <FiPackage /> Company Name (Optional)
+            </label>
+            <input
+              type="text"
+              value={formData.receiverCompany || ""}
+              onChange={(e) =>
+                setFormData({ ...formData, receiverCompany: e.target.value })
+              }
+              placeholder="Enter company name"
+              className="w-full px-5 py-4 rounded-2xl bg-gray-50 border border-gray-200 focus:ring-2 focus:ring-yellow-400 outline-none transition"
+            />
+          </div>
+        </div>
+
+        <div className="mb-8">
+          <label className="flex items-center gap-2 text-sm font-semibold text-gray-600 mb-2">
+            <FiHome /> Full Address
+          </label>
+          <textarea
+            value={formData.receiverAddress || ""}
+            onChange={(e) =>
+              setFormData({ ...formData, receiverAddress: e.target.value })
+            }
+            placeholder="Enter full address"
+            rows={3}
+            className={`w-full px-5 py-4 rounded-2xl bg-gray-50 border 
+    ${errors.receiverAddress ? "border-red-500" : "border-gray-200"}
+    focus:ring-2 focus:ring-yellow-400 outline-none transition`}
+          />
+          {errors.receiverAddress && (
+            <p className="text-red-500 text-sm mt-1">{errors.receiverAddress}</p>
           )}
         </div>
 

@@ -15,7 +15,7 @@ export default function FloatingChatMenu() {
       icon: <FaFacebookMessenger />,
       label: 'Messenger',
       bg: 'bg-blue-600',
-      link: 'https://www.facebook.com/bangladeshiitbd',
+      link: 'https://m.me/401814473616984',
     },
     {
       icon: <FaWhatsapp />,
