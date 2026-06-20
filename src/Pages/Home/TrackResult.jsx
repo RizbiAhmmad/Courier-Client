@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosPublic from "@/Hooks/useAxiosPublic";
-import { FiHash, FiMapPin, FiPackage, FiPhone, FiTruck, FiUser } from "react-icons/fi";
+import { FiCheck, FiClock, FiPackage, FiMonitor, FiXCircle } from "react-icons/fi";
 
 const TrackResult = () => {
   const { trackingId } = useParams();
@@ -24,22 +24,36 @@ const TrackResult = () => {
       </div>
     );
 
+  const isCancelled = data.status === "cancelled";
+
   const getStatusStep = () => {
     if (data.status === "pending") return 1;
     if (data.status === "processing") return 2;
     if (data.status === "shipped") return 3;
     if (data.status === "delivered") return 4;
+    if (data.status === "cancelled") return 2;
     return 1;
   };
 
   const step = getStatusStep();
 
+  const stepsData = isCancelled
+    ? [
+      { label: "Shipment Placed", icon: FiCheck },
+      { label: "Cancelled", icon: FiXCircle },
+    ]
+    : [
+      { label: "Shipment Placed", icon: FiCheck },
+      { label: "Confirmed", icon: FiClock },
+      { label: "On the Way", icon: FiPackage },
+      { label: "Delivered", icon: FiMonitor },
+    ];
+
   return (
     <div className="min-h-screen bg-linear-to-br from-yellow-50 via-white to-purple-50 py-16 px-4">
       <div className="max-w-5xl mx-auto">
-
         {/* HEADER */}
-        <div className="text-center mb-10">
+        <div className="text-center mb-16">
           <h2 className="text-4xl font-bold text-gray-800">
             Shipment Tracking
           </h2>
@@ -51,166 +65,61 @@ const TrackResult = () => {
         </div>
 
         {/* STATUS TIMELINE */}
-        <div className="bg-white rounded-3xl shadow-lg p-8 mb-10">
-          <div className="flex justify-between items-center">
+        <div className="max-w-md mx-auto bg-white rounded-3xl shadow-lg p-8 py-10">
+          <div className="relative">
+            {/* The vertical line */}
+            <div className="absolute top-4 bottom-8 left-[19px] w-0.5 bg-gray-200"></div>
 
-            {["Pending", "Processing", "Shipped", "Delivered"].map(
-              (label, index) => {
-                const active = step >= index + 1;
+            {stepsData.map((s, index) => {
+              const isActive = step >= index + 1;
+              const isCurrent = step === index + 1;
+              const Icon = s.icon;
+              const isLast = index === stepsData.length - 1;
 
-                return (
+              return (
+                <div
+                  key={s.label}
+                  className={`relative flex items-start gap-6 ${isLast ? "" : "mb-10"
+                    }`}
+                >
                   <div
-                    key={label}
-                    className="flex flex-col items-center flex-1"
+                    className={`z-10 flex items-center justify-center w-10 h-10 rounded-full shrink-0 text-white ${isActive
+                        ? s.label === "Cancelled"
+                          ? "bg-red-500"
+                          : "bg-green-500"
+                        : "bg-gray-300"
+                      }`}
                   >
-                    <div
-                      className={`w-10 h-10 flex items-center justify-center rounded-full border-2
-                      ${
-                        active
-                          ? "bg-green-500 border-green-500 text-white"
-                          : "border-gray-300 text-gray-400"
-                      }`}
-                    >
-                      {index + 1}
-                    </div>
-
-                    <p
-                      className={`mt-2 text-sm font-medium ${
-                        active ? "text-green-600" : "text-gray-400"
-                      }`}
-                    >
-                      {label}
-                    </p>
+                    <Icon size={20} />
                   </div>
-                );
-              }
-            )}
-          </div>
-        </div>
-
-        {/* MAIN INFO */}
-        <div className="grid md:grid-cols-3 gap-8 mb-10">
-
-          {/* SENDER */}
-          <div className="bg-white rounded-2xl shadow p-6 border">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <FiUser /> Sender Information
-            </h3>
-
-            <p className="flex items-start gap-2 mb-2 break-all">
-              <FiUser className="mt-1 shrink-0" /> <span>{data.name}</span>
-            </p>
-
-            <p className="flex items-start gap-2 mb-2 break-all">
-              <FiPhone className="mt-1 shrink-0" /> <span>{data.phone}</span>
-            </p>
-
-            <p className="flex items-start gap-2 break-all">
-              <FiMapPin className="mt-1 shrink-0" /> <span>{data.address}</span>
-            </p>
-          </div>
-
-          {/* RECEIVER */}
-          <div className="bg-white rounded-2xl shadow p-6 border">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <FiUser /> Receiver Information
-            </h3>
-
-            <p className="flex items-start gap-2 mb-2 break-all">
-              <FiUser className="mt-1 shrink-0" /> <span>{data.receiverName || "N/A"}</span>
-            </p>
-
-            <p className="flex items-start gap-2 mb-2 break-all">
-              <FiPhone className="mt-1 shrink-0" /> <span>{data.receiverPhone || "N/A"}</span>
-            </p>
-
-            <p className="flex items-start gap-2 break-all">
-              <FiMapPin className="mt-1 shrink-0" /> <span>{data.receiverAddress || "N/A"}</span>
-            </p>
-          </div>
-
-          {/* SHIPMENT */}
-          <div className="bg-white rounded-2xl shadow p-6 border">
-            <h3 className="text-lg font-semibold mb-4 flex items-center gap-2">
-              <FiTruck /> Shipment Details
-            </h3>
-
-            <p className="flex items-center gap-2 mb-2">
-              <FiHash /> Tracking ID: {data.trackingId}
-            </p>
-
-            <p className="flex items-center gap-2 mb-2">
-              <FiMapPin /> Country: {data.countryName}
-            </p>
-
-            <p className="flex items-center gap-2 mb-2">
-              <FiTruck /> Courier: {data.courierTypeName}
-            </p>
-
-            <p className="font-semibold text-green-600">
-              Status: {data.status}
-            </p>
-          </div>
-        </div>
-
-        {/* PACKAGES */}
-        <div className="bg-white rounded-3xl shadow-lg p-8">
-          <h3 className="text-xl font-semibold mb-6 flex items-center gap-2">
-            <FiPackage /> Package Details
-          </h3>
-
-          {data.packages?.map((box, index) => (
-            <div
-              key={index}
-              className="border rounded-2xl p-6 mb-6 bg-gray-50"
-            >
-              <h4 className="font-semibold mb-4">
-                Box {index + 1}
-              </h4>
-
-              <div className="grid md:grid-cols-4 gap-4 mb-4">
-                <p>
-                  <strong>Weight:</strong> {box.weight} kg
-                </p>
-
-                <p>
-                  <strong>Length:</strong> {box.length}
-                </p>
-
-                <p>
-                  <strong>Width:</strong> {box.width}
-                </p>
-
-                <p>
-                  <strong>Height:</strong> {box.height}
-                </p>
-              </div>
-
-              {/* ITEMS */}
-              {box.items?.length > 0 && (
-                <div>
-                  <h5 className="font-medium mb-2">Items</h5>
-
-                  {box.items.map((item, i) => (
-                    <div
-                      key={i}
-                      className="flex justify-between bg-white border px-4 py-2 rounded-lg mb-2"
+                  <div className="pt-2">
+                    <h3
+                      className={`font-semibold text-lg ${isActive ? "text-gray-900" : "text-gray-500"
+                        }`}
                     >
-                      <span>{item.itemName}</span>
-                      <span>Qty: {item.quantity}</span>
-                    </div>
-                  ))}
+                      {s.label}
+                    </h3>
+                    {isActive && (
+                      <p className="text-gray-500 text-sm mt-1">
+                        {index === 0 && data.createdAt
+                          ? new Date(data.createdAt).toLocaleString("en-US", {
+                            dateStyle: "medium",
+                            timeStyle: "short",
+                          })
+                          : (isCurrent || index < step) &&
+                            data.updatedAt &&
+                            index === step - 1
+                            ? new Date(data.updatedAt).toLocaleString("en-US", {
+                              dateStyle: "medium",
+                              timeStyle: "short",
+                            })
+                            : ""}
+                      </p>
+                    )}
+                  </div>
                 </div>
-              )}
-
-              <div className="text-right mt-4 font-semibold text-green-600">
-                Shipping Cost: ৳ {box.shippingCost}
-              </div>
-            </div>
-          ))}
-
-          <div className="text-right text-2xl font-bold text-purple-600">
-            Total Shipping: ৳ {data.totalShipping}
+              );
+            })}
           </div>
         </div>
       </div>
